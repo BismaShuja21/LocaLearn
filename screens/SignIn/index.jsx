@@ -1,7 +1,11 @@
 import { StyleSheet, View } from 'react-native';
 import { MyText } from '../../components';
+import { useEffect } from 'react';
+import * as Font from "expo-font";
+import { customFonts } from '../../utils/customFonts';
 
 export default function SignIn() {
+  
   return (
 
     <View style={styles.main}>
