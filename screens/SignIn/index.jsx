@@ -1,8 +1,13 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
+import { useNavigation } from "@react-navigation/native";
+import { Formik } from "formik";
+import { UserSignInSchema } from "../../constants/validations/schema";
 
 export default function SignIn() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.main}>
       <View style={styles.container}>
@@ -21,23 +26,54 @@ export default function SignIn() {
             textColor={"#060635"}
           />
         </View>
-        <View style={styles.mid}>
-          <MyInput placeholder={"Email"} />
-          <GapView length={20} />
-          <MyInput placeholder={"Password"} />
-          <View style={styles.pw}>
-            <MyText text={"Forgot Password?"} weight={"600"} />
-          </View>
-          <MyButton label={"Sign In"} textColor={"white"} />
-          <View style={{ flexDirection: "row" }}>
-            <MyText text={"Don't have an account? "} weight={"600"} />
-            <MyText
-              text={"Create Account"}
-              weight={"600"}
-              textColor={"#e2b623"}
-            />
-          </View>
-        </View>
+
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          onSubmit={async (values, { resetForm }) => {
+            console.log("Sign In success", values);
+          }}
+          validationSchema={UserSignInSchema.signInForm}
+        >
+          {({ handleChange, handleSubmit, setFieldValue, errors }) => {
+            return (
+              <View style={styles.mid}>
+                <MyInput
+                  placeholder={"Email"}
+                  onChange={handleChange("email")}
+                />
+                <GapView length={20} />
+                <MyInput
+                  placeholder={"Password"}
+                  password
+                  onChange={handleChange("password")}
+                />
+                <View style={styles.pw}>
+                  <MyText text={"Forgot Password?"} weight={"600"} />
+                </View>
+                <MyButton
+                  label={"Sign In"}
+                  textColor={"white"}
+                  onPress={() => {
+                    console.log(errors);
+                    handleSubmit();
+                  }}
+                />
+                <View style={{ flexDirection: "row" }}>
+                  <MyText text={"Don't have an account? "} weight={"600"} />
+                  <MyText
+                    text={"Create Account"}
+                    weight={"600"}
+                    textColor={"#e2b623"}
+                    onPress={() => navigation.navigate("SignUp")}
+                  />
+                </View>
+              </View>
+            );
+          }}
+        </Formik>
       </View>
       <Group />
     </View>
