@@ -4,9 +4,16 @@ import { Bulb, BulbOff, Group } from "../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignUpSchema } from "../../constants/validations/schema";
+import { useState } from "react";
 
 export default function SignUp() {
   const navigation = useNavigation();
+  const [selectedRole, setSelectedRole] = useState("");
+
+  const handleRoleSelection = (role) => {
+    setSelectedRole(role);
+  };
+
   return (
     <View style={styles.main}>
       <View style={styles.container}>
@@ -37,14 +44,7 @@ export default function SignUp() {
           }}
           validationSchema={UserSignUpSchema.signUpForm}
         >
-          {({
-            handleChange,
-            handleSubmit,
-            errors,
-            touched,
-            values,
-            setFieldValue,
-          }) => (
+          {({ handleChange, handleSubmit, errors, setFieldValue }) => (
             <View style={styles.mid}>
               <MyInput placeholder={"Email"} onChange={handleChange("email")} />
               <GapView length={15} />
@@ -71,19 +71,41 @@ export default function SignUp() {
               >
                 <MyButton
                   label={"As Student"}
-                  textColor={"#060635"}
-                  backgroundColor={"transparent"}
-                  style={{ width: "46%", borderWidth: 2 }}
+                  textColor={selectedRole == "student" ? "white" : "#060635"}
+                  backgroundColor={
+                    selectedRole === "student" ? "#060635" : "transparent"
+                  }
+                  style={{
+                    width: "46%",
+                    borderWidth: 2,
+                  }}
+                  onPress={() => {
+                    handleRoleSelection("student");
+                    setFieldValue("anyOne", true);
+                  }}
                 />
                 <MyButton
                   label={"As Tutor"}
-                  textColor={"#060635"}
-                  backgroundColor={"transparent"}
+                  textColor={selectedRole == "tutor" ? "white" : "#060635"}
+                  backgroundColor={
+                    selectedRole === "tutor" ? "#060635" : "transparent"
+                  }
                   style={{ width: "46%", borderWidth: 2 }}
+                  onPress={() => {
+                    handleRoleSelection("tutor");
+                    setFieldValue("anyOne", true);
+                  }}
                 />
               </View>
 
-              <MyButton label={"Sign Up"} textColor={"white"} />
+              <MyButton
+                label={"Sign Up"}
+                textColor={"white"}
+                onPress={() => {
+                  handleSubmit();
+                  console.log(errors);
+                }}
+              />
 
               <View style={{ flexDirection: "row", gap: 10, marginTop: 20 }}>
                 <MyText text={"Already Registered?"} weight={"600"} />

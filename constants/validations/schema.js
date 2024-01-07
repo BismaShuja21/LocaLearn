@@ -27,7 +27,7 @@ export const UserSignUpSchema = {
       .test("passwords-match", "Passwords must match", function (value) {
         return value === this.parent.password;
       }),
-    anyOne: bool().oneOf([true], "You must agree to the Terms and Conditions!"),
+    anyOne: bool().oneOf([true], "You must select a role!"),
   }),
 };
 
