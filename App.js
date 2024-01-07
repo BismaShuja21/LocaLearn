@@ -1,10 +1,9 @@
-
-import { StyleSheet, Text, View } from 'react-native';
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useFonts } from 'expo-font';
+import { StyleSheet, Text, View } from "react-native";
+import SignIn from "./screens/SignIn";
+import SignUp from "./screens/SignUp";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useFonts } from "expo-font";
 
 const Stack = createStackNavigator();
 
@@ -23,23 +22,26 @@ export default function App() {
   }
   console.log("Fonts loaded:", fontsLoaded);
 
- return (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName="SignIn" screenOptions={{
-          headerShown: false, // Set headerShown to false to hide the header
-        }}>
-    <Stack.Screen name="SignIn" component={SignIn} />
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="SignIn"
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-    </Stack.Navigator>
-  </NavigationContainer>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
