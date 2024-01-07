@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import SignIn from './screens/SignIn';
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
+import SignUp from './screens/SignUp';
 
 export default function App() {
 
@@ -18,7 +19,8 @@ export default function App() {
 
  return (
     <View style={styles.container}>
-    <SignIn />
+    {/* <SignIn /> */}
+    <SignUp />
     </View>
   );
 }
