@@ -17,6 +17,22 @@ export const UserSignInSchema = {
 
 export const UserSignUpSchema = {
   signUpForm: object().shape({
+    email: string()
+      .email("Invalid email")
+      .required("Email is required")
+      .matches(EMAIL_REGEX, { message: "Invalid email" }),
+    password: string().required("Password is required!"),
+    confirmPassword: string()
+      .required("Confirm Password is required")
+      .test("passwords-match", "Passwords must match", function (value) {
+        return value === this.parent.password;
+      }),
+    anyOne: bool().oneOf([true], "You must agree to the Terms and Conditions!"),
+  }),
+};
+
+export const UserProfileSchema = {
+  signUpForm: object().shape({
     firstName: string()
       .min(3, "First Name Too Short!")
       .max(50, "First Name Too Long!")
