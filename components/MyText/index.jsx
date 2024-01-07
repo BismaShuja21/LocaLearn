@@ -1,9 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
-import * as Font from "expo-font";
 import { useFonts } from "expo-font";
 
-const MyText = ({
+export default function MyText({
   text,
   children,
   textColor,
@@ -12,24 +11,26 @@ const MyText = ({
   style,
   numberOfLines,
   onPress,
-}) => {
-
+  font,
+}) {
   const [fontsLoaded] = useFonts({
-    'Inter-ExtraBold': require("../../assets/fonts/Inter-ExtraBold.ttf"),
-    'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
-    'Inter-SemiBold': require('../../assets/fonts/Inter-SemiBold.ttf'),
-    'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf'),
-    'Inter-Medium': require('../../assets/fonts/Inter-Medium.ttf'),
-    'Inter-Light': require('../../assets/fonts/Inter-Light.ttf'),
+    "Inter-ExtraBold": require("../../assets/fonts/Inter-ExtraBold.ttf"),
+    "Inter-Bold": require("../../assets/fonts/Inter-Bold.ttf"),
+    "Inter-SemiBold": require("../../assets/fonts/Inter-SemiBold.ttf"),
+    "Inter-Regular": require("../../assets/fonts/Inter-Regular.ttf"),
+    "Inter-Medium": require("../../assets/fonts/Inter-Medium.ttf"),
+    "Inter-Light": require("../../assets/fonts/Inter-Light.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
-
+  console.log("Fonts loaded:", fontsLoaded);
 
   const getFontFamily = (weight) => {
     switch (weight) {
+      case "800":
+        return "Inter-ExtraBold";
       case "700":
         return "Inter-Bold";
       case "600":
@@ -46,10 +47,9 @@ const MyText = ({
   };
 
   const textStyle = {
-    color: textColor || "black",
-    fontWeight: weight || "normal",
+    color: textColor || "#060635",
     fontSize: size || 14,
-    fontFamily: weight ? getFontFamily(weight) : "Inter-Regular"
+    fontFamily: weight ? getFontFamily(weight) : "Inter-Regular",
   };
 
   if (onPress) {
@@ -67,6 +67,4 @@ const MyText = ({
       {children || text}
     </Text>
   );
-};
-
-export default MyText;
+}
