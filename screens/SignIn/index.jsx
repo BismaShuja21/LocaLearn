@@ -1,8 +1,11 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SignIn() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.main}>
       <View style={styles.container}>
@@ -24,7 +27,7 @@ export default function SignIn() {
         <View style={styles.mid}>
           <MyInput placeholder={"Email"} />
           <GapView length={20} />
-          <MyInput placeholder={"Password"} />
+          <MyInput placeholder={"Password"} password />
           <View style={styles.pw}>
             <MyText text={"Forgot Password?"} weight={"600"} />
           </View>
@@ -35,6 +38,7 @@ export default function SignIn() {
               text={"Create Account"}
               weight={"600"}
               textColor={"#e2b623"}
+              onPress={() => navigation.navigate("SignUp")}
             />
           </View>
         </View>
