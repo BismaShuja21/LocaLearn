@@ -1,161 +1,98 @@
-import { StyleSheet, TextInput, View, Image, Text, Button, TouchableOpacity } from 'react-native';
-import { Formik } from 'formik';
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { GapView, MyButton, MyInput, MyText } from "../../components";
+import { Bulb, BulbOff, Group } from "../../assets/vectors";
+
 export default function SignUp() {
   return (
+    <View style={styles.main}>
+      <View style={styles.container}>
+        <View style={[styles.top]}>
+          <MyText
+            text={"LocaLearn"}
+            size={30}
+            weight={"700"}
+            textColor={"#060635"}
+          />
+          <BulbOff />
+          <MyText
+            text={"Register"}
+            size={35}
+            weight={"800"}
+            textColor={"#060635"}
+          />
+        </View>
+        <View style={styles.mid}>
+          <MyInput placeholder={"Email"} />
+          <GapView length={20} />
+          <MyInput placeholder={"Password"} />
 
-    <View>
-      
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+              marginTop: 50,
+              marginBottom: 50,
+            }}
+          >
+            <MyButton
+              label={"As Student"}
+              textColor={"#060635"}
+              backgroundColor={"transparent"}
+              style={{ width: "46%", borderWidth: 2 }}
+            />
+            <MyButton
+              label={"As Tutor"}
+              textColor={"#060635"}
+              backgroundColor={"transparent"}
+              style={{ width: "46%", borderWidth: 2 }}
+            />
+          </View>
+          <MyButton label={"Proceed"} textColor={"white"} />
+          <View style={{ flexDirection: "row", gap: 10, marginTop: 20 }}>
+            <MyText text={"Already Registered?"} weight={"600"} />
+            <MyText
+              text={"Login instead"}
+              weight={"600"}
+              textColor={"#f2f4fc"}
+            />
+          </View>
+        </View>
+      </View>
     </View>
-    // <View style={styles.Logincontainer}>
-    //     <View style={styles.logoContainer}>
-    //         <Image style={styles.logo} source={require('../assets/images/logo2.svg')}/>
-    //         <Text style={styles.logoTitle}>LocaLearn</Text>
-    //     </View>
-    // {/* // <SafeAreaView> */}
-    //     <View style={styles.Formcontainer}>
-    //         <Text style={styles.welcome}>Create New Account</Text>
-    //         <Formik
-    //             initialValues={{ username:'', email: '', password: '', role: ''}}
-    //             onSubmit={(values) => {
-    //                 console.log(values);
-    //                 actions.resetForm();
-    //             }}
-    //         >
-    //             {(props) => (
-    //                 <View>
-    //                     <TextInput 
-    //                     style={styles.input}
-    //                     placeholder='Username'
-    //                     onChangeText={props.handleChange('username')}
-    //                     onBlur={props.handleBlur('username')}
-    //                     value={props.values.body}
-    //                     />
-
-    //                     <TextInput 
-    //                     style={styles.input}
-    //                     placeholder='Email'
-    //                     onChangeText={props.handleChange('email')}
-    //                     onBlur={props.handleBlur('email')}
-    //                     value={props.values.title}
-    //                     />
-
-    //                 <TextInput 
-    //                     style={styles.input}
-    //                     placeholder='Password'
-    //                     onChangeText={props.handleChange('password')}
-    //                     onBlur={props.handleBlur('password')}
-    //                     value={props.values.body}
-    //                 />
-
-    //                 <View style={styles.roleContainer}>
-    //                     <TouchableOpacity
-    //                       style={[styles.roleButton, props.values.role === 'student' &&         styles.activeRoleButton]}
-    //                       onPress={() => props.setFieldValue('role', 'student')}
-    //                     >
-    //                       <Text>As Student</Text>
-    //                     </TouchableOpacity>
-
-    //                     <TouchableOpacity
-    //                       style={[styles.roleButton, props.values.role === 'teacher' &&         styles.activeRoleButton]}
-    //                       onPress={() => props.setFieldValue('role', 'teacher')}
-    //                     >
-    //                       <Text>As Tutor</Text>
-    //                     </TouchableOpacity>
-    //                 </View>  
-
-    //                 <View style={styles.submit}>
-    //                     <Button  title='SIGN UP'
-    //                      onPress={props.handleSubmit}
-    //                      disabled={!props.values.role || !props.values.username || !props.values.email || !props.values.password}
-    //                      color= 'black'/>
-    //                 </View>
-
-    //                     <View style={{flexDirection: 'row', marginTop: 5, gap: 20, justifyContent: 'center'}}>
-    //                         <Text style={styles.createTxt}>Already Registered?</Text>
-    //                         <TouchableOpacity>
-    //                             <Text style={{color: 'white', fontWeight: 'bold'}}>Login</Text>
-    //                         </TouchableOpacity>
-    //                     </View>
-    //                 </View>
-    //             )}
-    //         </Formik>
-    //     </View>  
-    // {/* // </SafeAreaView> */}
-    // </View>
   );
 }
 
 const styles = StyleSheet.create({
-    Logincontainer: {
-        flex: 1,
-        width: '100%',
-        backgroundColor: '#F7CE4D',
-        paddingTop: 30
-    },
-    logoContainer: {
-        alignItems: 'center',
-        paddingVertical: 20
-    },
-    logoTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'white'
-    },
-    logo: {
-        width: 70,
-        height: 70,
-        padding: 20
-    },
-    Formcontainer: {
-        flex: 1,
-        width: '100%',
-        paddingVertical: 25,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-      },
-      welcome: {
-        fontWeight: 'bold',
-        fontSize: 28,
-        marginBottom: 30,
-        width: '60%',
-        textAlign: 'center'
-
-      },
-      input: {
-          borderRadius: 25,
-          width: 260,
-          height: 45,
-          alignSelf: 'center',
-          padding: 8,
-          fontSize: 16,
-          margin: 8,
-          backgroundColor: 'white'
-      },
-      submit: {
-        marginTop: 30,
-        borderRadius: 50,
-        overflow: 'hidden',
-        backgroundColor: '#333',
-        width: 260,
-        height: 45,
-        alignSelf: 'center',
-      },
-      roleContainer: {
-        flexDirection: 'row',
-        gap: 10,
-        marginTop: 50,
-      },
-      roleButton: {
-        flex: 1,
-        padding: 8,
-        borderRadius: 25,
-        borderWidth: 2,
-        borderColor: 'black',
-        alignItems: 'center',
-      },
-      activeRoleButton: {
-        backgroundColor: 'white',
-        borderColor: 'white'
-      },
-    
+  main: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#e2b623",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: "10%",
+  },
+  container: {
+    alignItems: "center",
+    marginTop: 80,
+    width: "100%",
+  },
+  top: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingBottom: 25,
+    gap: 5,
+  },
+  mid: { alignItems: "center", width: "100%" },
+  pw: {
+    width: "100%",
+    alignItems: "flex-end",
+    paddingTop: 5,
+    marginBottom: 30,
+  },
 });
+
+// app bg: #f2f4fc
+// primary color: #060635
+// secondary Color: #e2b623

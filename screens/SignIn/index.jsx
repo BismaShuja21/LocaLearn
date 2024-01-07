@@ -1,133 +1,79 @@
-import { StyleSheet, View } from 'react-native';
-import { MyText } from '../../components';
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { GapView, MyButton, MyInput, MyText } from "../../components";
+import { Bulb, Group } from "../../assets/vectors";
 
 export default function SignIn() {
   return (
-
     <View style={styles.main}>
-    <MyText text={"Login"}/>
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <MyText
+            text={"LocaLearn"}
+            size={30}
+            weight={"700"}
+            textColor={"#060635"}
+          />
+          <Bulb />
+          <MyText
+            text={"Welcome!"}
+            size={35}
+            weight={"800"}
+            textColor={"#060635"}
+          />
+        </View>
+        <View style={styles.mid}>
+          <MyInput placeholder={"Email"} />
+          <GapView length={20} />
+          <MyInput placeholder={"Password"} />
+          <View style={styles.pw}>
+            <MyText text={"Forgot Password?"} weight={"600"} />
+          </View>
+          <MyButton label={"Sign In"} textColor={"white"} />
+          <View style={{ flexDirection: "row" }}>
+            <MyText text={"Don't have an account? "} weight={"600"} />
+            <MyText
+              text={"Create Account"}
+              weight={"600"}
+              textColor={"#e2b623"}
+            />
+          </View>
+        </View>
+      </View>
+      <Group />
     </View>
   );
-
- 
 }
 
 const styles = StyleSheet.create({
-
-    main: {
-        flex:1,
-        width:"100%",
-        height: "100%",
-        backgroundColor: "yellow"
-    },
-    Logincontainer: {
-        flex: 1,
-        width: '100%',
-        // backgroundColor: 'lightyellow',
-        paddingTop: 30
-    },
-    logoContainer: {
-        alignItems: 'center',
-        paddingVertical: 20
-    },
-    logoTitle: {
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    logo: {
-        width: 70,
-        height: 70,
-        padding: 20
-    },
-    Formcontainer: {
-        flex: 1,
-        width: '100%',
-        paddingVertical: 30,
-        alignItems: 'center',
-        justifyContent: 'Center',
-      },
-      welcome: {
-        fontWeight: 'bold',
-        fontSize: 28,
-        marginBottom: 30
-      },
-      input: {
-          borderWidth: 1,
-          borderColor: '#333',
-          borderRadius: 25,
-          width: 260,
-          height: 45,
-          alignSelf: 'center',
-          padding: 8,
-          fontSize: 16,
-          margin: 10,
-      },
-      submit: {
-        marginTop: 30,
-        borderRadius: 50,
-        overflow: 'hidden',
-        backgroundColor: 'black',
-        width: 260,
-        height: 40,
-        alignSelf: 'center'
-      },
-      homeImg: {
-        width: 250,
-        height: 250,
-        resizeMode: 'contain',
-        alignSelf: 'center',
-        // overflow: 'hidden'
-      },
-    
+  main: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#f2f4fc",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: "10%",
+  },
+  container: {
+    alignItems: "center",
+    marginTop: 80,
+    width: "100%",
+  },
+  top: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingBottom: 25,
+    gap: 5,
+  },
+  mid: { alignItems: "center", width: "100%" },
+  pw: {
+    width: "100%",
+    alignItems: "flex-end",
+    paddingTop: 5,
+    marginBottom: 30,
+  },
 });
 
-
-   // <View style={styles.Logincontainer}>
-    //     <View style={styles.logoContainer}>
-    //         <Text style={styles.logoTitle}>LocaLearn</Text>
-    //         <Image style={styles.logo} source={require('../assets/images/logo.svg')}/>
-    //     </View>
-    //     <View style={styles.Formcontainer}>
-    //         <Text style={styles.welcome}>Welcome!</Text>
-    //         <Formik
-    //             initialValues={{ email: '', password: ''}}
-    //             onSubmit={(values) => {
-    //                 console.log(values);
-    //                 actions.resetForm();
-    //             }}
-    //         >
-    //             {(props) => (
-    //                 <View>
-    //                     <TextInput 
-    //                     style={styles.input}
-    //                     placeholder='Email'
-    //                     onChangeText={props.handleChange('email')}
-    //                     onBlur={props.handleBlur('email')}
-    //                     value={props.values.title}
-    //                     />
-
-    //                 <TextInput 
-    //                     style={styles.input}
-    //                     placeholder='Password'
-    //                     onChangeText={props.handleChange('password')}
-    //                     onBlur={props.handleBlur('password')}
-    //                     value={props.values.body}
-    //                     />
-    //                     <View style={styles.submit}>
-    //                         <Button  title='SIGN IN'
-    //                          onPress={props.handleSubmit}
-    //                          color= 'black'/>
-    //                     </View>
-    //                     <View style={{flexDirection: 'row', marginTop: 5, gap: 10}}>
-    //                         <Text style={styles.createTxt}>Don't have an account?</Text>
-    //                         <TouchableOpacity>
-    //                             <Text style={{color: '#F4C01E', fontWeight: 'bold'}}>Create Account</Text>
-    //                         </TouchableOpacity>
-    //                     </View>
-    //                 </View>
-    //             )}
-    //         </Formik>
-    //     </View>
-    //     <Image style={styles.homeImg} source={require('../assets/images/Group 4.svg')} />    
-    // {/* // </SafeAreaView> */}
-    // </View>
+// app bg: #f2f4fc
+// primary color: #060635
+// secondary Color: #e2b623
