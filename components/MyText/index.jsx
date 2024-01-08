@@ -1,9 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-import { useFonts } from "expo-font";
-
-const MyText = ({
+export default function MyText({
   text,
   children,
   textColor,
@@ -12,9 +10,11 @@ const MyText = ({
   style,
   numberOfLines,
   onPress,
-}) => {
+}) {
   const getFontFamily = (weight) => {
     switch (weight) {
+      case "800":
+        return "Inter-ExtraBold";
       case "700":
         return "Inter-Bold";
       case "600":
@@ -31,8 +31,7 @@ const MyText = ({
   };
 
   const textStyle = {
-    color: textColor || "black",
-    fontWeight: weight || "normal",
+    color: textColor || "#060635",
     fontSize: size || 14,
     fontFamily: weight ? getFontFamily(weight) : "Inter-Regular",
   };
@@ -54,4 +53,3 @@ const MyText = ({
   );
 };
 
-export default MyText;
