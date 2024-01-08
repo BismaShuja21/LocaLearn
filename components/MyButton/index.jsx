@@ -33,7 +33,7 @@ export default function MyButton({
       {leftIcon && leftIcon}
       <MyText
         text={label}
-        textColor={textColor || "white"}
+        textColor={textColor || ""}
         weight={weight || "600"}
         size={16}
         style={buttonTextStyle}
