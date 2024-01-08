@@ -3,9 +3,19 @@ import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useFonts } from "expo-font";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const Stack = createStackNavigator();
+import { useFonts } from "expo-font";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import StudentProfileSetup from "./screens/user/[student]/StudentProfileSetup";
+import TutorProfileSetup from "./screens/user/[tutor]/TutorProfileSetup";
+import StudentProfile from "./screens/user/[student]/StudentProfile";
+import TutorProfile from "./screens/user/[tutor]/TutorProfile";
+
+const RootStack = createStackNavigator();
+const StudentStack = createStackNavigator();
+const TutorStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,18 +34,79 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <RootStack.Navigator
         initialRouteName="SignIn"
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-      </Stack.Navigator>
+        <RootStack.Screen name="SignIn" component={SignIn} />
+        <RootStack.Screen name="SignUp" component={SignUp} />
+        <RootStack.Screen
+          name="StudentProfileSetup"
+          component={StudentProfileSetup}
+        />
+        <RootStack.Screen
+          name="TutorProfileSetup"
+          component={TutorProfileSetup}
+        />
+        <RootStack.Screen name="StudentTab" component={StudentTabNavigator} />
+        <RootStack.Screen name="TutorTab" component={TutorTabNavigator} />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
+
+const StudentTabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="StudentScreens"
+        component={StudentScreensNavigator}
+        options={{
+          tabBarLabel: "Student",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="school" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const TutorTabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="TutorScreens"
+        component={TutorScreensNavigator}
+        options={{
+          tabBarLabel: "Tutor",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="work" color={color} size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const StudentScreensNavigator = () => {
+  return (
+    <StudentStack.Navigator>
+      <StudentStack.Screen name="StudentProfile" component={StudentProfile} />
+    </StudentStack.Navigator>
+  );
+};
+
+const TutorScreensNavigator = () => {
+  return (
+    <TutorStack.Navigator>
+      <TutorStack.Screen name="TutorProfile" component={TutorProfile} />
+    </TutorStack.Navigator>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

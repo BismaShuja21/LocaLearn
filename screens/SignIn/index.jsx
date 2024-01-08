@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
-import { BigBulb, Bulb, Group } from "../../assets/vectors";
+import { Bulb, Group } from "../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignInSchema } from "../../constants/validations/schema";
@@ -27,7 +27,7 @@ export default function SignIn() {
           }}
           validationSchema={UserSignInSchema.signInForm}
         >
-          {({ handleChange, handleSubmit, setFieldValue, errors }) => {
+          {({ handleChange, handleSubmit, errors }) => {
             return (
               <View style={styles.mid}>
                 <MyInput
