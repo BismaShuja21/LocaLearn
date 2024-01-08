@@ -11,7 +11,6 @@ export default function MyText({
   style,
   numberOfLines,
   onPress,
-  font,
 }) {
   const getFontFamily = (weight) => {
     switch (weight) {

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
@@ -12,19 +12,9 @@ export default function SignIn() {
     <View style={styles.main}>
       <View style={styles.container}>
         <View style={styles.top}>
-          <MyText
-            text={"LocaLearn"}
-            size={30}
-            weight={"700"}
-            textColor={"#060635"}
-          />
+          <MyText text={"LocaLearn"} size={30} weight={"700"} />
           <Bulb />
-          <MyText
-            text={"Welcome!"}
-            size={35}
-            weight={"800"}
-            textColor={"#060635"}
-          />
+          <MyText text={"Welcome!"} size={35} weight={"800"} />
         </View>
 
         <Formik
@@ -37,7 +27,7 @@ export default function SignIn() {
           }}
           validationSchema={UserSignInSchema.signInForm}
         >
-          {({ handleChange, handleSubmit, setFieldValue, errors }) => {
+          {({ handleChange, handleSubmit, errors }) => {
             return (
               <View style={styles.mid}>
                 <MyInput
@@ -55,7 +45,6 @@ export default function SignIn() {
                 </View>
                 <MyButton
                   label={"Sign In"}
-                  textColor={"white"}
                   onPress={() => {
                     console.log(errors);
                     handleSubmit();

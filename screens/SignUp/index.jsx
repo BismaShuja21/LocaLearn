@@ -41,6 +41,11 @@ export default function SignUp() {
           }}
           onSubmit={async (values, { resetForm }) => {
             console.log("Sign Up success", values);
+            navigation.navigate(
+              selectedRole === "student"
+                ? "StudentProfileSetup"
+                : "TutorProfileSetup"
+            );
           }}
           validationSchema={UserSignUpSchema.signUpForm}
         >
