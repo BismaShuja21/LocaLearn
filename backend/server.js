@@ -15,7 +15,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 93031fb05ca6bb11ab1235a2cc96e91e1fd30c80
 const dbURI = 'mongodb+srv://sanamaryam:testdatabase@cluster0.hv7uxwm.mongodb.net/Project?retryWrites=true&w=majority';
 // mongoose.connect(dbURI);
 mongoose.connect(dbURI)
