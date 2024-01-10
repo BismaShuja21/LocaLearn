@@ -51,7 +51,8 @@ mongoose.connect(dbURI)
 
   app.post('/register', async (req, res) => {
     try {
-      const { email, password, userType } = req.body;  
+      const { email, password, userType } = req.body; 
+
      
       // Check if user already exists with the same email
       const existingUser = await User.findOne({ email });
@@ -80,6 +81,28 @@ mongoose.connect(dbURI)
     }
   });
   
+  
 
-
+  app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    // Find the user by email
+    const user = await User.findOne({ email });
+  
+    if (user) {
+      // Compare the provided password with the hashed password in the database
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+      if (isPasswordValid) {
+        // Authentication successful
+        res.json({ success: true, user });
+      } else {
+        // Authentication failed (password mismatch)
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } else {
+      // Authentication failed (user not found)
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  });
   
