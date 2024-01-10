@@ -15,26 +15,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-//connect to mongodb
-// const dbURI = 'mongodb+srv://sanamaryam:testdatabase@cluster0.hv7uxwm.mongodb.net/Project?retryWrites=true&w=majority';
-// // mongoose.connect(dbURI);
-// mongoose.connect(dbURI)
-//   .then(() => {
-//     // app.listen(3000);
-//     app.listen(3000, 'localhost', (error) => {
-//         if (error) {
-//           console.error('Error starting server:', error);
-//         } else {
-//           console.log('Listening for requests on port 3000');
-//         }
-//       });
-//     console.log('Connected to MongoDB');
-//   })
-//   .catch((error) => {
-//     console.error('Error connecting to MongoDB:', error);
-//   });
-
-
 const dbURI = 'mongodb+srv://sanamaryam:testdatabase@cluster0.hv7uxwm.mongodb.net/Project?retryWrites=true&w=majority';
 // mongoose.connect(dbURI);
 mongoose.connect(dbURI)
