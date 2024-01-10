@@ -49,7 +49,7 @@ mongoose.connect(dbURI)
   app.listen(3000);
 
 
-  app.get('/register', async (req, res) => {
+  app.post('/register', async (req, res) => {
     try {
       const { email, password, userType } = req.body;  
      
