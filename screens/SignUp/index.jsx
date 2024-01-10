@@ -44,39 +44,38 @@ export default function SignUp() {
           }}
           onSubmit={async (values, { resetForm }) => {
 
-            try {
-              // Prepare the data to be sent to the server
-              const userData = {
-                email: values.email,
-                password: values.password,
-                userType: selectedRole,
-              };
+            // try {
+            //   // Prepare the data to be sent to the server
+            //   const userData = {
+            //     email: values.email,
+            //     password: values.password,
+            //     userType: selectedRole,
+            //   };
           
-              // Send the data to the server using Axios
-              const response = await axios.post('http://localhost:3000/register', userData);
+            //   // Send the data to the server using Axios
+            //   const response = await axios.post('http://localhost:3000/register', userData);
           
-              // Handle the server response here if needed
-              console.log('Server Response:', response.data);
-              console.log("Sign Up success", values);
+            //   // Handle the server response here if needed
+            //   console.log('Server Response:', response.data);
+            //   console.log("Sign Up success", values);
           
-              // Navigate to the appropriate screen based on the selected role
-              navigation.navigate(selectedRole === 'student' ? 'StudentProfileSetup' : 'TutorProfileSetup');
+            //   // Navigate to the appropriate screen based on the selected role
+            //   navigation.navigate(selectedRole === 'student' ? 'StudentProfileSetup' : 'TutorProfileSetup');
           
-              // Reset the form after successful submission
-              resetForm();
-            } catch (error) {
-              // Handle errors (e.g., network issues, server errors)
-              console.error('Error submitting the form:', error);
-            }
+            //   // Reset the form after successful submission
+            //   resetForm();
+            // } catch (error) {
+            //   // Handle errors (e.g., network issues, server errors)
+            //   console.error('Error submitting the form:', error);
+            // }
 
 
-
-            // console.log("Sign Up success", values);
-            // navigation.navigate(
-            //   selectedRole === "student"
-            //     ? "StudentProfileSetup"
-            //     : "TutorProfileSetup"
-            // );
+            console.log("Sign Up success", values);
+            navigation.navigate(
+              selectedRole === "student"
+                ? "StudentProfileSetup"
+                : "TutorProfileSetup"
+            );
 
           }}
           validationSchema={UserSignUpSchema.signUpForm}
