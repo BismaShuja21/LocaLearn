@@ -52,6 +52,7 @@ export default function StudentProfileSetup() {
         <MyText
           text={"Your Profile"}
           size={20}
+          weight="600"
           style={{ textAlign: "center", paddingVertical: 10 }}
         />
 
