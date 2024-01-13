@@ -20,6 +20,7 @@ import StudentChat from "./screens/user/[student]/StudentInbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StudentInbox from "./screens/user/[student]/StudentInbox";
 import TutorInbox from "./screens/user/[tutor]/TutorInbox";
+import { MyHeader } from "./components";
 
 const RootStack = createStackNavigator();
 const StudentStack = createStackNavigator();
@@ -80,12 +81,11 @@ const commonTabOptions = {
   tabBarActiveTintColor: "white",
   tabBarActiveBackgroundColor: "#060635",
   tabBarInactiveTintColor: "white",
-  headerShown: false,
 };
 
 const StudentTabNavigator = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
         <Tab.Screen
           name="StudentSearch"
@@ -95,6 +95,7 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="search" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
         <Tab.Screen
@@ -134,7 +135,7 @@ const StudentTabNavigator = () => {
 
 const TutorTabNavigator = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
         <Tab.Screen
           name="TutorNotifications"
