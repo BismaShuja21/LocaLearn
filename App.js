@@ -11,6 +11,11 @@ import StudentProfileSetup from "./screens/user/[student]/StudentProfileSetup";
 import TutorProfileSetup from "./screens/user/[tutor]/TutorProfileSetup";
 import StudentProfile from "./screens/user/[student]/StudentProfile";
 import TutorProfile from "./screens/user/[tutor]/TutorProfile";
+import TutorNotifications from "./screens/user/[tutor]/TutorNotifications";
+import TutorChat from "./screens/user/[tutor]/TutorChat";
+import StudentSearch from "./screens/user/[student]/StudentSearch";
+import StudentNotifications from "./screens/user/[student]/StudentNotification";
+import StudentChat from "./screens/user/[student]/StudentChat";
 
 const RootStack = createStackNavigator();
 const StudentStack = createStackNavigator();
@@ -61,10 +66,40 @@ const StudentTabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="StudentScreens"
-        component={StudentScreensNavigator}
+        name="StudentSearch"
+        component={StudentSearch}
         options={{
-          tabBarLabel: "Student",
+          tabBarLabel: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="school" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="StudentNotifications"
+        component={StudentNotifications}
+        options={{
+          tabBarLabel: "Notifications",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="school" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="StudentChat"
+        component={StudentChat}
+        options={{
+          tabBarLabel: "Chat",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="school" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="StudentProfile"
+        component={StudentProfile}
+        options={{
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="school" color={color} size={size} />
           ),
@@ -78,33 +113,39 @@ const TutorTabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="TutorScreens"
-        component={TutorScreensNavigator}
+        name="TutorNotifications"
+        component={TutorNotifications}
         options={{
-          tabBarLabel: "Tutor",
+          tabBarLabel: "Notifications",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="work" color={color} size={size} />
+            <MaterialIcons name="circle" color={color} size={size} />
           ),
-          headerShown: false,
+          headerShown: true,
+        }}
+      />
+      <Tab.Screen
+        name="TutorChat"
+        component={TutorChat}
+        options={{
+          tabBarLabel: "Chat",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="circle" color={color} size={size} />
+          ),
+          headerShown: true,
+        }}
+      />
+      <Tab.Screen
+        name="TutorProfile"
+        component={TutorProfile}
+        options={{
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="circle" color={color} size={size} />
+          ),
+          headerShown: true,
         }}
       />
     </Tab.Navigator>
-  );
-};
-
-const StudentScreensNavigator = () => {
-  return (
-    <StudentStack.Navigator>
-      <StudentStack.Screen name="StudentProfile" component={StudentProfile} />
-    </StudentStack.Navigator>
-  );
-};
-
-const TutorScreensNavigator = () => {
-  return (
-    <TutorStack.Navigator>
-      <TutorStack.Screen name="TutorProfile" component={TutorProfile} />
-    </TutorStack.Navigator>
   );
 };
 

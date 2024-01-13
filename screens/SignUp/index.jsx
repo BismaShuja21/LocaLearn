@@ -105,9 +105,13 @@ export default function SignUp() {
 
               <MyButton
                 label={"Sign Up"}
-                textColor={"white"}
                 onPress={() => {
-                  handleSubmit();
+                  // handleSubmit();
+                  navigation.navigate(
+                    selectedRole === "student"
+                      ? "StudentProfileSetup"
+                      : "TutorProfileSetup"
+                  );
                   console.log(errors);
                 }}
               />
