@@ -1,11 +1,14 @@
-const express = require('express'); //this returns a function
+const express = require('express'); 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('./models/user');
 const cors = require('cors');
+const registerRoute = require('./routes/register');
+const loginRoute = require('./routes/login');
+const addTutorRoute = require('./routes/add-tutor');
 
 
-const app = express(); //here we invoke the function to create an express app
+
+const app = express();
 app.use(express.json());
 
 
@@ -16,7 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const dbURI = 'mongodb+srv://sanamaryam:testdatabase@cluster0.hv7uxwm.mongodb.net/Project?retryWrites=true&w=majority';
-// mongoose.connect(dbURI);
+
 mongoose.connect(dbURI)
   .then(() => {
     console.log('Connected to MongoDB');
@@ -25,64 +28,62 @@ mongoose.connect(dbURI)
     console.error('Error connecting to MongoDB:', error);
   });
 
-  app.set('view engine', 'ejs')
-  app.listen(3000);
+
+app.set('view engine', 'ejs')
+app.listen(3000);
 
 
-  app.post('/register', async (req, res) => {
-    try {
-      const { email, password, userType } = req.body; 
+// app.get('/add-tutor', async (req, res) => {
+//   try {
+//     const existingUserEmail = "sana123@gmail.com";
 
-     
-      // Check if user already exists with the same email
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ error: 'User with this email already exists' });
-      }
-  
-      // Hash the password before saving it to the database
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Create a new user
-      const newUser = new User({
-        email,
-        password: hashedPassword,
-        userType,
-      });
-  
-      // Save the user to the database
-      await newUser.save();
-  
-      // Return a success response
-      res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-      console.error(`Error registering user: ${req.body}` , error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  });
-  
-  
+//     // Find the existing user in the User collection
+//     const existingUser = await User.findOne({ email: existingUserEmail });
 
-  app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    // Find the user by email
-    const user = await User.findOne({ email });
-  
-    if (user) {
-      // Compare the provided password with the hashed password in the database
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-  
-      if (isPasswordValid) {
-        // Authentication successful
-        res.json({ success: true, user });
-      } else {
-        // Authentication failed (password mismatch)
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-    } else {
-      // Authentication failed (user not found)
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-  });
+//     if (existingUser) {
+//       // Check if a Student instance already exists for the user
+//       const existingTutor = await Tutor.findOne({ userid: existingUser._id });
+
+//       if (existingTutor) {
+//         console.error('A Tutor instance already exists for this user');
+//         res.status(400).json({ error: 'A Tutor instance already exists for this user' });
+//       } else {
+//         // Create a new Tutor instance associated with the existing user
+//         const newTutor = new Tutor({
+//           userid: existingUser._id, // Associate with the user by ObjectId
+//           description: "Sample description",
+//           subjects: ["Math", "Science"],
+//           rating: 4.5,
+//           qualification: "Ph.D. in Computer Science",
+//           experience: 3,
+//           availability: "Weekdays",
+//           tutorPreference: "student_house",
+//         });
+
+//         // Save the new Tutor instance to the database
+//         const savedTutor = await newTutor.save();
+
+//         if (savedTutor) {
+//           console.log('Dummy Tutor data added successfully:', savedTutor);
+//           res.status(201).json({ message: 'Dummy Tutor data added successfully' });
+//         } else {
+//           console.error('Error saving Tutor data');
+//           res.status(500).json({ error: 'Internal Server Error' });
+//         }
+//       }
+//     } else {
+//       console.error('User not found with email:', existingUserEmail);
+//       res.status(404).json({ error: 'User not found' });
+//     }
+//   } catch (error) {
+//     console.error('Error adding dummy Tutor data:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
+app.use('/api/register', registerRoute);
+app.use('/api/login', loginRoute);
+app.use('/api/add-tutor', addTutorRoute)
+
   

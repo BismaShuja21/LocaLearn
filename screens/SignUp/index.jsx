@@ -53,7 +53,7 @@ export default function SignUp() {
             //   };
           
             //   // Send the data to the server using Axios
-            //   const response = await axios.post('http://localhost:3000/register', userData);
+            //   const response = await axios.post('http://localhost:3000/api/register', userData);
           
             //   // Handle the server response here if needed
             //   console.log('Server Response:', response.data);
