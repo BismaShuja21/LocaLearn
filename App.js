@@ -4,6 +4,7 @@ import SignUp from "./screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { useFonts } from "expo-font";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,6 +17,7 @@ import TutorChat from "./screens/user/[tutor]/TutorChat";
 import StudentSearch from "./screens/user/[student]/StudentSearch";
 import StudentNotifications from "./screens/user/[student]/StudentNotification";
 import StudentChat from "./screens/user/[student]/StudentChat";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const RootStack = createStackNavigator();
 const StudentStack = createStackNavigator();
@@ -64,88 +66,125 @@ export default function App() {
 
 const StudentTabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="StudentSearch"
-        component={StudentSearch}
-        options={{
-          tabBarLabel: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="school" color={color} size={size} />
-          ),
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: "#e2b623",
+            height: 55,
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          },
+          tabBarItemStyle: {
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: 5,
+          },
+          tabBarActiveTintColor: "white",
+          tabBarActiveBackgroundColor: "#060635",
+          tabBarInactiveTintColor: "white",
+          headerShown: false,
         }}
-      />
-      <Tab.Screen
-        name="StudentNotifications"
-        component={StudentNotifications}
-        options={{
-          tabBarLabel: "Notifications",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="school" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="StudentChat"
-        component={StudentChat}
-        options={{
-          tabBarLabel: "Chat",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="school" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="StudentProfile"
-        component={StudentProfile}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="school" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="StudentSearch"
+          component={StudentSearch}
+          options={{
+            tabBarLabel: "Search",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="search" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentNotifications"
+          component={StudentNotifications}
+          options={{
+            tabBarLabel: "Notifications",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="notifications" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentChat"
+          component={StudentChat}
+          options={{
+            tabBarLabel: "Chat",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="chat" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentProfile"
+          component={StudentProfile}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="account-circle" size={24} color="white" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 };
 
 const TutorTabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="TutorNotifications"
-        component={TutorNotifications}
-        options={{
-          tabBarLabel: "Notifications",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="circle" color={color} size={size} />
-          ),
-          headerShown: true,
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: "#e2b623",
+            height: 55,
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          },
+          tabBarItemStyle: {
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: 5,
+          },
+          tabBarActiveTintColor: "white",
+          tabBarActiveBackgroundColor: "#060635",
+          tabBarInactiveTintColor: "white",
+          headerShown: false,
         }}
-      />
-      <Tab.Screen
-        name="TutorChat"
-        component={TutorChat}
-        options={{
-          tabBarLabel: "Chat",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="circle" color={color} size={size} />
-          ),
-          headerShown: true,
-        }}
-      />
-      <Tab.Screen
-        name="TutorProfile"
-        component={TutorProfile}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="circle" color={color} size={size} />
-          ),
-          headerShown: true,
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="TutorNotifications"
+          component={TutorNotifications}
+          options={{
+            tabBarLabel: "Notifications",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="notifications" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="TutorChat"
+          component={TutorChat}
+          options={{
+            tabBarLabel: "Chat",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="chat" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="TutorProfile"
+          component={TutorProfile}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="account-circle" size={24} color="white" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 };
 

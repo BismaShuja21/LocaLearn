@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import MyText from "../MyText";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function MyDropdown({
   data,
@@ -98,14 +99,14 @@ export default function MyDropdown({
         />
       </View>
       {show && (
-        <View
+        <ScrollView
+          contentContainerStyle={{ justifyContent: "space-between" }}
           style={{
             zIndex: zIndex + 2,
             width: "101%",
             position: "absolute",
             overflow: "hidden",
             top: 48,
-            justifyContent: "space-between",
             backgroundColor: "#f2f4fc",
             borderColor: "#060635",
             borderWidth: 1,
@@ -139,7 +140,7 @@ export default function MyDropdown({
               )}
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       )}
     </View>
   );

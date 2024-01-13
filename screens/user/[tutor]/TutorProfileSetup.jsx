@@ -110,7 +110,7 @@ export default function TutorProfileSetup() {
               <MyDropdown
                 placeholder="Qualification--"
                 data={["Masters", "Bacehelors", "Undergraduate"]}
-                zIndex={8}
+                zIndex={9}
                 onSelect={(value) => {
                   console.log("data", value);
                 }}
