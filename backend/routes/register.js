@@ -8,7 +8,6 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
       const { email, password, userType } = req.body; 
-
      
       // Check if user already exists with the same email
       const existingUser = await User.findOne({ email });
