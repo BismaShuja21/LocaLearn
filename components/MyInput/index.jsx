@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     elevation: 3,
+    borderColor: "#060635",
   },
   inputStyle: {
     flex: 1,
