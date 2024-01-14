@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { MyInput, MyText } from "../../../components";
-import MapView, { Marker } from 'react-native-maps';
-import { View, StyleSheet, Button, Modal, Text, TouchableOpacity } from 'react-native';
-import tutors from '../../../components/tutors';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import PersonInfoBox from '../../../components/personinfo'; // Adjust the path based on your folder structure
+import MapView, { Marker } from "react-native-maps";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Modal,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import tutors from "../../../components/tutors";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import PersonInfoBox from "../../../components/personinfo"; // Adjust the path based on your folder structure
 
-
-const StudentSearch = () => {
+const StudentSearch = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -17,8 +23,8 @@ const StudentSearch = () => {
     // Check and request location permissions
     const getLocationPermission = async () => {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  
-      if (status === 'granted') {
+
+      if (status === "granted") {
         const location = await Location.getCurrentPositionAsync({});
         const updatedLocation = {
           latitude: location.coords.latitude,
@@ -28,24 +34,25 @@ const StudentSearch = () => {
         console.log(updatedLocation);
       } else {
         // Handle permission denied
-        console.log('Location permission denied');
+        console.log("Location permission denied");
       }
     };
 
     getLocationPermission();
   }, []);
-  
 
   useEffect(() => {
     setInitialRegion(calculateRegion());
   }, [currentLocation]);
-  
 
   const handleMarkerPress = (location) => {
     setSelectedLocation(location);
     setModalVisible(true);
   };
 
+  const viewProfileHandler = () => {
+    navigation.navigate("ViewTutorProfileScreen");
+  };
 
   // const locations = [
   //   { id: 1, name: 'Malir Cantonment', latitude: 24.9251, longitude: 67.1945 },
@@ -57,7 +64,6 @@ const StudentSearch = () => {
   //   { id: 7, name: 'Saima Apartments', latitude: 24.9091, longitude: 67.0835 },
   //   // Add more locations as needed
   // ];
-  
 
   // Calculate the bounding box (region) based on all locations
   const calculateRegion = () => {
@@ -77,8 +83,12 @@ const StudentSearch = () => {
     const longitudeDelta = maxLng - minLng;
 
     return {
-      latitude: currentLocation ? currentLocation.latitude : (minLat + maxLat) / 2,
-      longitude: currentLocation ? currentLocation.longitude : (minLng + maxLng) / 2,
+      latitude: currentLocation
+        ? currentLocation.latitude
+        : (minLat + maxLat) / 2,
+      longitude: currentLocation
+        ? currentLocation.longitude
+        : (minLng + maxLng) / 2,
       latitudeDelta: latitudeDelta * 1.5,
       longitudeDelta: longitudeDelta * 1.5,
     };
@@ -86,44 +96,44 @@ const StudentSearch = () => {
 
   const [initialRegion, setInitialRegion] = useState(calculateRegion());
 
+  return (
+    <View style={styles.container}>
+      <MapView style={styles.map} initialRegion={initialRegion}>
+        {/* Markers */}
+        {tutors.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            title={location.name}
+            onPress={() => handleMarkerPress(location)}
+          />
+        ))}
+      </MapView>
 
-return (
-  <View style={styles.container}>
-    <MapView style={styles.map} initialRegion={initialRegion}>
-      {/* Markers */}
-      {tutors.map((location) => (
-        <Marker
-          key={location.id}
-          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-          title={location.name}
-          onPress={() => handleMarkerPress(location)}
-        />
-      ))}
-    </MapView>
-
-    {/* Modal */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <PersonInfoBox
-        info={selectedLocation}
-        onClose={() => setModalVisible(false)}
-        onChatNow={() => {
-          // Handle chat now action
+      {/* Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
         }}
-      />
-    </Modal>
-  </View>
-);
+      >
+        <PersonInfoBox
+          info={selectedLocation}
+          onClose={() => setModalVisible(false)}
+          onChatNow={() => {
+            // Handle chat now action
+          }}
+          onViewProfile={viewProfileHandler}
+        />
+      </Modal>
+    </View>
+  );
 };
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-  }, 
+  },
 });
 
 export default StudentSearch;
