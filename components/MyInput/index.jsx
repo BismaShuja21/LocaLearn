@@ -12,6 +12,8 @@ export default function MyInput({
   inputStyle,
   rightIcon,
   placeholderColor,
+  editable,
+  onIconPress,
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const inputContainerStyle = {
@@ -28,6 +30,7 @@ export default function MyInput({
         style={[styles.inputStyle, { fontFamily: "Inter-Regular" }, inputStyle]}
         value={text}
         onChangeText={(val) => onChange?.(val)}
+        editable={editable}
       />
       {password && (
         <Ionicons
@@ -42,6 +45,7 @@ export default function MyInput({
           name={rightIcon.name}
           size={rightIcon.size || 15}
           color={rightIcon.color || "grey"}
+          onPress={onIconPress}
         />
       )}
     </View>

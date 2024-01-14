@@ -24,7 +24,7 @@ export default function SignIn() {
           }}
           onSubmit={async (values, { resetForm }) => {
             if (values.email) {
-              navigation.navigate("StudentTab");
+              navigation.navigate("TutorTab");
             }
             console.log("Sign In success", values);
           }}
