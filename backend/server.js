@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 const corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'exp://192.168.43.142:8081',
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
