@@ -6,3 +6,5 @@ export { default as MyDropdown } from "./MyDropdown";
 export { default as MySearchBar } from "./MySearchBar";
 export { default as MyHeader } from "./MyHeader";
 export { default as TutorInfoModal } from "./TutorInfoModal";
+export { default as MyAvatar } from "./MyAvatar";
+export { default as ChatCard } from "./ChatCard";
