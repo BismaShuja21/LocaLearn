@@ -9,6 +9,9 @@ import {
 } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
+
+
 
 export default function TutorProfileSetup({ route }) {
   const userId = route.params.ID;
@@ -21,15 +24,32 @@ export default function TutorProfileSetup({ route }) {
     availability: [],
     description: '',
     experience: '',
+    tutoringPreferences: [],
   });
+
+
   const navigation = useNavigation();
+
 
   const handleInputChange = (field, value) => {
     setTutorDetails((prevDetails) => ({
       ...prevDetails,
       [field]: value,
     }));
-    console.log(tutorDetails);
+  };
+
+
+  const handleCreateTutorProfile = async () => {
+    try {
+      const response = await axios.post('http://192.168.43.142:3000/api/profileSetup', tutorDetails);
+
+      console.log('Server Response:', response.data);
+
+      // Navigate to the appropriate screen or handle success as needed
+      navigation.navigate('TutorTab');
+    } catch (error) {
+      console.error('Error creating tutor profile:', error);
+    }
   };
 
   return (
@@ -79,7 +99,6 @@ export default function TutorProfileSetup({ route }) {
                 zIndex={8}
                 onSelect={(value) => {
                   handleInputChange("availability", value);
-                  console.log(value);
                 }}
                 multiSelect
               />
@@ -110,11 +129,13 @@ export default function TutorProfileSetup({ route }) {
             <GapView length={40} />
             <MyButton
               label={"Complete Profile"}
-              onPress={() => {
-                console.log("Prifle Setted Up:")
-                console.log(tutorDetails);
-                navigation.navigate("TutorTab");
-              }}
+              // onPress={() => {
+              //   console.log("Prifle Setted Up:")
+              //   console.log(tutorDetails);
+              //   navigation.navigate("TutorTab");
+              // }}
+              onPress={handleCreateTutorProfile}
+
             />
           </>
         ) : (
