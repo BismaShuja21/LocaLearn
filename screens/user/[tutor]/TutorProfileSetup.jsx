@@ -30,10 +30,15 @@ export default function TutorProfileSetup({ route }) {
     firstName: "",
     lastName: "",
     qualification: "",
+    subjects: [],
     availability: [],
     description: "",
     experience: "",
     tutoringPreferences: [],
+    location: {
+      type: 'Point',
+      coordinates: [mapRegion.longitude, mapRegion.latitude],
+    },
   });
 
   const navigation = useNavigation();
@@ -48,7 +53,7 @@ export default function TutorProfileSetup({ route }) {
   const handleCreateTutorProfile = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.43.142:3000/api/profileSetup",
+        "http://192.168.43.142:3000/tutor/profileSetup",
         tutorDetails
       );
 
@@ -117,6 +122,9 @@ export default function TutorProfileSetup({ route }) {
     }
   };
 
+
+
+
   useEffect(() => {
     requestLocationPermission();
     getCurrentLocation(); // Optionally set the initial location
@@ -171,7 +179,6 @@ export default function TutorProfileSetup({ route }) {
                   zIndex={8}
                   onSelect={(value) => {
                     handleInputChange("availability", value);
-                    console.log(value);
                   }}
                   multiSelect
                 />
@@ -210,6 +217,7 @@ export default function TutorProfileSetup({ route }) {
                   console.log(tutorDetails);
                   navigation.navigate("TutorTab");
                 }}
+                // onPress={handleCreateTutorProfile}
               />
             </>
           ) : (
@@ -300,7 +308,7 @@ export default function TutorProfileSetup({ route }) {
                   //   console.log("data", value);
                   // }}
                   onSelect={(value) => {
-                    handleInputChange("tutoringPreferences", value);
+                    handleInputChange("subjects", value);
                   }}
                   multiSelect
                 />
@@ -321,12 +329,27 @@ export default function TutorProfileSetup({ route }) {
                 <MapView
                   style={{ width: "100%", height: 200, marginTop: 10 }}
                   region={mapRegion}
+                  // onRegionChangeComplete={(region) => {
+                  //   setMapRegion(region);
+                  //   updateAddress(region.latitude, region.longitude);
+                  //   console.log(region.latitude);
+                  // }}
+
                   onRegionChangeComplete={(region) => {
                     setMapRegion(region);
                     updateAddress(region.latitude, region.longitude);
-                    console.log(region.latitude);
-                  }}
+                  
+                    // Update tutorDetails with the new coordinates
+                    setTutorDetails((prevDetails) => ({
+                      ...prevDetails,
+                      location: {
+                        type: 'Point',
+                        coordinates: [region.longitude, region.latitude],
+                      },
+                    }));
+                  }}                  
                 >
+
                   <Marker
                     coordinate={{
                       latitude: mapRegion.latitude,

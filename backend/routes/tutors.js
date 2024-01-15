@@ -20,7 +20,8 @@ router.get('/all-tutors', async (req, res) => {
 
 router.post('/profileSetup', async (req, res) => {
   try {
-
+    console.log(req.body);
+   
     // Create a new tutor document
     const newTutor = new Tutor({
       userid: req.body.userId,
@@ -31,7 +32,8 @@ router.post('/profileSetup', async (req, res) => {
       description: req.body.description,
       experience: req.body.experience,
       tutorPreference: req.body.tutoringPreferences,
-    });
+      location: req.body.location,
+      });
 
     // Save the tutor document to the database
     await newTutor.save();
@@ -42,6 +44,47 @@ router.post('/profileSetup', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+
+
+
+router.get('/tutors-nearby', async (req, res) => {
+  try {
+    const { longitude, latitude } = req.query;
+    console.log("Longitude:", longitude);
+    console.log("Latitude:", latitude);
+
+
+    // Convert coordinates to numbers
+    const userLocation = {
+      type: 'Point',
+      coordinates: [parseFloat(longitude), parseFloat(latitude)],
+    };
+
+    // Use $geoNear aggregation to find tutors within 5 km
+    const nearbyTutors = await Tutor.aggregate([
+      {
+        $geoNear: {
+          near: userLocation,
+          distanceField: 'distance',
+          maxDistance: 10000, // 5 km in meters
+          spherical: true,
+        },
+      },
+    ]);
+
+    console.log('Nearby Tutors:', nearbyTutors);
+
+
+    res.json(nearbyTutors);
+  } catch (error) {
+    console.error('Error finding nearby tutors:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 module.exports = router;
