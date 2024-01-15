@@ -33,7 +33,9 @@ export default function SignIn() {
               const response = await axios.post("http://192.168.43.142:3000/api/login", values);
           
               if (response.data.success) {
-                if(response.data.userType === "tutor"){
+                const userType = response.data.user.userType;
+
+                if(userType === "tutor"){
                   navigation.navigate("TutorTab");
                 }else {
                   navigation.navigate("StudentTab");
