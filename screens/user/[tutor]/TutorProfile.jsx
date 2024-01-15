@@ -11,18 +11,30 @@ import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import MapView, { Marker } from "react-native-maps";
 
 export default function TutorProfileSetup() {
   const navigation = useNavigation();
+  const [address, setAddress] = useState("");
+  const [isMapViewVisible, setIsMapViewVisible] = useState(false);
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 24.8607, // Latitude of Karachi
+    longitude: 67.0011, // Longitude of Karachi
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   const [isEditMode, setIsEditMode] = useState({
     firstName: false,
     lastName: false,
     qualification: false,
     tutoringPreferences: false,
+    subjects: false,
     availability: false,
     description: false,
     experience: false,
+    address: false,
   });
 
   const [values, setValues] = useState({
@@ -31,8 +43,10 @@ export default function TutorProfileSetup() {
     qualification: ["Bachelors"],
     tutoringPreferences: ["Student's Space"],
     availability: ["Monday"],
+    subjects: ["Chemistry", "Biology"],
     description: "Hi i am a teacher",
     experience: "Bhaiii",
+    address: "NED University of Engineering & Technology, Karachi",
   });
 
   const handleInputChange = (field, text) => {
@@ -68,6 +82,46 @@ export default function TutorProfileSetup() {
       ...prevMode,
       [field]: false,
     }));
+  };
+
+  const toggleMapView = () => {
+    setIsMapViewVisible(!isMapViewVisible);
+  };
+
+  const confirmLocation = () => {
+    // Additional logic to handle location confirmation
+    setIsEditMode((prevMode) => ({
+      ...prevMode,
+      address: false,
+    }));
+    setIsMapViewVisible(false);
+  };
+
+  const updateAddress = async (latitude, longitude) => {
+    try {
+      const addressResponse = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      if (addressResponse && addressResponse.length > 0) {
+        const { name, street, postalCode, city, region, country } =
+          addressResponse[0];
+        const formattedAddress = `${name || street || postalCode || ""}, ${
+          city || region || country
+        }`;
+        setValues((prevValues) => ({
+          ...prevValues,
+          address: formattedAddress,
+        }));
+      }
+      // else {
+      //   setAddress("");
+      //   console.log("No address details found");
+      // }
+    } catch (error) {
+      console.warn("Error updating address:", error);
+    }
   };
 
   return (
@@ -140,6 +194,67 @@ export default function TutorProfileSetup() {
 
         <View style={{ width: "100%" }}>
           <MyText
+            text={"Subjects"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+          {isEditMode.subjects ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <MyDropdown
+                style={{ width: "90%" }}
+                placeholder="Subjects--"
+                data={[
+                  "Biology",
+                  "Chemistry",
+                  "Computer Science",
+                  "Calculus",
+                  "Economics",
+                  "English",
+                  "Finance",
+                  "Geography",
+                  "History",
+                  "Islamiat",
+                  "Mathematics",
+                  "Physics",
+                  "Social Studies",
+                  "Urdu",
+                  "Others",
+                ]}
+                zIndex={9}
+                onSelect={(value) => handleDropdownChange("subjects", value)}
+                multiSelect={false}
+                disabled={!isEditMode.subjects}
+              />
+              <MaterialIcons
+                name="done"
+                size={25}
+                color="grey"
+                onPress={() => handleCheckPress("subjects")}
+              />
+            </View>
+          ) : (
+            <MyInput
+              text={values.subjects.join(", ")}
+              editable={false}
+              inputStyle={{
+                color: "grey",
+              }}
+              rightIcon={{
+                name: isEditMode.subjects ? "check" : "edit",
+                size: 20,
+                color: "grey",
+              }}
+              onIconPress={() => handleEditPress("subjects")}
+            />
+          )}
+        </View>
+        <View style={{ width: "100%" }}>
+          <MyText
             text={"Qualification"}
             style={{ paddingLeft: 5, paddingBottom: 5 }}
           />
@@ -177,7 +292,7 @@ export default function TutorProfileSetup() {
                 color: "grey",
               }}
               rightIcon={{
-                name: isEditMode.lastName ? "check" : "edit",
+                name: isEditMode.qualification ? "check" : "edit",
                 size: 20,
                 color: "grey",
               }}
@@ -288,27 +403,148 @@ export default function TutorProfileSetup() {
             />
           )}
         </View>
-        <View style={{ width: "100%" }}>
+
+        {/* <View style={{ width: "100%" }}>
           <MyText
-            text={"Description"}
+            text={"Address"}
             style={{ paddingLeft: 5, paddingBottom: 5 }}
           />
           <MyInput
-            multiline={true}
-            text={values.description}
-            editable={isEditMode.description}
+            value={address}
+            placeholder={address}
+            onChange={(value) => {
+              setAddress(value);
+              console.log(value);
+            }}
+          />
+          <MapView
+            style={{ width: "100%", height: 200, marginTop: 10 }}
+            region={mapRegion}
+            onRegionChangeComplete={(region) => {
+              setMapRegion(region);
+              updateAddress(region.latitude, region.longitude);
+              console.log(region.latitude);
+            }}
+          >
+            <Marker
+              coordinate={{
+                latitude: mapRegion.latitude,
+                longitude: mapRegion.longitude,
+              }}
+              title="Selected Location"
+            />
+          </MapView>
+        </View>
+        <View style={{ width: "100%" }}>
+          <MyText
+            text={"Address"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+          <MyInput
+            text={values.address}
+            editable={isEditMode.address}
             inputStyle={{
-              color: isEditMode.description ? "black" : "grey",
+              color: isEditMode.address ? "black" : "grey",
             }}
             rightIcon={{
-              name: isEditMode.description ? "check" : "edit",
+              name: isEditMode.address ? "check" : "edit",
               size: 20,
               color: "grey",
             }}
-            onIconPress={() => handleEditPress("description")}
-            onChange={(text) => handleInputChange("description", text)}
+            onIconPress={() => handleEditPress("address")}
+            onChange={(text) => handleInputChange("address", text)}
           />
+        </View> */}
+
+        <View style={{ width: "100%" }}>
+          <MyText
+            text={"Address"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+
+          {isEditMode.address ? (
+            // In edit mode, show MapView
+            <View>
+              <MyInput
+                text={values.address}
+                editable={isEditMode.address}
+                inputStyle={{
+                  color: "grey",
+                }}
+                rightIcon={{
+                  name: isEditMode.address ? "check" : "edit",
+                  size: 20,
+                  color: "grey",
+                }}
+                onIconPress={() => handleEditPress("address")}
+                onChange={(text) => handleInputChange("address", text)}
+              />
+              {isMapViewVisible && (
+                <View>
+                  <MapView
+                    style={{ width: "100%", height: 200, marginTop: 10 }}
+                    region={mapRegion}
+                    onRegionChangeComplete={(region) => {
+                      setMapRegion(region);
+                      updateAddress(region.latitude, region.longitude);
+                    }}
+                  >
+                    <Marker
+                      coordinate={{
+                        latitude: mapRegion.latitude,
+                        longitude: mapRegion.longitude,
+                      }}
+                      title="Selected Location"
+                    />
+                  </MapView>
+                  <View style={{ alignItems: "center" }}>
+                    <MyButton
+                      label="Confirm Location"
+                      style={{ marginVertical: 10, width: "90%" }}
+                      onPress={confirmLocation}
+                    />
+                  </View>
+                </View>
+              )}
+              <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
+                <MyButton
+                  label={
+                    isMapViewVisible ? (
+                      <MaterialIcons name="close" size={15} />
+                    ) : (
+                      "View on Map"
+                    )
+                  }
+                  onPress={toggleMapView}
+                  style={{
+                    width: isMapViewVisible ? "15%" : "80%",
+                    position: isMapViewVisible ? "absolute" : "fixed",
+                    // borderRadius: isMapViewVisible ? 100 : 20,
+                    top: isMapViewVisible ? -250 : 0,
+                    right: isMapViewVisible ? 20 : 0,
+                    marginVertical: isMapViewVisible ? 0 : 10,
+                  }}
+                />
+              </View>
+            </View>
+          ) : (
+            // Not in edit mode, show only the address
+            <MyInput
+              text={values.address}
+              editable={false}
+              inputStyle={{
+                color: "grey",
+              }}
+              rightIcon={{
+                name: isEditMode.address ? "check" : "edit",
+                size: 20,
+                color: "grey",
+              }}
+              onIconPress={() => handleEditPress("address")}
+            />
+          )}
         </View>
+
         <View style={{ width: "100%" }}>
           <MyText
             text={"Experience"}
@@ -331,6 +567,29 @@ export default function TutorProfileSetup() {
             onChange={(text) => handleInputChange("experience", text)}
           />
         </View>
+
+        <View style={{ width: "100%" }}>
+          <MyText
+            text={"Description"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+          <MyInput
+            multiline={true}
+            text={values.description}
+            editable={isEditMode.description}
+            inputStyle={{
+              color: isEditMode.description ? "black" : "grey",
+            }}
+            rightIcon={{
+              name: isEditMode.description ? "check" : "edit",
+              size: 20,
+              color: "grey",
+            }}
+            onIconPress={() => handleEditPress("description")}
+            onChange={(text) => handleInputChange("description", text)}
+          />
+        </View>
+
         <GapView length={15} />
         <MyButton
           label={"Logout"}
