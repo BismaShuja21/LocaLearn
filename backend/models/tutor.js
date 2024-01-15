@@ -8,7 +8,7 @@ const tutorSchema = new mongoose.Schema({
   qualification: { type: String },
   experience: { type: Number },
   availability: { type: String },
-  tutorPreference: { type: String, enum: ['student_house', 'tutor_house'] },
+  tutorPreference: { type: String, enum: ['Student_house', 'Tutor_house'] },
 });
 
 const Tutor = mongoose.model('Tutor', tutorSchema);

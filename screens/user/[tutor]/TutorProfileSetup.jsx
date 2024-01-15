@@ -10,9 +10,11 @@ import {
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 
-export default function TutorProfileSetup() {
+export default function TutorProfileSetup({ route }) {
+  const userId = route.params.ID;
   const [page2, setPage2] = useState(false);
     const [tutorDetails, setTutorDetails] = useState({
+    userId: userId,  
     firstName: '',
     lastName: '',
     qualification: '',
@@ -159,7 +161,7 @@ export default function TutorProfileSetup() {
               />
               <MyDropdown
                 placeholder="Preferences--"
-                data={["Student's Space", "Tutor's Space"]}
+                data={["Student_house", "Tutor_house"]}
                 zIndex={8}
                 // onSelect={(value) => {
                 //   console.log("data", value);
