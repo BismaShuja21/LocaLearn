@@ -41,6 +41,6 @@ const TutorRoutes = require('./routes/tutors');
 
 app.use('/api/register', registerRoute);
 app.use('/api/login', loginRoute);
-app.use('/api', TutorRoutes);
+app.use('/tutor', TutorRoutes);
 
   

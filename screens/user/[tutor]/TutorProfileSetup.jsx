@@ -41,7 +41,7 @@ export default function TutorProfileSetup({ route }) {
 
   const handleCreateTutorProfile = async () => {
     try {
-      const response = await axios.post('http://192.168.43.142:3000/api/profileSetup', tutorDetails);
+      const response = await axios.post('http://192.168.43.142:3000/tutor/profileSetup', tutorDetails);
 
       console.log('Server Response:', response.data);
 
