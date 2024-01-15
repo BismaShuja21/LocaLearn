@@ -21,6 +21,7 @@ router.get('/all-tutors', async (req, res) => {
 router.post('/profileSetup', async (req, res) => {
   try {
     console.log(req.body);
+   
     // Create a new tutor document
     const newTutor = new Tutor({
       userid: req.body.userId,
@@ -31,7 +32,8 @@ router.post('/profileSetup', async (req, res) => {
       description: req.body.description,
       experience: req.body.experience,
       tutorPreference: req.body.tutoringPreferences,
-    });
+      location: req.body.location,
+      });
 
     // Save the tutor document to the database
     await newTutor.save();

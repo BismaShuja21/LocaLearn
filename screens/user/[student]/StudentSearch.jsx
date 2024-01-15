@@ -46,16 +46,6 @@ const StudentSearch = ({ navigation }) => {
     navigation.navigate("ViewTutorProfileScreen");
   };
 
-  // const locations = [
-  //   { id: 1, name: 'Malir Cantonment', latitude: 24.9251, longitude: 67.1945 },
-  //   { id: 2, name: 'Safoora', latitude: 24.9170, longitude: 67.1107 },
-  //   { id: 3, name: 'New Falcon', latitude: 24.9464, longitude: 67.1592 },
-  //   { id: 4, name: 'Model Colony', latitude: 24.9076, longitude: 67.1897 },
-  //   { id: 5, name: 'Saadi Town', latitude: 24.8947, longitude: 67.0840 },
-  //   { id: 6, name: 'Karachi Airport', latitude: 24.8984, longitude: 67.1605 },
-  //   { id: 7, name: 'Saima Apartments', latitude: 24.9091, longitude: 67.0835 },
-  //   // Add more locations as needed
-  // ];
 
   // Calculate the bounding box (region) based on all locations
   const calculateRegion = () => {

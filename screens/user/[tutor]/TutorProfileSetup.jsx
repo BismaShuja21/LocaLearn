@@ -35,6 +35,10 @@ export default function TutorProfileSetup({ route }) {
     description: "",
     experience: "",
     tutoringPreferences: [],
+    location: {
+      type: 'Point',
+      coordinates: [mapRegion.longitude, mapRegion.latitude],
+    },
   });
 
   const navigation = useNavigation();
