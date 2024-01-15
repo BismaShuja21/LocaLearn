@@ -12,8 +12,12 @@ import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import { useEffect } from "react";
 import * as Location from "expo-location";
+import axios from 'axios';
 
-export default function TutorProfileSetup() {
+
+
+export default function TutorProfileSetup({ route }) {
+  const userId = route.params.ID;
   const [page2, setPage2] = useState(false);
   const [mapRegion, setMapRegion] = useState({
     latitude: 24.8607, // Latitude of Karachi
@@ -22,22 +26,41 @@ export default function TutorProfileSetup() {
     longitudeDelta: 0.0421,
   });
   const [address, setAddress] = useState("");
-  const [tutorDetails, setTutorDetails] = useState({
-    firstName: "",
-    lastName: "",
-    qualification: "",
+
+    const [tutorDetails, setTutorDetails] = useState({
+    userId: userId,  
+    firstName: '',
+    lastName: '',
+    qualification: '',
     availability: [],
-    description: "",
-    experience: "",
+    description: '',
+    experience: '',
+    tutoringPreferences: [],
   });
+
+
   const navigation = useNavigation();
+
 
   const handleInputChange = (field, value) => {
     setTutorDetails((prevDetails) => ({
       ...prevDetails,
       [field]: value,
     }));
-    console.log(tutorDetails);
+  };
+
+
+  const handleCreateTutorProfile = async () => {
+    try {
+      const response = await axios.post('http://192.168.43.142:3000/api/profileSetup', tutorDetails);
+
+      console.log('Server Response:', response.data);
+
+      // Navigate to the appropriate screen or handle success as needed
+      navigation.navigate('TutorTab');
+    } catch (error) {
+      console.error('Error creating tutor profile:', error);
+    }
   };
   const requestLocationPermission = async () => {
     try {
