@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import StudentProfile from "./StudentProfile";
+import axios from 'axios';
 
-export default function StudentProfileSetup() {
-  const [studentDetails, setStudentrDetails] = useState({
+
+
+export default function StudentProfileSetup({ route }) {
+  const userId = route.params.ID;
+  const [studentDetails, setStudentDetails] = useState({
     userId: userId,  
     firstName: '',
     lastName: '',
@@ -26,12 +30,12 @@ export default function StudentProfileSetup() {
 
   const handleCreateStudentProfile = async () => {
     try {
-      const response = await axios.post('http://192.168.43.142:3000/student/profileSetup', tutorDetails);
+      const response = await axios.post('http://192.168.43.142:3000/student/profileSetup', studentDetails);
 
       console.log('Server Response:', response.data);
 
       // Navigate to the appropriate screen or handle success as needed
-      navigation.navigate('TutorTab');
+      navigation.navigate('StudentTab');
     } catch (error) {
       console.error('Error creating tutor profile:', error);
     }
@@ -109,9 +113,11 @@ export default function StudentProfileSetup() {
         <GapView length={30} />
         <MyButton
           label={"Submit"}
-          onPress={() => {
-            navigation.navigate("StudentTab");
-          }}
+          // onPress={() => {
+          //   navigation.navigate("StudentTab");
+          // }}
+          onPress={handleCreateStudentProfile}
+
         />
       </View>
     </View>

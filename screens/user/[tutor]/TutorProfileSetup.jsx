@@ -32,6 +32,7 @@ export default function TutorProfileSetup({ route }) {
     firstName: '',
     lastName: '',
     qualification: '',
+    subjects: [],
     availability: [],
     description: '',
     experience: '',
@@ -173,7 +174,6 @@ export default function TutorProfileSetup({ route }) {
                   zIndex={8}
                   onSelect={(value) => {
                     handleInputChange("availability", value);
-                    console.log(value);
                   }}
                   multiSelect
                 />
@@ -207,11 +207,13 @@ export default function TutorProfileSetup({ route }) {
               <GapView length={40} />
               <MyButton
                 label={"Complete Profile"}
-                onPress={() => {
-                  console.log("Prifle Setted Up:");
-                  console.log(tutorDetails);
-                  navigation.navigate("TutorTab");
-                }}
+                // onPress={() => {
+                //   console.log("Prifle Setted Up:");
+                //   console.log(tutorDetails);
+                //   navigation.navigate("TutorTab");
+                // }}
+                onPress={handleCreateTutorProfile}
+
               />
             </>
           ) : (
@@ -302,7 +304,7 @@ export default function TutorProfileSetup({ route }) {
                   //   console.log("data", value);
                   // }}
                   onSelect={(value) => {
-                    handleInputChange("tutoringPreferences", value);
+                    handleInputChange("subjects", value);
                   }}
                   multiSelect
                 />

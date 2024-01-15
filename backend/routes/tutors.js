@@ -20,7 +20,7 @@ router.get('/all-tutors', async (req, res) => {
 
 router.post('/profileSetup', async (req, res) => {
   try {
-
+    console.log(req.body);
     // Create a new tutor document
     const newTutor = new Tutor({
       userid: req.body.userId,

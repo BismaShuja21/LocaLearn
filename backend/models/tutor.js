@@ -7,7 +7,7 @@ const tutorSchema = new mongoose.Schema({
   description: { type: String },
   subjects: { type: [String] },
   rating: { type: Number },
-  qualification: { type: String },
+  qualification: { type: [String] },
   experience: { type: String },
   availability: { type: [String] },
   tutorPreference: { type: [String] },
