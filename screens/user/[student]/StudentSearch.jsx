@@ -1,86 +1,147 @@
-import React from "react";
-import { ImageBackground, View } from "react-native";
-import { GapView, MySearchBar, MyText } from "../../../components";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState, useEffect } from "react";
+import { MyInput, MyText } from "../../../components";
+import MapView, { Marker } from "react-native-maps";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Modal,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import tutors from "../../../components/tutors";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import PersonInfoBox from "../../../components/personinfo"; // Adjust the path based on your folder structure
 
-export default function StudentSearch() {
-  const subjects = ["Mathematics", "English", "Physics", "science"];
+const StudentSearch = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
+
+  useEffect(() => {
+    // Check and request location permissions
+    const getLocationPermission = async () => {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({});
+        const updatedLocation = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        };
+        setCurrentLocation(updatedLocation);
+        console.log(updatedLocation);
+      } else {
+        // Handle permission denied
+        console.log("Location permission denied");
+      }
+    };
+
+    getLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    setInitialRegion(calculateRegion());
+  }, [currentLocation]);
+
+  const handleMarkerPress = (location) => {
+    setSelectedLocation(location);
+    setModalVisible(true);
+  };
+
+  const viewProfileHandler = () => {
+    navigation.navigate("ViewTutorProfileScreen");
+  };
+
+  // const locations = [
+  //   { id: 1, name: 'Malir Cantonment', latitude: 24.9251, longitude: 67.1945 },
+  //   { id: 2, name: 'Safoora', latitude: 24.9170, longitude: 67.1107 },
+  //   { id: 3, name: 'New Falcon', latitude: 24.9464, longitude: 67.1592 },
+  //   { id: 4, name: 'Model Colony', latitude: 24.9076, longitude: 67.1897 },
+  //   { id: 5, name: 'Saadi Town', latitude: 24.8947, longitude: 67.0840 },
+  //   { id: 6, name: 'Karachi Airport', latitude: 24.8984, longitude: 67.1605 },
+  //   { id: 7, name: 'Saima Apartments', latitude: 24.9091, longitude: 67.0835 },
+  //   // Add more locations as needed
+  // ];
+
+  // Calculate the bounding box (region) based on all locations
+  const calculateRegion = () => {
+    let minLat = Number.MAX_VALUE;
+    let maxLat = -Number.MAX_VALUE;
+    let minLng = Number.MAX_VALUE;
+    let maxLng = -Number.MAX_VALUE;
+
+    tutors.forEach((location) => {
+      minLat = Math.min(minLat, location.latitude);
+      maxLat = Math.max(maxLat, location.latitude);
+      minLng = Math.min(minLng, location.longitude);
+      maxLng = Math.max(maxLng, location.longitude);
+    });
+
+    const latitudeDelta = maxLat - minLat;
+    const longitudeDelta = maxLng - minLng;
+
+    return {
+      latitude: currentLocation
+        ? currentLocation.latitude
+        : (minLat + maxLat) / 2,
+      longitude: currentLocation
+        ? currentLocation.longitude
+        : (minLng + maxLng) / 2,
+      latitudeDelta: latitudeDelta * 1.5,
+      longitudeDelta: longitudeDelta * 1.5,
+    };
+  };
+
+  const [initialRegion, setInitialRegion] = useState(calculateRegion());
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#f2f4fc", paddingVertical: 10 }}>
-      <MySearchBar style={{ marginHorizontal: 10 }} />
-      <GapView length={10} />
-      <ImageBackground
-        source={require("../../../assets/pngs/map2.png")}
-        style={{
-          resizeMode: "cover",
-          justifyContent: "center",
-          width: "110%",
-          height: 220,
-          marginLeft: -10,
-          marginBottom: -10,
-        }}
-      />
-      <View
-        style={{
-          width: "100%",
-          backgroundColor: "#f2f4fc",
-          height: 600,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          marginTop: -10,
-          alignItems: "center",
-          paddingHorizontal: 20,
-          elevation: 4,
+    <View style={styles.container}>
+      <MapView style={styles.map} initialRegion={initialRegion}>
+        {/* Markers */}
+        {tutors.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            title={location.name}
+            onPress={() => handleMarkerPress(location)}
+          />
+        ))}
+      </MapView>
+
+      {/* Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
         }}
       >
-        <View
-          style={{
-            borderBottomWidth: 2,
-            color: "grey",
-            width: 40,
-            paddingTop: 20,
+        <PersonInfoBox
+          info={selectedLocation}
+          onClose={() => setModalVisible(false)}
+          onChatNow={() => {
+            // Handle chat now action
           }}
+          onViewProfile={viewProfileHandler}
         />
-        <GapView length={20} />
-        <TutorCard subjects={subjects} />
-      </View>
+      </Modal>
     </View>
   );
-}
+};
 
-function TutorCard({ subjects }) {
-  const subjectsToShow = subjects.slice(0, 3);
-  return (
-    <View
-      style={{
-        borderRadius: 5,
-        width: "100%",
-        height: 120,
-        elevation: 3,
-        backgroundColor: "#ffff",
-        padding: 5,
-        gap: 20,
-        flexDirection: "row",
-      }}
-    >
-      <View
-        style={{
-          width: 50,
-          height: 50,
-          backgroundColor: "grey",
-          borderRadius: 50,
-        }}
-      />
-      <View>
-        <MyText text={"Ms. Bisma Shuja"} weight={"600"} size={18} />
-        <MyText text={"Home Based Tutor"} weight={"400"} />
-        <View style={{ flexDirection: "row", flexWrap: "wrap", width: 250 }}>
-          <MyText text={"|"} />
-          {subjectsToShow?.map((subject, index) => (
-            <MyText key={index}> {subject} |</MyText>
-          ))}
-        </View>
-      </View>
-    </View>
-  );
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+});
+
+export default StudentSearch;

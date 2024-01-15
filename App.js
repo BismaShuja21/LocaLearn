@@ -20,6 +20,7 @@ import StudentChat from "./screens/user/[student]/StudentInbox";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StudentInbox from "./screens/user/[student]/StudentInbox";
 import TutorInbox from "./screens/user/[tutor]/TutorInbox";
+import ViewTutorProfileScreen from "./screens/user/[student]/ViewTutorProfileScreen";
 import { MyHeader } from "./components";
 
 const RootStack = createStackNavigator();
@@ -62,6 +63,10 @@ export default function App() {
         />
         <RootStack.Screen name="StudentTab" component={StudentTabNavigator} />
         <RootStack.Screen name="TutorTab" component={TutorTabNavigator} />
+        <RootStack.Screen
+          name="ViewTutorProfileScreen"
+          component={ViewTutorProfileScreen}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );
