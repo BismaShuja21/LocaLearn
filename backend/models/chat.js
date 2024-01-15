@@ -7,7 +7,7 @@ const chatSchema = new mongoose.Schema({
     {
       senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       text: String,
-      timestamp: Date
+      timestamp: { type: Date, default: Date.now }, // Default value is set to the current date and time
     }
   ]});
 
