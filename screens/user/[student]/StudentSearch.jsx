@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { MyInput, MyText } from "../../../components";
+import { MyInput, MyText, TutorInfoModal } from "../../../components";
 import MapView, { Marker } from "react-native-maps";
-import {
-  View,
-  StyleSheet,
-  Button,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Modal } from "react-native";
 import tutors from "../../../components/tutors";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import PersonInfoBox from "../../../components/personinfo"; // Adjust the path based on your folder structure
 
 const StudentSearch = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -119,18 +111,35 @@ const StudentSearch = ({ navigation }) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
-        <PersonInfoBox
+        <TutorInfoModal
           info={selectedLocation}
-          onClose={() => setModalVisible(false)}
-          onChatNow={() => {
-            // Handle chat now action
-          }}
-          onViewProfile={viewProfileHandler}
+          buttons={[
+            { label: "View Profile", onPress: viewProfileHandler },
+            { label: "Chat Now", onPress: () => {} },
+            {
+              label: "Close",
+              onPress: () => {
+                setModalVisible(false);
+              },
+              backgroundColor: "#e2b623",
+            },
+          ]}
         />
       </Modal>
+
+      {/* <TutorInfoModal
+        info={selectedLocation}
+        visible={modalVisible}
+        buttons={[
+          { label: "Close" },
+          { label: "Chat Now" },
+          { label: "View Profile" },
+        ]}
+      
+      /> */}
     </View>
   );
 };

@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo, Feather } from "@expo/vector-icons";
 import MyText from "../MyText";
 import { ScrollView } from "react-native-gesture-handler";
-
 export default function MyDropdown({
   data,
   onSelect,
@@ -74,7 +73,9 @@ export default function MyDropdown({
         style,
       ]}
     >
-      <View
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setShow(!show)}
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
@@ -82,7 +83,6 @@ export default function MyDropdown({
           width: "100%",
           height: "100%",
           paddingHorizontal: 15,
-          zIndex: zIndex - 2,
         }}
       >
         <MyText
@@ -93,19 +93,16 @@ export default function MyDropdown({
           name={!show ? "chevron-down" : "chevron-up"}
           color={"#060635"}
           size={16}
-          onPress={() => {
-            setShow(!show);
-          }}
         />
-      </View>
+      </TouchableOpacity>
       {show && (
         <ScrollView
           contentContainerStyle={{ justifyContent: "space-between" }}
           style={{
             zIndex: zIndex + 2,
             width: "101%",
+            maxHeight: 120, // Set the max height as needed
             position: "absolute",
-            overflow: "hidden",
             top: 48,
             backgroundColor: "#f2f4fc",
             borderColor: "#060635",
@@ -127,12 +124,7 @@ export default function MyDropdown({
                 alignItems: "center",
               }}
               key={index}
-              onPress={() => {
-                if (!multiSelect) {
-                  setShow(false);
-                }
-                handleSelection(dropdownItem); // Pass the 'dropdownItem' as an argument
-              }}
+              onPress={() => handleSelection(dropdownItem)}
             >
               <MyText text={dropdownItem} />
               {isSelected(dropdownItem) && (
@@ -145,7 +137,6 @@ export default function MyDropdown({
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     width: "100%",

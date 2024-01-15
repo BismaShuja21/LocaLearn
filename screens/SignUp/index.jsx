@@ -5,9 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignUpSchema } from "../../constants/validations/schema";
 import { useState } from "react";
-import axios from 'axios';
-
-
+import axios from "axios";
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -43,7 +41,6 @@ export default function SignUp() {
             anyOne: false,
           }}
           onSubmit={async (values, { resetForm }) => {
-
             try {
               // Prepare the data to be sent to the server
               const userData = {
@@ -78,7 +75,6 @@ export default function SignUp() {
             //     ? "StudentProfileSetup"
             //     : "TutorProfileSetup"
             // );
-
           }}
           validationSchema={UserSignUpSchema.signUpForm}
         >

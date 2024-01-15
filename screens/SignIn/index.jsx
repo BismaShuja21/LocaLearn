@@ -50,7 +50,8 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
-                    handleSubmit();
+                    navigation.navigate("StudentTab");
+                    // handleSubmit();
                   }}
                 />
                 <View style={{ flexDirection: "row" }}>
