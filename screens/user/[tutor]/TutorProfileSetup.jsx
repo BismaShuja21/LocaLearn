@@ -12,7 +12,24 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function TutorProfileSetup() {
   const [page2, setPage2] = useState(false);
+    const [tutorDetails, setTutorDetails] = useState({
+    firstName: '',
+    lastName: '',
+    qualification: '',
+    availability: [],
+    description: '',
+    experience: '',
+  });
   const navigation = useNavigation();
+
+  const handleInputChange = (field, value) => {
+    setTutorDetails((prevDetails) => ({
+      ...prevDetails,
+      [field]: value,
+    }));
+    console.log(tutorDetails);
+  };
+
   return (
     <View
       style={{
@@ -59,7 +76,8 @@ export default function TutorProfileSetup() {
                 ]}
                 zIndex={8}
                 onSelect={(value) => {
-                  console.log("data", value);
+                  handleInputChange("availability", value);
+                  console.log(value);
                 }}
                 multiSelect
               />
@@ -69,19 +87,30 @@ export default function TutorProfileSetup() {
                 text={"Description"}
                 style={{ paddingLeft: 5, paddingBottom: 5 }}
               />
-              <MyInput style={{ height: 90 }} multiline={true} />
+              <MyInput 
+              style={{ height: 90 }}
+               multiline={true}
+               onChange={(value) => {
+                handleInputChange("description", value);
+              }} />
             </View>
             <View style={{ width: "100%" }}>
               <MyText
                 text={"Experience"}
                 style={{ paddingLeft: 5, paddingBottom: 5 }}
               />
-              <MyInput style={{ height: 90 }} multiline={true} />
+              <MyInput style={{ height: 90 }}
+               multiline={true}
+               onChange={(value) => {
+              handleInputChange("experience", value);
+              }} />
             </View>
             <GapView length={40} />
             <MyButton
               label={"Complete Profile"}
               onPress={() => {
+                console.log("Prifle Setted Up:")
+                console.log(tutorDetails);
                 navigation.navigate("TutorTab");
               }}
             />
@@ -93,14 +122,18 @@ export default function TutorProfileSetup() {
                 text={"First Name"}
                 style={{ paddingLeft: 5, paddingBottom: 5 }}
               />
-              <MyInput />
+              <MyInput onChange={(value) => {
+                handleInputChange("firstName", value);
+              }}/>
             </View>
             <View style={{ width: "100%" }}>
               <MyText
                 text={"Last Name"}
                 style={{ paddingLeft: 5, paddingBottom: 5 }}
               />
-              <MyInput />
+              <MyInput onChange={(value) => {
+                handleInputChange("lastName", value);
+              }}/>
             </View>
             <View style={{ width: "100%" }}>
               <MyText
@@ -111,8 +144,11 @@ export default function TutorProfileSetup() {
                 placeholder="Qualification--"
                 data={["Masters", "Bacehelors", "Undergraduate"]}
                 zIndex={9}
+                // onSelect={(value) => {
+                //   console.log("data", value);
+                // }}
                 onSelect={(value) => {
-                  console.log("data", value);
+                  handleInputChange("qualification", value);
                 }}
               />
             </View>
@@ -125,8 +161,11 @@ export default function TutorProfileSetup() {
                 placeholder="Preferences--"
                 data={["Student's Space", "Tutor's Space"]}
                 zIndex={8}
+                // onSelect={(value) => {
+                //   console.log("data", value);
+                // }}
                 onSelect={(value) => {
-                  console.log("data", value);
+                  handleInputChange("tutoringPreferences", value);
                 }}
                 multiSelect
               />
