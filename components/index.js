@@ -8,3 +8,4 @@ export { default as MyHeader } from "./MyHeader";
 export { default as TutorInfoModal } from "./TutorInfoModal";
 export { default as MyAvatar } from "./MyAvatar";
 export { default as ChatCard } from "./ChatCard";
+export { default as MyNotification } from "./MyNotification";
