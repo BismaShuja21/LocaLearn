@@ -1,13 +1,17 @@
 import React from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import { MyInput, MyText, MyAvatar, ChatCard } from "../../../components";
+import { FlatList, View } from "react-native";
+import { MyText, ChatCard } from "../../../components";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TutorInbox() {
+  const navigation = useNavigation();
   const inboxData = [
     {
       name: "bisma shuja",
       subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
+      onPress: () => {
+        navigation.navigate("TutorChat");
+      },
     },
     {
       name: "Umme Hani",
