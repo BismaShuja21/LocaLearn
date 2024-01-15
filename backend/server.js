@@ -36,11 +36,12 @@ app.listen(3000);
 const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login');
 const TutorRoutes = require('./routes/tutors');
+const StudentRoutes = require('./routes/students')
 
 
 
 app.use('/api/register', registerRoute);
 app.use('/api/login', loginRoute);
-app.use('/api', TutorRoutes);
-
+app.use('/tutor', TutorRoutes);
+app.use('/student', StudentRoutes);
   

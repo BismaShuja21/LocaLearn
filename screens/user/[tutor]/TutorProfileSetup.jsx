@@ -25,11 +25,12 @@ export default function TutorProfileSetup({ route }) {
   });
   const [address, setAddress] = useState("");
 
-  const [tutorDetails, setTutorDetails] = useState({
-    userId: userId,
-    firstName: "",
-    lastName: "",
-    qualification: "",
+    const [tutorDetails, setTutorDetails] = useState({
+    userId: userId,  
+    firstName: '',
+    lastName: '',
+    qualification: '',
+    subjects: [],
     availability: [],
     description: "",
     experience: "",
@@ -47,10 +48,7 @@ export default function TutorProfileSetup({ route }) {
 
   const handleCreateTutorProfile = async () => {
     try {
-      const response = await axios.post(
-        "http://192.168.43.142:3000/api/profileSetup",
-        tutorDetails
-      );
+      const response = await axios.post('http://192.168.43.142:3000/tutor/profileSetup', tutorDetails);
 
       console.log("Server Response:", response.data);
 
@@ -171,7 +169,6 @@ export default function TutorProfileSetup({ route }) {
                   zIndex={8}
                   onSelect={(value) => {
                     handleInputChange("availability", value);
-                    console.log(value);
                   }}
                   multiSelect
                 />
@@ -205,11 +202,13 @@ export default function TutorProfileSetup({ route }) {
               <GapView length={40} />
               <MyButton
                 label={"Complete Profile"}
-                onPress={() => {
-                  console.log("Prifle Setted Up:");
-                  console.log(tutorDetails);
-                  navigation.navigate("TutorTab");
-                }}
+                // onPress={() => {
+                //   console.log("Prifle Setted Up:");
+                //   console.log(tutorDetails);
+                //   navigation.navigate("TutorTab");
+                // }}
+                onPress={handleCreateTutorProfile}
+
               />
             </>
           ) : (
@@ -300,7 +299,7 @@ export default function TutorProfileSetup({ route }) {
                   //   console.log("data", value);
                   // }}
                   onSelect={(value) => {
-                    handleInputChange("tutoringPreferences", value);
+                    handleInputChange("subjects", value);
                   }}
                   multiSelect
                 />
