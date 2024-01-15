@@ -1,11 +1,17 @@
 import { StyleSheet, View } from "react-native";
+import { useState } from "react";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignInSchema } from "../../constants/validations/schema";
+import axios from 'axios';
+
+
 
 export default function SignIn() {
+  const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation();
 
   return (
@@ -23,11 +29,24 @@ export default function SignIn() {
             password: "",
           }}
           onSubmit={async (values, { resetForm }) => {
-            if (values.email) {
-              navigation.navigate("TutorTab");
+            try {
+              const response = await axios.post("http://192.168.43.142:3000/api/login", values);
+          
+              if (response.data.success) {
+                if(response.data.userType === "tutor"){
+                  navigation.navigate("TutorTab");
+                }else {
+                  navigation.navigate("StudentTab");
+                }
+              } else {
+                setError(response.data.message || 'Sign-in failed');
+              }
+            } catch (error) {
+              console.error('Error signing in:', error);
+              setError('An unexpected error occurred');
             }
-            console.log("Sign In success", values);
           }}
+          
           validationSchema={UserSignInSchema.signInForm}
         >
           {({ handleChange, handleSubmit, errors }) => {
@@ -50,8 +69,8 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
-                    navigation.navigate("StudentTab");
-                    // handleSubmit();
+                    // navigation.navigate("StudentTab");
+                    handleSubmit();
                   }}
                 />
                 <View style={{ flexDirection: "row" }}>

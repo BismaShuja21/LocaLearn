@@ -142,13 +142,13 @@ export default function SignUp() {
               <MyButton
                 label={"Sign Up"}
                 onPress={() => {
-                  // handleSubmit();
-                  navigation.navigate(
-                    selectedRole === "student"
-                      ? "StudentProfileSetup"
-                      : "TutorProfileSetup"
-                  );
-                  console.log(errors);
+                  handleSubmit();
+                  // navigation.navigate(
+                  //   selectedRole === "student"
+                  //     ? "StudentProfileSetup"
+                  //     : "TutorProfileSetup"
+                  // );
+                  // console.log(errors);
                 }}
               />
 
