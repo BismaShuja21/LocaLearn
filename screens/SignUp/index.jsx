@@ -53,8 +53,8 @@ export default function SignUp() {
             //   };
           
             //   // Send the data to the server using Axios
-            //   const response = await axios.post('http://localhost:3000/api/register', userData);
-          
+            //   const response = await axios.post('http://192.168.43.142:3000/api/register', userData);
+
             //   // Handle the server response here if needed
             //   console.log('Server Response:', response.data);
             //   console.log("Sign Up success", values);
@@ -137,12 +137,12 @@ export default function SignUp() {
               <MyButton
                 label={"Sign Up"}
                 onPress={() => {
-                  // handleSubmit();
-                  navigation.navigate(
-                    selectedRole === "student"
-                      ? "StudentProfileSetup"
-                      : "TutorProfileSetup"
-                  );
+                  handleSubmit();
+                  // navigation.navigate(
+                  //   selectedRole === "student"
+                  //     ? "StudentProfileSetup"
+                  //     : "TutorProfileSetup"
+                  // );
                   console.log(errors);
                 }}
               />
