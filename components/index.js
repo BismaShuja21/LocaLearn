@@ -5,3 +5,4 @@ export { default as GapView } from "./GapView";
 export { default as MyDropdown } from "./MyDropdown";
 export { default as MySearchBar } from "./MySearchBar";
 export { default as MyHeader } from "./MyHeader";
+export { default as TutorInfoModal } from "./TutorInfoModal";

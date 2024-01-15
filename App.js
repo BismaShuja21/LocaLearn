@@ -111,6 +111,7 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="notifications" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
         <Tab.Screen
@@ -121,6 +122,7 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="chat" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
         <Tab.Screen
@@ -131,6 +133,7 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
       </Tab.Navigator>
@@ -150,6 +153,7 @@ const TutorTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="notifications" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
         <Tab.Screen
@@ -160,6 +164,7 @@ const TutorTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="chat" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
         <Tab.Screen
@@ -170,6 +175,7 @@ const TutorTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
         />
       </Tab.Navigator>
