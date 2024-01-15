@@ -23,6 +23,9 @@ export default function SignIn() {
             password: "",
           }}
           onSubmit={async (values, { resetForm }) => {
+            if (values.email) {
+              navigation.navigate("TutorTab");
+            }
             console.log("Sign In success", values);
           }}
           validationSchema={UserSignInSchema.signInForm}

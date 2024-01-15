@@ -4,6 +4,7 @@ import SignUp from "./screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { useFonts } from "expo-font";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,6 +12,15 @@ import StudentProfileSetup from "./screens/user/[student]/StudentProfileSetup";
 import TutorProfileSetup from "./screens/user/[tutor]/TutorProfileSetup";
 import StudentProfile from "./screens/user/[student]/StudentProfile";
 import TutorProfile from "./screens/user/[tutor]/TutorProfile";
+import TutorNotifications from "./screens/user/[tutor]/TutorNotifications";
+import TutorChat from "./screens/user/[tutor]/TutorInbox";
+import StudentSearch from "./screens/user/[student]/StudentSearch";
+import StudentNotifications from "./screens/user/[student]/StudentNotification";
+import StudentChat from "./screens/user/[student]/StudentInbox";
+import { SafeAreaView } from "react-native-safe-area-context";
+import StudentInbox from "./screens/user/[student]/StudentInbox";
+import TutorInbox from "./screens/user/[tutor]/TutorInbox";
+import ViewTutorProfileScreen from "./screens/user/[student]/ViewTutorProfileScreen";
 
 const RootStack = createStackNavigator();
 const StudentStack = createStackNavigator();
@@ -52,59 +62,117 @@ export default function App() {
         />
         <RootStack.Screen name="StudentTab" component={StudentTabNavigator} />
         <RootStack.Screen name="TutorTab" component={TutorTabNavigator} />
+        <RootStack.Screen
+          name="ViewTutorProfileScreen"
+          component={ViewTutorProfileScreen}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );
 }
+const commonTabOptions = {
+  tabBarStyle: {
+    backgroundColor: "#e2b623",
+    height: 55,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  tabBarItemStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 5,
+  },
+  tabBarActiveTintColor: "white",
+  tabBarActiveBackgroundColor: "#060635",
+  tabBarInactiveTintColor: "white",
+  headerShown: false,
+};
 
 const StudentTabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="StudentScreens"
-        component={StudentScreensNavigator}
-        options={{
-          tabBarLabel: "Student",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="school" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+      <Tab.Navigator screenOptions={commonTabOptions}>
+        <Tab.Screen
+          name="StudentSearch"
+          component={StudentSearch}
+          options={{
+            tabBarLabel: "Search",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="search" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentNotifications"
+          component={StudentNotifications}
+          options={{
+            tabBarLabel: "Notifications",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="notifications" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentInbox"
+          component={StudentInbox}
+          options={{
+            tabBarLabel: "Inbox",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="chat" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="StudentProfile"
+          component={StudentProfile}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="account-circle" size={24} color="white" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 };
 
 const TutorTabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="TutorScreens"
-        component={TutorScreensNavigator}
-        options={{
-          tabBarLabel: "Tutor",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="work" color={color} size={size} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const StudentScreensNavigator = () => {
-  return (
-    <StudentStack.Navigator>
-      <StudentStack.Screen name="StudentProfile" component={StudentProfile} />
-    </StudentStack.Navigator>
-  );
-};
-
-const TutorScreensNavigator = () => {
-  return (
-    <TutorStack.Navigator>
-      <TutorStack.Screen name="TutorProfile" component={TutorProfile} />
-    </TutorStack.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+      <Tab.Navigator screenOptions={commonTabOptions}>
+        <Tab.Screen
+          name="TutorNotifications"
+          component={TutorNotifications}
+          options={{
+            tabBarLabel: "Notifications",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="notifications" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="TutorInbox"
+          component={TutorInbox}
+          options={{
+            tabBarLabel: "Inbox",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="chat" size={24} color="white" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="TutorProfile"
+          component={TutorProfile}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="account-circle" size={24} color="white" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 };
 
