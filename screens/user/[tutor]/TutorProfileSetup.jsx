@@ -119,6 +119,9 @@ export default function TutorProfileSetup({ route }) {
     }
   };
 
+
+
+
   useEffect(() => {
     requestLocationPermission();
     getCurrentLocation(); // Optionally set the initial location
@@ -324,12 +327,27 @@ export default function TutorProfileSetup({ route }) {
                 <MapView
                   style={{ width: "100%", height: 200, marginTop: 10 }}
                   region={mapRegion}
+                  // onRegionChangeComplete={(region) => {
+                  //   setMapRegion(region);
+                  //   updateAddress(region.latitude, region.longitude);
+                  //   console.log(region.latitude);
+                  // }}
+
                   onRegionChangeComplete={(region) => {
                     setMapRegion(region);
                     updateAddress(region.latitude, region.longitude);
-                    console.log(region.latitude);
-                  }}
+                  
+                    // Update tutorDetails with the new coordinates
+                    setTutorDetails((prevDetails) => ({
+                      ...prevDetails,
+                      location: {
+                        type: 'Point',
+                        coordinates: [region.longitude, region.latitude],
+                      },
+                    }));
+                  }}                  
                 >
+
                   <Marker
                     coordinate={{
                       latitude: mapRegion.latitude,

@@ -11,6 +11,9 @@ import axios from 'axios';
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // Add this line to define setError
+
+
 
   const navigation = useNavigation();
 

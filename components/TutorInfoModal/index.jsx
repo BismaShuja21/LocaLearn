@@ -25,6 +25,7 @@ const PersonInfoBox = ({ info, buttons }) => {
           {buttons &&
             buttons.map((button) => (
               <View style={{ marginTop: 2 }} key={button.id}>
+              {/* <View style={{ marginTop: 2 }} key={`${button.label}-${index}`}> */}
                 <MyButton
                   onPress={button.onPress}
                   backgroundColor={button?.backgroundColor}
