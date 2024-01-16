@@ -72,7 +72,7 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
-                    navigation.navigate("TutorTab");
+                    navigation.navigate("StudentTab");
                     // handleSubmit();
                   }}
                 />
