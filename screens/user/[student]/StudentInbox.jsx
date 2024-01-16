@@ -98,7 +98,7 @@ export default function StudentInbox({ route }) {
   const renderChatCard = ({ item }) => (
     <ChatCard
       name={"Ayesha Khan"}
-      subTitle={item.messages[0].text}
+      subTitle={item.messages[0]?.text || "No messages"}
       onPress={() => navigation.navigate("StudentChat", { chatID: item._id })}
     />
   );
