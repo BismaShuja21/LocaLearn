@@ -30,12 +30,12 @@ export default function StudentProfileSetup({ route }) {
 
   const handleCreateStudentProfile = async () => {
     try {
-      const response = await axios.post('http://192.168.43.142:3000/student/profileSetup', studentDetails);
+      const response = await axios.post('http://192.168.43.143:3000/student/profileSetup', studentDetails);
 
       console.log('Server Response:', response.data);
 
       // Navigate to the appropriate screen or handle success as needed
-      navigation.navigate('StudentTab');
+      navigation.navigate('StudentTab', {userID: userId});
     } catch (error) {
       console.error('Error creating tutor profile:', error);
     }

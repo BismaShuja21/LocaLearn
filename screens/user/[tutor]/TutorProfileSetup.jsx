@@ -53,14 +53,14 @@ export default function TutorProfileSetup({ route }) {
   const handleCreateTutorProfile = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.43.142:3000/tutor/profileSetup",
+        "http://192.168.43.143:3000/tutor/profileSetup",
         tutorDetails
       );
 
       console.log("Server Response:", response.data);
 
       // Navigate to the appropriate screen or handle success as needed
-      navigation.navigate("TutorTab");
+      navigation.navigate("TutorTab", {userID: userId});
     } catch (error) {
       console.error("Error creating tutor profile:", error);
     }
@@ -212,12 +212,12 @@ export default function TutorProfileSetup({ route }) {
               <GapView length={40} />
               <MyButton
                 label={"Complete Profile"}
-                onPress={() => {
-                  console.log("Prifle Setted Up:");
-                  console.log(tutorDetails);
-                  navigation.navigate("TutorTab");
-                }}
-                // onPress={handleCreateTutorProfile}
+                // onPress={() => {
+                //   console.log("Prifle Setted Up:");
+                //   console.log(tutorDetails);
+                //   navigation.navigate("TutorTab");
+                // }}
+                onPress={handleCreateTutorProfile}
               />
             </>
           ) : (

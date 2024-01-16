@@ -30,17 +30,32 @@ export default function SignIn() {
           onSubmit={async (values, { resetForm }) => {
             try {
               const response = await axios.post(
-                "http://192.168.43.142:3000/api/login",
+                "http://192.168.43.143:3000/api/login",
                 values
               );
 
               if (response.data.success) {
                 const userType = response.data.user.userType;
+                const userID = response.data.user._id;
 
                 if (userType === "tutor") {
-                  navigation.navigate("TutorTab");
+                  navigation.navigate("TutorTab", { userID: userID });
                 } else {
-                  navigation.navigate("StudentTab");
+                  // navigation.navigate("StudentTab", {userID: userID});
+                  // Fetch the Student instance using the userID
+                  const studentResponse = await axios.get(
+                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                  );
+
+                  if (studentResponse.data.success) {
+                    const studentID = studentResponse.data.student._id;
+                    navigation.navigate("StudentTab", { userID: studentID });
+                  } else {
+                    setError(
+                      studentResponse.data.message ||
+                        "Failed to fetch student data"
+                    );
+                  }
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");
@@ -72,8 +87,8 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
-                    navigation.navigate("StudentTab");
-                    // handleSubmit();
+                    // navigation.navigate("TutorTab");
+                    handleSubmit();
                   }}
                 />
                 <View style={{ flexDirection: "row" }}>
