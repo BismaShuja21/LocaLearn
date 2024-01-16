@@ -4,13 +4,12 @@ import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 
-export default function StudentProfileSetup({ route }) {
+export default function StudentProfile({ route }) {
   const navigation = useNavigation();
   const userID = route.params?.userID;
   console.log(userID);
 
   // const [studentData, setStudentData] = useState(null);
-
 
   const [isEditMode, setIsEditMode] = useState({
     firstName: false,
@@ -25,8 +24,6 @@ export default function StudentProfileSetup({ route }) {
     age: '16',
     grade: '8th',
   });
-
-
 
   // useEffect(() => {
   //   // Fetch student data when the component mounts

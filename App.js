@@ -121,7 +121,6 @@ const StudentTabNavigator = ({ route }) => {
         />
         <Tab.Screen
           name="StudentInboxStackNavigator"
-          // component={StudentInboxStackNavigator}
           component={StudentInboxStackNavigator}
           options={{
             tabBarLabel: "Inbox",
@@ -178,7 +177,6 @@ const TutorTabNavigator = ({ route }) => {
             header: () => <MyHeader />,
           }}
           initialParams={{ userID: userID }}
-          
         />
         <Tab.Screen
           name="TutorProfile"
@@ -206,7 +204,6 @@ const StudentInboxStackNavigator = ({ route }) => {
         component={StudentInbox}
         options={{ headerShown: false }} // Hide the header for the inbox screen
         initialParams={{ userID: userID }}
-
       />
       <StudentInboxStack.Screen
         name={"StudentChat"}
@@ -225,7 +222,7 @@ const TutorInboxStackNavigator = ({ route }) => {
         name={"TutorInbox"}
         component={TutorInbox}
         options={{ headerShown: false }} // Hide the header for the inbox screen
-        initialParams={{ userID: userID }}       
+        initialParams={{ userID: userID }}
       />
       <TutorInboxStack.Screen
         name={"TutorChat"}
