@@ -90,7 +90,8 @@ const commonTabOptions = {
   tabBarInactiveTintColor: "white",
 };
 
-const StudentTabNavigator = () => {
+const StudentTabNavigator = ({ route }) => {
+  const userID = route.params.userID;
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
@@ -104,6 +105,7 @@ const StudentTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="StudentNotifications"
@@ -115,6 +117,7 @@ const StudentTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="StudentInboxStackNavigator"
@@ -127,6 +130,7 @@ const StudentTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="StudentProfile"
@@ -138,13 +142,16 @@ const StudentTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
       </Tab.Navigator>
     </SafeAreaView>
   );
 };
 
-const TutorTabNavigator = () => {
+const TutorTabNavigator = ({ route }) => {
+  const userID = route.params.userID;
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
@@ -158,6 +165,7 @@ const TutorTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="TutorInboxStackNavigator"
@@ -169,6 +177,8 @@ const TutorTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
+          
         />
         <Tab.Screen
           name="TutorProfile"
@@ -180,40 +190,48 @@ const TutorTabNavigator = () => {
             ),
             header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
       </Tab.Navigator>
     </SafeAreaView>
   );
 };
 
-const StudentInboxStackNavigator = () => {
+const StudentInboxStackNavigator = ({ route }) => {
+  const userID = route.params.userID;
   return (
     <StudentInboxStack.Navigator>
       <StudentInboxStack.Screen
         name={"StudentInbox"}
         component={StudentInbox}
         options={{ headerShown: false }} // Hide the header for the inbox screen
+        initialParams={{ userID: userID }}
+
       />
       <StudentInboxStack.Screen
         name={"StudentChat"}
         component={StudentChat}
         options={{ headerShown: false }} // Hide the header for the chat screen
+        initialParams={{ userID: userID }}
       />
     </StudentInboxStack.Navigator>
   );
 };
-const TutorInboxStackNavigator = () => {
+const TutorInboxStackNavigator = ({ route }) => {
+  const userID = route.params.userID;
   return (
     <TutorInboxStack.Navigator>
       <TutorInboxStack.Screen
         name={"TutorInbox"}
         component={TutorInbox}
         options={{ headerShown: false }} // Hide the header for the inbox screen
+        initialParams={{ userID: userID }}       
       />
       <TutorInboxStack.Screen
         name={"TutorChat"}
         component={TutorChat}
         options={{ headerShown: false }} // Hide the header for the chat screen
+        initialParams={{ userID: userID }}
       />
     </TutorInboxStack.Navigator>
   );

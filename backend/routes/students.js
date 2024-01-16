@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Student = require('../models/student');
+const Chat = require('../models/chat');
+
 
 
 router.post('/profileSetup', async (req, res) => {
@@ -24,6 +26,46 @@ router.post('/profileSetup', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+
+router.get('/getChats', async (req, res) => {
+  try {
+    const studentID = req.query.studentID;
+
+    // Find chats where studentID is equal to the provided studentID
+    const chats = await Chat.find({ studentID });
+
+    res.json(chats);
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+// In your routes or controllers
+router.get('/getStudent', async (req, res) => {
+  try {
+    const userID = req.query.userID;
+
+    // Find the student where userid is equal to the provided userID
+    const student = await Student.findOne({ objectId: userID });
+
+    if (!student) {
+      return res.json({ success: false, message: 'Student not found' });
+    }
+
+    res.json({ success: true, student });
+  } catch (error) {
+    console.error('Error fetching student:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
 
 
 module.exports = router;
