@@ -29,7 +29,7 @@ export default function MyInput({
         placeholderTextColor={placeholderColor || "grey"}
         style={[styles.inputStyle, { fontFamily: "Inter-Regular" }, inputStyle]}
         value={text}
-        onChangeText={(val) => onChange?.(val)}
+        onChangeText={onChange}
         editable={editable}
       />
       {password && (

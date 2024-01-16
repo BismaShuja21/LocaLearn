@@ -40,14 +40,13 @@ export default function SignIn() {
                 console.log("userType:", userType);
 
                 if (userType === "tutor") {
-                  navigation.navigate("TutorTab", {userID: userID});
-
+                  navigation.navigate("TutorTab", { userID: userID });
                 } else {
-                    // navigation.navigate("StudentTab", {userID: userID});
-                    // Fetch the Student instance using the userID
-        const studentResponse = await axios.get(
-          `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
-        );
+                  // navigation.navigate("StudentTab", {userID: userID});
+                  // Fetch the Student instance using the userID
+                  const studentResponse = await axios.get(
+                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                  );
 
         if (studentResponse.data.success) {
 
@@ -56,6 +55,7 @@ export default function SignIn() {
         } else {
           setError(studentResponse.data.message || "Failed to fetch student data");
         }
+
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");
