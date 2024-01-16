@@ -121,6 +121,8 @@ const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login');
 const TutorRoutes = require('./routes/tutors');
 const StudentRoutes = require('./routes/students')
+const chatRoutes = require('./routes/chat')
+
 
 
 
@@ -128,6 +130,8 @@ app.use('/api/register', registerRoute);
 app.use('/api/login', loginRoute);
 app.use('/tutor', TutorRoutes);
 app.use('/student', StudentRoutes);
+app.use('/chat', chatRoutes);
+
   
 
 

@@ -86,7 +86,7 @@ export default function StudentInbox({ route }) {
         console.log("Response from server:", response.data);
 
         setInboxData(response.data);
-        console.log(response.data[0]._id);
+        // console.log(response.data[0]._id);
       } catch (error) {
         console.error('Error fetching chats:', error);
       }
@@ -97,7 +97,7 @@ export default function StudentInbox({ route }) {
 
   const renderChatCard = ({ item }) => (
     <ChatCard
-      name={"One Time"}
+      name={"Ayesha Khan"}
       subTitle={item.messages[0].text}
       onPress={() => navigation.navigate("StudentChat", { chatID: item._id })}
     />

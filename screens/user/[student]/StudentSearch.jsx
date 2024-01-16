@@ -23,16 +23,16 @@ const MapWithMarkers = ({ route }) => {
 
 
 
-  const fetchUserID = async () => {
-    try {
-      // Make a request to the server to fetch the userID based on studentID
-      const response = await axios.get(`http://192.168.43.143/student/fetchUserID/${studentID}`);
-      const fetchedUserID = response.data.userID;
-      setUserID(fetchedUserID);
-    } catch (error) {
-      console.error('Error fetching userID:', error);
-    }
-  };
+  // const fetchUserID = async () => {
+  //   try {
+  //     // Make a request to the server to fetch the userID based on studentID
+  //     const response = await axios.get(`http://192.168.43.143/student/fetchUserID/${studentID}`);
+  //     const fetchedUserID = response.data.userID;
+  //     setUserID(fetchedUserID);
+  //   } catch (error) {
+  //     console.error('Error fetching userID:', error);
+  //   }
+  // };
 
   const requestLocationPermission = async () => {
     try {
@@ -55,8 +55,11 @@ const MapWithMarkers = ({ route }) => {
 
   const chatNowHandler = async () => {
     try {
+      // await fetchUserID(); // Wait for fetchUserID to complete
+      const userID = '65a5625039d219aeba1b879c';
+
       // Make a request to the server to check or create a chat
-      const response = await axios.post('/checkOrCreateChat', {
+      const response = await axios.post('http://192.168.43.143:3000/chat/checkOrCreateChat', {
         tutorID: selectedLocation._id, // Replace with actual tutor ID
         studentID: userID, // Replace with actual student ID
       });
@@ -135,7 +138,6 @@ const MapWithMarkers = ({ route }) => {
 
 
   useEffect(() => {
-    fetchUserID();
     requestLocationPermission();
     getCurrentLocation(); // Optionally set the initial location
   }, []);

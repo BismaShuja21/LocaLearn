@@ -49,34 +49,34 @@ export default function StudentChat({ route }) {
   ]
 
   useEffect(() => {
-    const conversation = convo.reverse();
-    setMessages(conversation);
+    fetchInitialMessages();
+    // const conversation = convo.reverse();
+    // setMessages(conversation);
   }, []);
 
-  // const fetchInitialMessages = async () => {
-  //   try {
-  //     const response = await fetch(`http://192.168.43.143:3000/initial-messages?chatID=${chatID}`);
-  //     const data = await response.json();
+  const fetchInitialMessages = async () => {
+    try {
+      const response = await fetch(`http://192.168.43.143:3000/initial-messages?chatID=${chatID}`);
+      const data = await response.json();
   
-  //     if (data.messages) {
-  //       const formattedMsgs = data.messages.map((message) => ({
-  //         _id: message._id.toString(),
-  //         text: message.text,
-  //         createdAt: new Date(message.timestamp), // Convert timestamp to Date object
-  //         user: {
-  //           _id: message.senderId.toString(),
-  //           name: 'You', // Update this if you have a way to determine the name
-  //           avatar: 'https://example.com/avatar.png', // Update this if you have user avatars
-  //         },
-  //       }));
-  //       // Update the local state with initial messages
-  //       console.log(formattedMsgs);
-  //       setMessages(formattedMsgs.reverse());
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching initial messages:', error.message);
-  //   }
-  // };
+      if (data.messages) {
+        const formattedMsgs = data.messages.map((message) => ({
+          _id: message._id.toString(),
+          text: message.text,
+          createdAt: new Date(message.timestamp), // Convert timestamp to Date object
+          user: {
+            _id: message.senderId.toString(),
+            name: 'You', // Update this if you have a way to determine the name
+          },
+        }));
+        // Update the local state with initial messages
+        console.log(formattedMsgs);
+        setMessages(formattedMsgs.reverse());
+      }
+    } catch (error) {
+      console.error('Error fetching initial messages:', error.message);
+    }
+  };
   
   
 
@@ -117,7 +117,9 @@ export default function StudentChat({ route }) {
   //   socket.emit('chat message', newMessages[0]);
   // };
 
-  const onSend = (newMessages = []) => setMessages(GiftedChat.append(messages, newMessages));
+  const onSend = (newMessages = []) => 
+    setMessages(GiftedChat.append(messages, newMessages));
+
 
   return (
     <GiftedChat
