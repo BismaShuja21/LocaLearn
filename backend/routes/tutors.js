@@ -24,6 +24,29 @@ router.get('/getTutor', async (req, res) => {
 
 
 
+// In your routes or controllers
+
+router.get('/getTutorEdit', async (req, res) => {
+  try {
+    const userID = req.query.userID;
+
+    // Find the tutor where userid is equal to the provided userID
+    const tutor = await Tutor.findOne({ userid: userID });
+
+    if (!tutor) {
+      return res.json({ success: false, message: 'Tutor not found' });
+    }
+
+    res.json({ success: true, tutor });
+  } catch (error) {
+    console.error('Error fetching tutor:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+
+
+
 router.post('/profileSetup', async (req, res) => {
   try {
     console.log(req.body);

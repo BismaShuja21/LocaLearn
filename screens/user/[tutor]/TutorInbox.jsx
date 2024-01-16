@@ -107,7 +107,7 @@ export default function TutorInbox({ route }) {
         console.log("Response from server:", response.data);
 
         setInboxData(response.data);
-        console.log(response.data[0]._id);
+        console.log("Message1", response.data[0]._id);
       } catch (error) {
         console.error('Error fetching chats:', error);
       }
