@@ -1,48 +1,155 @@
-import React, { useState, useEffect } from "react";
-import { MyInput, MyText } from "../../../components";
-import MapView, { Marker } from "react-native-maps";
-import {
-  View,
-  StyleSheet,
-  Button,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import tutors from "../../../components/tutors";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-import PersonInfoBox from "../../../components/personinfo"; // Adjust the path based on your folder structure
 
-const StudentSearch = ({ navigation }) => {
+import React, { useState, useEffect } from 'react';
+import { MyInput, MyText, TutorInfoModal } from "../../../components";
+import { View, StyleSheet, Button, Modal, Text, TouchableOpacity } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { useNavigation } from "@react-navigation/native";
+// import tutors from "../../../components/tutors";
+import * as Location from 'expo-location';
+import axios from 'axios';
+// import PersonInfoBox from './components/personinfo'; // Adjust the path based on your folder structure
+
+const MapWithMarkers = ({ route }) => {
+  const studentID = route.params.userID;
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [initialRegion, setInitialRegion] = useState(null);
+  const [tutors, setTutors] = useState([]); // State to hold tutors' locations
+  const [userID, setUserID] = useState(null); // State to hold the user ID
 
-  useEffect(() => {
-    // Check and request location permissions
-    const getLocationPermission = async () => {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
+  const navigation = useNavigation();
+
+
+
+  const fetchUserID = async () => {
+    try {
+      // Make a request to the server to fetch the userID based on studentID
+      const response = await axios.get(`http://192.168.43.143/student/fetchUserID/${studentID}`);
+      const fetchedUserID = response.data.userID;
+      setUserID(fetchedUserID);
+    } catch (error) {
+      console.error('Error fetching userID:', error);
+    }
+  };
+
+  const requestLocationPermission = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
-        const location = await Location.getCurrentPositionAsync({});
-        const updatedLocation = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        };
-        setCurrentLocation(updatedLocation);
-        console.log(updatedLocation);
+        console.log("Location permission granted");
       } else {
-        // Handle permission denied
         console.log("Location permission denied");
       }
-    };
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
-    getLocationPermission();
+  const viewProfileHandler = () => {
+    console.log(selectedLocation);
+        navigation.navigate("ViewTutorProfileScreen", {tutor: selectedLocation});
+      };
+
+
+  const chatNowHandler = async () => {
+    try {
+      // Make a request to the server to check or create a chat
+      const response = await axios.post('/checkOrCreateChat', {
+        tutorID: selectedLocation._id, // Replace with actual tutor ID
+        studentID: userID, // Replace with actual student ID
+      });
+
+      const chat = response.data.chat;
+
+      // Navigate to the chat screen with the chat details
+      // navigation.navigate('StudentChat', { chat });
+      // Inside the function or event where you want to navigate
+    navigation.navigate("StudentChat", { chatID: chat._id, userID: userID });
+
+    } catch (error) {
+      console.error('Error checking or creating chat:', error);
+    }
+  };
+
+
+
+  const getCurrentLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Location permission denied");
+        return;
+      }
+
+      const { coords } = await Location.getCurrentPositionAsync({});
+      setCurrentLocation({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+      updateAddress(coords.latitude, coords.longitude);
+    } catch (error) {
+      console.warn("Error getting location:", error);
+    }
+  };
+
+  const updateAddress = async (latitude, longitude) => {
+    try {
+      const addressResponse = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      if (addressResponse && addressResponse.length > 0) {
+        const { name, street, postalCode, city, region, country } = addressResponse[0];
+        const formattedAddress = `${name || street || postalCode || ""}, ${city || region || country}`;
+        // You can use setAddress(formattedAddress); here if needed
+      } else {
+        // setAddress("");
+        console.log("No address details found");
+      }
+    } catch (error) {
+      console.warn("Error updating address:", error);
+    }
+  };
+
+
+  const fetchTutorsNearby = async () => {
+    try {
+      const { latitude, longitude } = currentLocation;
+      const response = await axios.get(
+        `http://192.168.43.143:3000/tutor/tutors-nearby`,
+        {
+          params: {
+            longitude: longitude,
+            latitude: latitude,
+          },
+        }
+      );
+      setTutors(response.data);
+    } catch (error) {
+      console.error('Error fetching tutors:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchUserID();
+    requestLocationPermission();
+    getCurrentLocation(); // Optionally set the initial location
   }, []);
 
   useEffect(() => {
-    setInitialRegion(calculateRegion());
+    if (currentLocation) {
+      setInitialRegion({
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+      fetchTutorsNearby();
+    }
   }, [currentLocation]);
 
   const handleMarkerPress = (location) => {
@@ -50,65 +157,19 @@ const StudentSearch = ({ navigation }) => {
     setModalVisible(true);
   };
 
-  const viewProfileHandler = () => {
-    navigation.navigate("ViewTutorProfileScreen");
-  };
-
-  // const locations = [
-  //   { id: 1, name: 'Malir Cantonment', latitude: 24.9251, longitude: 67.1945 },
-  //   { id: 2, name: 'Safoora', latitude: 24.9170, longitude: 67.1107 },
-  //   { id: 3, name: 'New Falcon', latitude: 24.9464, longitude: 67.1592 },
-  //   { id: 4, name: 'Model Colony', latitude: 24.9076, longitude: 67.1897 },
-  //   { id: 5, name: 'Saadi Town', latitude: 24.8947, longitude: 67.0840 },
-  //   { id: 6, name: 'Karachi Airport', latitude: 24.8984, longitude: 67.1605 },
-  //   { id: 7, name: 'Saima Apartments', latitude: 24.9091, longitude: 67.0835 },
-  //   // Add more locations as needed
-  // ];
-
-  // Calculate the bounding box (region) based on all locations
-  const calculateRegion = () => {
-    let minLat = Number.MAX_VALUE;
-    let maxLat = -Number.MAX_VALUE;
-    let minLng = Number.MAX_VALUE;
-    let maxLng = -Number.MAX_VALUE;
-
-    tutors.forEach((location) => {
-      minLat = Math.min(minLat, location.latitude);
-      maxLat = Math.max(maxLat, location.latitude);
-      minLng = Math.min(minLng, location.longitude);
-      maxLng = Math.max(maxLng, location.longitude);
-    });
-
-    const latitudeDelta = maxLat - minLat;
-    const longitudeDelta = maxLng - minLng;
-
-    return {
-      latitude: currentLocation
-        ? currentLocation.latitude
-        : (minLat + maxLat) / 2,
-      longitude: currentLocation
-        ? currentLocation.longitude
-        : (minLng + maxLng) / 2,
-      latitudeDelta: latitudeDelta * 1.5,
-      longitudeDelta: longitudeDelta * 1.5,
-    };
-  };
-
-  const [initialRegion, setInitialRegion] = useState(calculateRegion());
-
-  return (
+    return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
         {/* Markers */}
-        {tutors.map((location) => (
+        {tutors.map((tutor) => (
           <Marker
-            key={location.id}
+            key={tutor._id}
             coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
+              latitude: tutor.location.coordinates[1],
+              longitude: tutor.location.coordinates[0],
             }}
-            title={location.name}
-            onPress={() => handleMarkerPress(location)}
+            title={tutor.firstName}
+            onPress={() => handleMarkerPress(tutor)}
           />
         ))}
       </MapView>
@@ -119,18 +180,35 @@ const StudentSearch = ({ navigation }) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
         }}
       >
-        <PersonInfoBox
+        <TutorInfoModal
           info={selectedLocation}
-          onClose={() => setModalVisible(false)}
-          onChatNow={() => {
-            // Handle chat now action
-          }}
-          onViewProfile={viewProfileHandler}
+          buttons={[
+            { label: "View Profile", onPress: viewProfileHandler },
+            { label: "Chat Now", onPress: chatNowHandler },
+            {
+              label: "Close",
+              onPress: () => {
+                setModalVisible(false);
+              },
+              backgroundColor: "#e2b623",
+            },
+          ]}
         />
       </Modal>
+
+      {/* <TutorInfoModal
+        info={selectedLocation}
+        visible={modalVisible}
+        buttons={[
+          { label: "Close" },
+          { label: "Chat Now" },
+          { label: "View Profile" },
+        ]}
+      
+      /> */}
     </View>
   );
 };
@@ -144,4 +222,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentSearch;
+export default MapWithMarkers;

@@ -1,31 +1,34 @@
-import { StyleSheet, Text, View } from "react-native";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-
-import { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { MyHeader } from "./components";
+import SignIn from "./screens/SignIn";
+import SignUp from "./screens/SignUp";
+
 import StudentProfileSetup from "./screens/user/[student]/StudentProfileSetup";
-import TutorProfileSetup from "./screens/user/[tutor]/TutorProfileSetup";
 import StudentProfile from "./screens/user/[student]/StudentProfile";
-import TutorProfile from "./screens/user/[tutor]/TutorProfile";
-import TutorNotifications from "./screens/user/[tutor]/TutorNotifications";
-import TutorChat from "./screens/user/[tutor]/TutorInbox";
 import StudentSearch from "./screens/user/[student]/StudentSearch";
 import StudentNotifications from "./screens/user/[student]/StudentNotification";
-import StudentChat from "./screens/user/[student]/StudentInbox";
-import { SafeAreaView } from "react-native-safe-area-context";
+import StudentChat from "./screens/user/[student]/StudentChat";
 import StudentInbox from "./screens/user/[student]/StudentInbox";
-import TutorInbox from "./screens/user/[tutor]/TutorInbox";
 import ViewTutorProfileScreen from "./screens/user/[student]/ViewTutorProfileScreen";
 
+import TutorProfileSetup from "./screens/user/[tutor]/TutorProfileSetup";
+import TutorProfile from "./screens/user/[tutor]/TutorProfile";
+import TutorNotifications from "./screens/user/[tutor]/TutorNotifications";
+import TutorInbox from "./screens/user/[tutor]/TutorInbox";
+import TutorChat from "./screens/user/[tutor]/TutorChat";
+
 const RootStack = createStackNavigator();
-const StudentStack = createStackNavigator();
-const TutorStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const StudentInboxStack = createStackNavigator();
+const TutorInboxStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -85,12 +88,12 @@ const commonTabOptions = {
   tabBarActiveTintColor: "white",
   tabBarActiveBackgroundColor: "#060635",
   tabBarInactiveTintColor: "white",
-  headerShown: false,
 };
 
-const StudentTabNavigator = () => {
+const StudentTabNavigator = ({ route }) => {
+  const userID = route.params.userID;
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
         <Tab.Screen
           name="StudentSearch"
@@ -100,7 +103,9 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="search" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="StudentNotifications"
@@ -110,17 +115,21 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="notifications" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
-          name="StudentInbox"
-          component={StudentInbox}
+          name="StudentInboxStackNavigator"
+          component={StudentInboxStackNavigator}
           options={{
             tabBarLabel: "Inbox",
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="chat" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="StudentProfile"
@@ -130,16 +139,20 @@ const StudentTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
       </Tab.Navigator>
     </SafeAreaView>
   );
 };
 
-const TutorTabNavigator = () => {
+const TutorTabNavigator = ({ route }) => {
+  const userID = route.params.userID;
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f2f4fc" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e2b623" }}>
       <Tab.Navigator screenOptions={commonTabOptions}>
         <Tab.Screen
           name="TutorNotifications"
@@ -149,17 +162,21 @@ const TutorTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="notifications" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
-          name="TutorInbox"
-          component={TutorInbox}
+          name="TutorInboxStackNavigator"
+          component={TutorInboxStackNavigator}
           options={{
             tabBarLabel: "Inbox",
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="chat" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
         <Tab.Screen
           name="TutorProfile"
@@ -169,10 +186,51 @@ const TutorTabNavigator = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="account-circle" size={24} color="white" />
             ),
+            header: () => <MyHeader />,
           }}
+          initialParams={{ userID: userID }}
         />
       </Tab.Navigator>
     </SafeAreaView>
+  );
+};
+
+const StudentInboxStackNavigator = ({ route }) => {
+  const userID = route.params.userID;
+  return (
+    <StudentInboxStack.Navigator>
+      <StudentInboxStack.Screen
+        name={"StudentInbox"}
+        component={StudentInbox}
+        options={{ headerShown: false }} // Hide the header for the inbox screen
+        initialParams={{ userID: userID }}
+      />
+      <StudentInboxStack.Screen
+        name={"StudentChat"}
+        component={StudentChat}
+        options={{ headerShown: false }} // Hide the header for the chat screen
+        initialParams={{ userID: userID }}
+      />
+    </StudentInboxStack.Navigator>
+  );
+};
+const TutorInboxStackNavigator = ({ route }) => {
+  const userID = route.params.userID;
+  return (
+    <TutorInboxStack.Navigator>
+      <TutorInboxStack.Screen
+        name={"TutorInbox"}
+        component={TutorInbox}
+        options={{ headerShown: false }} // Hide the header for the inbox screen
+        initialParams={{ userID: userID }}
+      />
+      <TutorInboxStack.Screen
+        name={"TutorChat"}
+        component={TutorChat}
+        options={{ headerShown: false }} // Hide the header for the chat screen
+        initialParams={{ userID: userID }}
+      />
+    </TutorInboxStack.Navigator>
   );
 };
 

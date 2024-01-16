@@ -5,9 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignUpSchema } from "../../constants/validations/schema";
 import { useState } from "react";
-import axios from 'axios';
-
-
+import axios from "axios";
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -43,7 +41,6 @@ export default function SignUp() {
             anyOne: false,
           }}
           onSubmit={async (values, { resetForm }) => {
-
             try {
               // Prepare the data to be sent to the server
               const userData = {
@@ -51,26 +48,33 @@ export default function SignUp() {
                 password: values.password,
                 userType: selectedRole,
               };
-          
+
               // Send the data to the server using Axios
-              const response = await axios.post('http://192.168.43.142:3000/api/register', userData);
+              const response = await axios.post(
+                "http://192.168.43.143:3000/api/register",
+                userData
+              );
 
               // Handle the server response here if needed
-              console.log('Server Response:', response.data);
+              console.log("Server Response:", response.data);
               const userId = response.data.userId;
               console.log(userId);
               console.log("Sign Up success", values);
-          
+
               // Navigate to the appropriate screen based on the selected role
-              navigation.navigate(selectedRole === 'student' ? 'StudentProfileSetup' : 'TutorProfileSetup', {ID : userId});
-          
+              navigation.navigate(
+                selectedRole === "student"
+                  ? "StudentProfileSetup"
+                  : "TutorProfileSetup",
+                { ID: userId }
+              );
+
               // Reset the form after successful submission
               resetForm();
             } catch (error) {
               // Handle errors (e.g., network issues, server errors)
-              console.error('Error submitting the form:', error);
+              console.error("Error submitting the form:", error);
             }
-
 
             // console.log("Sign Up success", values);
             // navigation.navigate(
@@ -78,7 +82,6 @@ export default function SignUp() {
             //     ? "StudentProfileSetup"
             //     : "TutorProfileSetup"
             // );
-
           }}
           validationSchema={UserSignUpSchema.signUpForm}
         >

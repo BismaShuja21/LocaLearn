@@ -1,11 +1,16 @@
 import { StyleSheet, View } from "react-native";
+import { useState } from "react";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignInSchema } from "../../constants/validations/schema";
+import axios from "axios";
 
 export default function SignIn() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // Add this line to define setError
+
   const navigation = useNavigation();
 
   return (
@@ -23,10 +28,42 @@ export default function SignIn() {
             password: "",
           }}
           onSubmit={async (values, { resetForm }) => {
-            if (values.email) {
-              navigation.navigate("TutorTab");
+            try {
+              const response = await axios.post(
+                "http://192.168.43.143:3000/api/login",
+                values
+              );
+
+              if (response.data.success) {
+                const userType = response.data.user.userType;
+                const userID = response.data.user._id;
+                console.log("userType:", userType);
+
+                if (userType === "tutor") {
+                  navigation.navigate("TutorTab", { userID: userID });
+                } else {
+                  // navigation.navigate("StudentTab", {userID: userID});
+                  // Fetch the Student instance using the userID
+                  const studentResponse = await axios.get(
+                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                  );
+
+        if (studentResponse.data.success) {
+
+          const studentID = studentResponse.data.student._id;
+          navigation.navigate("StudentTab", { userID: studentID });
+        } else {
+          setError(studentResponse.data.message || "Failed to fetch student data");
+        }
+
+                }
+              } else {
+                setError(response.data.message || "Sign-in failed");
+              }
+            } catch (error) {
+              console.error("Error signing in:", error);
+              setError("An unexpected error occurred");
             }
-            console.log("Sign In success", values);
           }}
           validationSchema={UserSignInSchema.signInForm}
         >
@@ -50,6 +87,7 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
+                    // navigation.navigate("TutorTab");
                     handleSubmit();
                   }}
                 />

@@ -12,7 +12,9 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function TutorProfileSetup() {
+export default function TutorProfileSetup({ route }) {
+  const tutor = route.params.tutor;
+  console.log(tutor);
   //   const navigation = useNavigation();
 
   //   const [isEditMode, setIsEditMode] = useState({
@@ -26,13 +28,13 @@ export default function TutorProfileSetup() {
   //   });
 
   const [values, setValues] = useState({
-    firstName: "Akhtar",
-    lastName: "Ahmed",
-    qualification: ["Bachelors"],
-    tutoringPreferences: ["Student's Space"],
-    availability: ["Monday"],
-    description: "Hi i am a teacher",
-    experience: "Bhaiii",
+    firstName: tutor.firstName,
+    lastName: tutor.lastName,
+    qualification: tutor.qualification,
+    tutoringPreferences: tutor.tutorPreference,
+    availability: tutor.availability,
+    description: tutor.description,
+    experience: tutor.experience,
   });
 
   return (
