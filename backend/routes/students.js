@@ -85,4 +85,27 @@ router.get('/getStudentEdit', async (req, res) => {
 });
 
 
+
+router.get('/fetchUserID/:studentID', async (req, res) => {
+  try {
+    const { studentID } = req.params;
+
+    // Assuming studentID is a valid ObjectId in MongoDB
+    const student = await Student.findOne({ _id: studentID });
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    // Assuming the 'userid' field is the one you want to fetch
+    const userID = student.userid;
+
+    res.json({ userID });
+  } catch (error) {
+    console.error('Error fetching userID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 module.exports = router;

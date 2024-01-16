@@ -119,11 +119,17 @@ export default function TutorInbox({ route }) {
 
   const renderChatCard = ({ item }) => (
     <ChatCard
-      name={item.name}
-      subTitle={item.subTitle}
-      onPress={item.onPress}
+      // name={item.name}
+      // subTitle={item.subTitle}
+      // onPress={item.onPress}
+      name={"One Time"}
+      subTitle={item.messages[0].text}
+      onPress={() => navigation.navigate("TutorChat", { chatID: item._id })}
     />
   );
+
+  console.log("Rendering TutorInbox component with inboxData:", inboxData);
+
   return (
     <View
       style={{
@@ -141,7 +147,7 @@ export default function TutorInbox({ route }) {
       <FlatList
         data={inboxData}
         renderItem={renderChatCard}
-        keyExtractor={(item) => item.name} // Use a unique key for each
+        keyExtractor={(item) => item._id} // Use a unique key for each
         style={{ margin: 10, borderRadius: 40, marginBottom: 30 }}
         showsVerticalScrollIndicator={false}
       />
