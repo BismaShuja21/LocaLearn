@@ -43,12 +43,12 @@ export default function TutorProfileSetup({ route }) {
   const [values, setValues] = useState({
     firstName: "Akhtar",
     lastName: "Ahmed",
-    qualification: ["Bachelors"],
+    qualification: ["Masters"],
     tutoringPreferences: ["Student's Space"],
     availability: ["Monday"],
     subjects: ["Chemistry", "Biology"],
     description: "Hi i am a teacher",
-    experience: "Bhaiii",
+    experience: "4 years",
     address: "NED University of Engineering & Technology, Karachi",
   });
 

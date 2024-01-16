@@ -20,42 +20,42 @@ export default function StudentProfileSetup({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: 'Someone',
-    lastName: '',
-    age: '',
-    grade: '',
+    firstName: 'Hafsa',
+    lastName: 'Khan',
+    age: '16',
+    grade: '8th',
   });
 
 
 
-  useEffect(() => {
-    // Fetch student data when the component mounts
-    const fetchStudentData = async () => {
-      try {
-        const response = await fetch(`http://192.168.43.143/student/getStudentEdit?userID=${userID}`);
-        const data = await response.json();
-        console.log(data);
+  // useEffect(() => {
+  //   // Fetch student data when the component mounts
+  //   const fetchStudentData = async () => {
+  //     try {
+  //       const response = await fetch(`http://192.168.43.143/student/getStudentEdit?userID=${userID}`);
+  //       const data = await response.json();
+  //       console.log(data);
     
-        if (!response.ok) {
-          console.error('Error response:', response);
-          // You might want to throw an error here
-        }
+  //       if (!response.ok) {
+  //         console.error('Error response:', response);
+  //         // You might want to throw an error here
+  //       }
     
-        // Update the values state with actual data from studentData
-        setValues({
-          firstName: data?.firstName || "",
-          lastName: data?.lastName || "",
-          age: data?.age || "",
-          grade: data?.grade || "",
-        });
-      } catch (error) {
-        console.error('Error fetching student data:', error);
-        console.error('Error details:', error.message);      }
-    };
+  //       // Update the values state with actual data from studentData
+  //       setValues({
+  //         firstName: data?.firstName || "",
+  //         lastName: data?.lastName || "",
+  //         age: data?.age || "",
+  //         grade: data?.grade || "",
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching student data:', error);
+  //       console.error('Error details:', error.message);      }
+  //   };
     
 
-    fetchStudentData();
-  }, [userID]);
+  //   fetchStudentData();
+  // }, [userID]);
 
 
 
