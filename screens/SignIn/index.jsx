@@ -37,6 +37,7 @@ export default function SignIn() {
               if (response.data.success) {
                 const userType = response.data.user.userType;
                 const userID = response.data.user._id;
+                console.log("userType:", userType);
 
                 if (userType === "tutor") {
                   navigation.navigate("TutorTab", {userID: userID});
@@ -49,6 +50,7 @@ export default function SignIn() {
         );
 
         if (studentResponse.data.success) {
+
           const studentID = studentResponse.data.student._id;
           navigation.navigate("StudentTab", { userID: studentID });
         } else {
@@ -84,7 +86,7 @@ export default function SignIn() {
                 <MyButton
                   label={"Sign In"}
                   onPress={() => {
-                    // console.log(errors);
+                    console.log(errors);
                     // navigation.navigate("TutorTab");
                     handleSubmit();
                   }}

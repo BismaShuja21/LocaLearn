@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { FlatList, View } from "react-native";
 import { MyText, ChatCard } from "../../../components";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+
+
 
 export default function TutorInbox({ route }) {
   const userID = route.params.userID;
@@ -98,9 +101,9 @@ export default function TutorInbox({ route }) {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        console.log("Fetching chats for userID:", userID);
+        console.log("Fetching chats for userID:", tutorData._id);
 
-        const response = await axios.get(`http://192.168.43.143:3000/tutor/getChats?userID=${userID}`);
+        const response = await axios.get(`http://192.168.43.143:3000/tutor/getChats?userID=${tutorData._id}`);
         console.log("Response from server:", response.data);
 
         setInboxData(response.data);

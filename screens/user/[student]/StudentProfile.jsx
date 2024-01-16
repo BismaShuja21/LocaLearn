@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
@@ -9,7 +9,7 @@ export default function StudentProfileSetup({ route }) {
   const userID = route.params?.userID;
   console.log(userID);
 
-  const [studentData, setStudentData] = useState(null);
+  // const [studentData, setStudentData] = useState(null);
 
 
   const [isEditMode, setIsEditMode] = useState({
@@ -20,10 +20,10 @@ export default function StudentProfileSetup({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: studentData.firstName,
-    lastName: studentData.lastName,
-    age: studentData.age,
-    grade: studentData.grade,
+    firstName: 'Someone',
+    lastName: '',
+    age: '',
+    grade: '',
   });
 
 
@@ -32,16 +32,31 @@ export default function StudentProfileSetup({ route }) {
     // Fetch student data when the component mounts
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(`http://192.168.43.143/student/getStudent?userID=${userID}`);
+        const response = await fetch(`http://192.168.43.143/student/getStudentEdit?userID=${userID}`);
         const data = await response.json();
-        setStudentData(data);
+        console.log(data);
+    
+        if (!response.ok) {
+          console.error('Error response:', response);
+          // You might want to throw an error here
+        }
+    
+        // Update the values state with actual data from studentData
+        setValues({
+          firstName: data?.firstName || "",
+          lastName: data?.lastName || "",
+          age: data?.age || "",
+          grade: data?.grade || "",
+        });
       } catch (error) {
-        console.error('Error fetching student data:', error.message);
-      }
+        console.error('Error fetching student data:', error);
+        console.error('Error details:', error.message);      }
     };
+    
 
     fetchStudentData();
   }, [userID]);
+
 
 
 

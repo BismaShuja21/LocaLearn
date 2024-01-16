@@ -46,14 +46,13 @@ router.get('/getChats', async (req, res) => {
 
 
 
-
 // In your routes or controllers
 router.get('/getStudent', async (req, res) => {
   try {
     const userID = req.query.userID;
 
     // Find the student where userid is equal to the provided userID
-    const student = await Student.findOne({ objectId: userID });
+    const student = await Student.findOne({ userid: userID });
 
     if (!student) {
       return res.json({ success: false, message: 'Student not found' });
@@ -66,6 +65,24 @@ router.get('/getStudent', async (req, res) => {
   }
 });
 
+
+router.get('/getStudentEdit', async (req, res) => {
+  try {
+    const userID = req.query.userID;
+
+    // Find the student where userid is equal to the provided userID
+    const student = await Student.findOne({ _id: userID });
+
+    if (!student) {
+      return res.json({ success: false, message: 'Student not found' });
+    }
+
+    res.json({ success: true, student });
+  } catch (error) {
+    console.error('Error fetching student:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
 
 
 module.exports = router;

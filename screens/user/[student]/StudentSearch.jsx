@@ -108,7 +108,7 @@ const MapWithMarkers = () => {
     try {
       const { latitude, longitude } = currentLocation;
       const response = await axios.get(
-        `http://192.168.10.6:3000/tutor/tutors-nearby`,
+        `http://192.168.43.143:3000/tutor/tutors-nearby`,
         {
           params: {
             longitude: longitude,
