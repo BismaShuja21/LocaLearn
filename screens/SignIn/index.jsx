@@ -39,21 +39,23 @@ export default function SignIn() {
                 const userID = response.data.user._id;
 
                 if (userType === "tutor") {
-                  navigation.navigate("TutorTab", {userID: userID});
-
+                  navigation.navigate("TutorTab", { userID: userID });
                 } else {
-                    // navigation.navigate("StudentTab", {userID: userID});
-                    // Fetch the Student instance using the userID
-        const studentResponse = await axios.get(
-          `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
-        );
+                  // navigation.navigate("StudentTab", {userID: userID});
+                  // Fetch the Student instance using the userID
+                  const studentResponse = await axios.get(
+                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                  );
 
-        if (studentResponse.data.success) {
-          const studentID = studentResponse.data.student._id;
-          navigation.navigate("StudentTab", { userID: studentID });
-        } else {
-          setError(studentResponse.data.message || "Failed to fetch student data");
-        }
+                  if (studentResponse.data.success) {
+                    const studentID = studentResponse.data.student._id;
+                    navigation.navigate("StudentTab", { userID: studentID });
+                  } else {
+                    setError(
+                      studentResponse.data.message ||
+                        "Failed to fetch student data"
+                    );
+                  }
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");
@@ -84,7 +86,7 @@ export default function SignIn() {
                 <MyButton
                   label={"Sign In"}
                   onPress={() => {
-                    // console.log(errors);
+                    console.log(errors);
                     // navigation.navigate("TutorTab");
                     handleSubmit();
                   }}
