@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { FlatList, View } from "react-native";
 import { MyText, ChatCard } from "../../../components";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+
+
 
 export default function TutorInbox({ route }) {
   const userID = route.params.userID;
@@ -98,13 +101,13 @@ export default function TutorInbox({ route }) {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        console.log("Fetching chats for userID:", userID);
+        console.log("Fetching chats for userID:", tutorData._id);
 
-        const response = await axios.get(`http://192.168.43.143:3000/tutor/getChats?userID=${userID}`);
+        const response = await axios.get(`http://192.168.43.143:3000/tutor/getChats?userID=${tutorData._id}`);
         console.log("Response from server:", response.data);
 
         setInboxData(response.data);
-        console.log(response.data[0]._id);
+        console.log("Message1", response.data[0]._id);
       } catch (error) {
         console.error('Error fetching chats:', error);
       }
@@ -116,11 +119,17 @@ export default function TutorInbox({ route }) {
 
   const renderChatCard = ({ item }) => (
     <ChatCard
-      name={item.name}
-      subTitle={item.subTitle}
-      onPress={item.onPress}
+      // name={item.name}
+      // subTitle={item.subTitle}
+      // onPress={item.onPress}
+      name={"One Time"}
+      subTitle={item.messages[0].text}
+      onPress={() => navigation.navigate("TutorChat", { chatID: item._id })}
     />
   );
+
+  console.log("Rendering TutorInbox component with inboxData:", inboxData);
+
   return (
     <View
       style={{
@@ -138,7 +147,7 @@ export default function TutorInbox({ route }) {
       <FlatList
         data={inboxData}
         renderItem={renderChatCard}
-        keyExtractor={(item) => item.name} // Use a unique key for each
+        keyExtractor={(item) => item._id} // Use a unique key for each
         style={{ margin: 10, borderRadius: 40, marginBottom: 30 }}
         showsVerticalScrollIndicator={false}
       />

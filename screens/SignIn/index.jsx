@@ -37,6 +37,7 @@ export default function SignIn() {
               if (response.data.success) {
                 const userType = response.data.user.userType;
                 const userID = response.data.user._id;
+                console.log("userType:", userType);
 
                 if (userType === "tutor") {
                   navigation.navigate("TutorTab", { userID: userID });
@@ -47,15 +48,14 @@ export default function SignIn() {
                     `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
                   );
 
-                  if (studentResponse.data.success) {
-                    const studentID = studentResponse.data.student._id;
-                    navigation.navigate("StudentTab", { userID: studentID });
-                  } else {
-                    setError(
-                      studentResponse.data.message ||
-                        "Failed to fetch student data"
-                    );
-                  }
+        if (studentResponse.data.success) {
+
+          const studentID = studentResponse.data.student._id;
+          navigation.navigate("StudentTab", { userID: studentID });
+        } else {
+          setError(studentResponse.data.message || "Failed to fetch student data");
+        }
+
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");
