@@ -1,21 +1,27 @@
 const express = require('express');
 const router = express.Router();
 const Tutor = require('../models/tutor');
+const Chat = require('../models/chat');
 
-// Route to get all tutors
-router.get('/all-tutors', async (req, res) => {
+// Assuming you have a route like this in your server
+router.get('/getTutor', async (req, res) => {
   try {
-    // Fetch all tutors from the database
-    const tutors = await Tutor.find();
+    const { userID } = req.query;
 
-    // Send the list of tutors as a JSON response
-    res.json(tutors);
+    // Assuming you have a Tutor model defined
+    const tutor = await Tutor.findOne({ userid: userID });
+
+    if (!tutor) {
+      return res.status(404).json({ error: 'Tutor not found' });
+    }
+
+    res.json(tutor);
   } catch (error) {
-    // Handle errors
-    console.error('Error getting tutors:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching tutor:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 router.post('/profileSetup', async (req, res) => {
@@ -53,8 +59,7 @@ router.post('/profileSetup', async (req, res) => {
 router.get('/tutors-nearby', async (req, res) => {
   try {
     const { longitude, latitude } = req.query;
-    console.log("Longitude:", longitude);
-    console.log("Latitude:", latitude);
+
 
 
     // Convert coordinates to numbers
@@ -75,13 +80,28 @@ router.get('/tutors-nearby', async (req, res) => {
       },
     ]);
 
-    console.log('Nearby Tutors:', nearbyTutors);
-
 
     res.json(nearbyTutors);
   } catch (error) {
     console.error('Error finding nearby tutors:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+// Assuming you have a route like this in your server
+router.get('/tutor/getChats', async (req, res) => {
+  try {
+    const { tutorID } = req.query;
+
+    // Assuming you have a Chat model defined
+    const chats = await Chat.find({ tutorID });
+
+    res.json(chats);
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
