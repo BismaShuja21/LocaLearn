@@ -19,26 +19,28 @@ export default function StudentProfile({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: 'Someone',
-    lastName: '',
-    age: '',
-    grade: '',
+    firstName: "Someone",
+    lastName: "",
+    age: "",
+    grade: "",
   });
 
   useEffect(() => {
     // Fetch student data when the component mounts
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(`http://192.168.43.143/student/getStudentEdit?userID=${userID}`);
+        const response = await fetch(
+          `http://192.168.43.143/student/getStudentEdit?userID=${userID}`
+        );
 
         const data = await response.json();
         console.log(data);
-    
+
         if (!response.ok) {
-          console.error('Error response:', response);
+          console.error("Error response:", response);
           // You might want to throw an error here
         }
-    
+
         // Update the values state with actual data from studentData
         setValues({
           firstName: data?.firstName || "",
@@ -47,10 +49,11 @@ export default function StudentProfile({ route }) {
           grade: data?.grade || "",
         });
       } catch (error) {
-        console.error('Error fetching student data:', error);
-        console.error('Error details:', error.message);      }
+        console.error("Error fetching student data:", error);
+        console.error("Error details:", error.message);
+      }
     };
-    
+
     fetchStudentData();
   }, [userID]);
 

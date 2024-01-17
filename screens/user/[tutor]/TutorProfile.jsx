@@ -52,38 +52,34 @@ export default function TutorProfileSetup({ route }) {
     address: "NED University of Engineering & Technology, Karachi",
   });
 
-
-
-
   const [tutor, setTutor] = useState(null);
 
   useEffect(() => {
     // Fetch tutor data when the component mounts
     const fetchTutorData = async () => {
       try {
-        const response = await fetch(`http://192.168.43.143/tutor/getTutorEdit?userID=${userID}`);
+        const response = await fetch(
+          `http://10.200.253.210/tutor/getTutorEdit?userID=${userID}`
+        );
         const data = await response.json();
         console.log(data);
-    
+
         if (!response.ok || !data.success) {
-          console.error('Error response:', response);
+          console.error("Error response:", response);
           // Handle the error here, maybe show an error message
           return;
         }
-    
+
         // Update the tutor state with the fetched tutor data
         setTutor(data.tutor);
         console.log(tutor);
       } catch (error) {
-        console.error('Error fetching tutor data:', error);
+        console.error("Error fetching tutor data:", error);
       }
     };
-    
+
     fetchTutorData();
   }, []);
-
-
-
 
   const handleInputChange = (field, text) => {
     setValues((prevValues) => ({

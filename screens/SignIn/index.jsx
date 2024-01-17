@@ -30,7 +30,7 @@ export default function SignIn() {
           onSubmit={async (values, { resetForm }) => {
             try {
               const response = await axios.post(
-                "http://192.168.43.143:3000/api/login",
+                "http://10.200.253.210:3000/api/login",
                 values
               );
 
@@ -45,17 +45,18 @@ export default function SignIn() {
                   // navigation.navigate("StudentTab", {userID: userID});
                   // Fetch the Student instance using the userID
                   const studentResponse = await axios.get(
-                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                    `http://10.200.253.210:3000/student/getStudent?userID=${userID}`
                   );
 
-        if (studentResponse.data.success) {
-
-          const studentID = studentResponse.data.student._id;
-          navigation.navigate("StudentTab", { userID: studentID });
-        } else {
-          setError(studentResponse.data.message || "Failed to fetch student data");
-        }
-
+                  if (studentResponse.data.success) {
+                    const studentID = studentResponse.data.student._id;
+                    navigation.navigate("StudentTab", { userID: studentID });
+                  } else {
+                    setError(
+                      studentResponse.data.message ||
+                        "Failed to fetch student data"
+                    );
+                  }
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");

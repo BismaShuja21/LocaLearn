@@ -1,12 +1,18 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { MyInput, MyText, TutorInfoModal } from "../../../components";
-import { View, StyleSheet, Button, Modal, Text, TouchableOpacity } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import {
+  View,
+  StyleSheet,
+  Button,
+  Modal,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 // import tutors from "../../../components/tutors";
-import * as Location from 'expo-location';
-import axios from 'axios';
+import * as Location from "expo-location";
+import axios from "axios";
 // import PersonInfoBox from './components/personinfo'; // Adjust the path based on your folder structure
 
 const MapWithMarkers = ({ route }) => {
@@ -18,19 +24,18 @@ const MapWithMarkers = ({ route }) => {
   const [tutors, setTutors] = useState([]); // State to hold tutors' locations
   const [userID, setUserID] = useState(null); // State to hold the user ID
 
-
   const navigation = useNavigation();
-
-
 
   const fetchUserID = async () => {
     try {
       // Make a request to the server to fetch the userID based on studentID
-      const response = await axios.get(`http://192.168.43.143/student/fetchUserID/${studentID}`);
+      const response = await axios.get(
+        `http://10.200.253.210/student/fetchUserID/${studentID}`
+      );
       const fetchedUserID = response.data.userID;
       setUserID(fetchedUserID);
     } catch (error) {
-      console.error('Error fetching userID:', error);
+      console.error("Error fetching userID:", error);
     }
   };
 
@@ -49,14 +54,13 @@ const MapWithMarkers = ({ route }) => {
 
   const viewProfileHandler = () => {
     console.log(selectedLocation);
-        navigation.navigate("ViewTutorProfileScreen", {tutor: selectedLocation});
-      };
-
+    navigation.navigate("ViewTutorProfileScreen", { tutor: selectedLocation });
+  };
 
   const chatNowHandler = async () => {
     try {
       // Make a request to the server to check or create a chat
-      const response = await axios.post('/checkOrCreateChat', {
+      const response = await axios.post("/checkOrCreateChat", {
         tutorID: selectedLocation._id, // Replace with actual tutor ID
         studentID: userID, // Replace with actual student ID
       });
@@ -66,14 +70,11 @@ const MapWithMarkers = ({ route }) => {
       // Navigate to the chat screen with the chat details
       // navigation.navigate('StudentChat', { chat });
       // Inside the function or event where you want to navigate
-    navigation.navigate("StudentChat", { chatID: chat._id, userID: userID });
-
+      navigation.navigate("StudentChat", { chatID: chat._id, userID: userID });
     } catch (error) {
-      console.error('Error checking or creating chat:', error);
+      console.error("Error checking or creating chat:", error);
     }
   };
-
-
 
   const getCurrentLocation = async () => {
     try {
@@ -102,8 +103,11 @@ const MapWithMarkers = ({ route }) => {
       });
 
       if (addressResponse && addressResponse.length > 0) {
-        const { name, street, postalCode, city, region, country } = addressResponse[0];
-        const formattedAddress = `${name || street || postalCode || ""}, ${city || region || country}`;
+        const { name, street, postalCode, city, region, country } =
+          addressResponse[0];
+        const formattedAddress = `${name || street || postalCode || ""}, ${
+          city || region || country
+        }`;
         // You can use setAddress(formattedAddress); here if needed
       } else {
         // setAddress("");
@@ -114,12 +118,11 @@ const MapWithMarkers = ({ route }) => {
     }
   };
 
-
   const fetchTutorsNearby = async () => {
     try {
       const { latitude, longitude } = currentLocation;
       const response = await axios.get(
-        `http://192.168.43.143:3000/tutor/tutors-nearby`,
+        `http://10.200.253.210:3000/tutor/tutors-nearby`,
         {
           params: {
             longitude: longitude,
@@ -129,10 +132,9 @@ const MapWithMarkers = ({ route }) => {
       );
       setTutors(response.data);
     } catch (error) {
-      console.error('Error fetching tutors:', error);
+      console.error("Error fetching tutors:", error);
     }
   };
-
 
   useEffect(() => {
     fetchUserID();
@@ -157,7 +159,7 @@ const MapWithMarkers = ({ route }) => {
     setModalVisible(true);
   };
 
-    return (
+  return (
     <View style={styles.container}>
       <MapView style={styles.map} initialRegion={initialRegion}>
         {/* Markers */}

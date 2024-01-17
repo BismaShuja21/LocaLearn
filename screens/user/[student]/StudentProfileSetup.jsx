@@ -4,18 +4,16 @@ import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import StudentProfile from "./StudentProfile";
-import axios from 'axios';
-
-
+import axios from "axios";
 
 export default function StudentProfileSetup({ route }) {
   const userId = route.params.ID;
   const [studentDetails, setStudentDetails] = useState({
-    userId: userId,  
-    firstName: '',
-    lastName: '',
-    age: '',
-    grade: '',
+    userId: userId,
+    firstName: "",
+    lastName: "",
+    age: "",
+    grade: "",
   });
 
   const navigation = useNavigation();
@@ -27,20 +25,21 @@ export default function StudentProfileSetup({ route }) {
     }));
   };
 
-
   const handleCreateStudentProfile = async () => {
     try {
-      const response = await axios.post('http://192.168.43.143:3000/student/profileSetup', studentDetails);
+      const response = await axios.post(
+        "http://10.200.253.210:3000/student/profileSetup",
+        studentDetails
+      );
 
-      console.log('Server Response:', response.data);
+      console.log("Server Response:", response.data);
 
       // Navigate to the appropriate screen or handle success as needed
-      navigation.navigate('StudentTab', {userID: userId});
+      navigation.navigate("StudentTab", { userID: userId });
     } catch (error) {
-      console.error('Error creating tutor profile:', error);
+      console.error("Error creating tutor profile:", error);
     }
   };
-
 
   return (
     <View
@@ -74,18 +73,22 @@ export default function StudentProfileSetup({ route }) {
             text={"First Name"}
             style={{ paddingLeft: 5, paddingBottom: 5 }}
           />
-          <MyInput  onChange={(value) => {
-                handleInputChange("firstName", value);
-              }} />
+          <MyInput
+            onChange={(value) => {
+              handleInputChange("firstName", value);
+            }}
+          />
         </View>
         <View style={{ width: "100%" }}>
           <MyText
             text={"Last Name"}
             style={{ paddingLeft: 5, paddingBottom: 5 }}
           />
-          <MyInput onChange={(value) => {
-                handleInputChange("lastName", value);
-              }}/>
+          <MyInput
+            onChange={(value) => {
+              handleInputChange("lastName", value);
+            }}
+          />
         </View>
         <View
           style={{
@@ -96,18 +99,22 @@ export default function StudentProfileSetup({ route }) {
         >
           <View style={{ width: "47%" }}>
             <MyText text={"Age"} style={{ paddingLeft: 5, paddingBottom: 5 }} />
-            <MyInput onChange={(value) => {
+            <MyInput
+              onChange={(value) => {
                 handleInputChange("age", value);
-              }}/>
+              }}
+            />
           </View>
           <View style={{ width: "47%" }}>
             <MyText
               text={"Grade"}
               style={{ paddingLeft: 5, paddingBottom: 5 }}
             />
-            <MyInput onChange={(value) => {
+            <MyInput
+              onChange={(value) => {
                 handleInputChange("grade", value);
-              }}/>
+              }}
+            />
           </View>
         </View>
         <GapView length={30} />
@@ -117,7 +124,6 @@ export default function StudentProfileSetup({ route }) {
           //   navigation.navigate("StudentTab");
           // }}
           onPress={handleCreateStudentProfile}
-
         />
       </View>
     </View>
