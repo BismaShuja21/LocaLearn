@@ -69,6 +69,14 @@ export default function App() {
           name="ViewTutorProfileScreen"
           component={ViewTutorProfileScreen}
         />
+        <RootStack.Screen
+          name="StudentInboxStackNavigator"
+          component={StudentInboxStackNavigator}
+        />
+           <RootStack.Screen
+          name="TutorInboxStackNavigator"
+          component={TutorInboxStackNavigator}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

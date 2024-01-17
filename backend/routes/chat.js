@@ -22,4 +22,32 @@ router.post('/checkOrCreateChat', async (req, res) => {
   });
   
 
+  router.post('/send-message', async (req, res) => {
+    try {
+      const { chatID, senderID, text } = req.body;
+  
+      // Find the chat based on chatID
+      const chat = await Chat.findById(chatID);
+  
+      if (!chat) {
+        return res.status(404).json({ error: 'Chat not found' });
+      }
+  
+      // Add the new message to the chat
+      chat.messages.push({
+        senderId: senderID,
+        text: text,
+      });
+  
+      // Save the updated chat
+      await chat.save();
+  
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
 module.exports = router;

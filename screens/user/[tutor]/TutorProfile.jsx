@@ -57,30 +57,30 @@ export default function TutorProfileSetup({ route }) {
 
   const [tutor, setTutor] = useState(null);
 
-  useEffect(() => {
-    // Fetch tutor data when the component mounts
-    const fetchTutorData = async () => {
-      try {
-        const response = await fetch(`http://192.168.43.143/tutor/getTutorEdit?userID=${userID}`);
-        const data = await response.json();
-        console.log(data);
+  // useEffect(() => {
+  //   // Fetch tutor data when the component mounts
+  //   const fetchTutorData = async () => {
+  //     try {
+  //       const response = await fetch(`http://192.168.43.143/tutor/getTutorEdit?userID=${userID}`);
+  //       const data = await response.json();
+  //       console.log(data);
     
-        if (!response.ok || !data.success) {
-          console.error('Error response:', response);
-          // Handle the error here, maybe show an error message
-          return;
-        }
+  //       if (!response.ok || !data.success) {
+  //         console.error('Error response:', response);
+  //         // Handle the error here, maybe show an error message
+  //         return;
+  //       }
     
-        // Update the tutor state with the fetched tutor data
-        setTutor(data.tutor);
-        console.log(tutor);
-      } catch (error) {
-        console.error('Error fetching tutor data:', error);
-      }
-    };
+  //       // Update the tutor state with the fetched tutor data
+  //       setTutor(data.tutor);
+  //       console.log(tutor);
+  //     } catch (error) {
+  //       console.error('Error fetching tutor data:', error);
+  //     }
+  //   };
     
-    fetchTutorData();
-  }, []);
+  //   fetchTutorData();
+  // }, []);
 
 
 

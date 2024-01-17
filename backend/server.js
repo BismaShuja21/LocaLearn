@@ -68,49 +68,49 @@ app.get('/initial-messages', async (req, res) => {
   }
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
 
-    // Listen for incoming messages
-    socket.on('chat message', (message) => {
-      // Broadcast the message to all connected clients
-      io.emit('chat message', message);
-    });
+//     // Listen for incoming messages
+//     socket.on('chat message', (message) => {
+//       // Broadcast the message to all connected clients
+//       io.emit('chat message', message);
+//     });
   
-    socket.on('send message', async ({ chatID, senderID, text }) => {
-      try {
-        // Find the chat by ID
-        const chat = await Chat.findById(chatID);
+//     socket.on('send message', async ({ chatID, senderID, text }) => {
+//       try {
+//         // Find the chat by ID
+//         const chat = await Chat.findById(chatID);
     
-        if (!chat) {
-          // Return an error or handle the case when the chat is not found
-          console.error('Chat not found');
-          return;
-        }
+//         if (!chat) {
+//           // Return an error or handle the case when the chat is not found
+//           console.error('Chat not found');
+//           return;
+//         }
     
-        // Add the new message to the chat
-        chat.messages.push({
-          senderId: senderID,
-          text: text,
-        });
+//         // Add the new message to the chat
+//         chat.messages.push({
+//           senderId: senderID,
+//           text: text,
+//         });
     
-        // Save the updated chat to the database
-        await chat.save();
+//         // Save the updated chat to the database
+//         await chat.save();
     
-        // Perform any additional actions related to saving to the database
+//         // Perform any additional actions related to saving to the database
     
-      } catch (error) {
-        console.error('Error saving message to the database:', error.message);
-        // Handle the error, return an error response, or perform additional actions
-      }
-    });
+//       } catch (error) {
+//         console.error('Error saving message to the database:', error.message);
+//         // Handle the error, return an error response, or perform additional actions
+//       }
+//     });
     
 
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
+//   // Handle disconnection
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// });
 
 
 

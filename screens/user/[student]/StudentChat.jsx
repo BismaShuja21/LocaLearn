@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
+import axios from 'axios';
 import io from 'socket.io-client';
 
 export default function StudentChat({ route }) {
@@ -117,15 +118,37 @@ export default function StudentChat({ route }) {
   //   socket.emit('chat message', newMessages[0]);
   // };
 
-  const onSend = (newMessages = []) => 
-    setMessages(GiftedChat.append(messages, newMessages));
+  // const onSend = (newMessages = []) => 
+  //   setMessages(GiftedChat.append(messages, newMessages));
+
+  const onSend = async (newMessages = []) => {
+    try {
+      // Update the local state
+      setMessages(GiftedChat.append(messages, newMessages));
+  
+      // Extract the message data
+      const { _id, text, createdAt, user } = newMessages[0];
+  
+      // Send the message data to the server
+      const response = await axios.post(`http://192.168.43.143:3000/chat/send-message`, {
+        chatID: chatID,
+        senderID: '65a5622939d219aeba1b879a',
+        text: text,
+      });
+  
+      console.log("Message sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending message:", error.message);
+    }
+  };
+  
 
 
   return (
     <GiftedChat
       messages={messages}
       onSend={onSend}
-      user={{ _id: userID, name: 'You' }}
+      user={{ _id: '65a5622939d219aeba1b879a', name: 'You' }}
     />
   );
 };
