@@ -1,8 +1,13 @@
 import React from "react";
 import { View, FlatList } from "react-native";
 import { MyNotification } from "../../../components";
+import { useSelector } from "react-redux";
+import { LightTheme, DarkTheme } from "../../../theme/theme";
 
 export default function TutorNotifications() {
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
+
   const notificationList = [
     {
       name: "Bisma Shuja",
@@ -52,6 +57,7 @@ export default function TutorNotifications() {
         flex: 1,
         width: "100%",
         height: "100%",
+        backgroundColor: currentTheme.colors.background,
       }}
     >
       <FlatList

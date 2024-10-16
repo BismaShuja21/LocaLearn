@@ -2,16 +2,20 @@ import React from "react";
 import MyText from "../MyText";
 import { MyAvatar } from "../MyAvatar";
 import { TouchableOpacity, View } from "react-native";
+import { LightTheme, DarkTheme } from "../../theme/theme";
+import { useSelector } from "react-redux";
 
 export default function ChatCard({ name, subTitle, onPress }) {
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: "white",
+        backgroundColor: currentTheme.colors.background,
         width: "100%",
         height: 80,
         borderBottomWidth: 1,
-        borderColor: "#ddd", // Add border color
+        borderColor: currentTheme.colors.border, // Add border color
         padding: 10,
         flexDirection: "row",
         alignItems: "center",

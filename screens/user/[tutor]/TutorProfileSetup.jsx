@@ -36,7 +36,7 @@ export default function TutorProfileSetup({ route }) {
     experience: "",
     tutoringPreferences: [],
     location: {
-      type: 'Point',
+      type: "Point",
       coordinates: [mapRegion.longitude, mapRegion.latitude],
     },
   });
@@ -53,14 +53,14 @@ export default function TutorProfileSetup({ route }) {
   const handleCreateTutorProfile = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.43.143:3000/tutor/profileSetup",
+        "http://10.57.7.170:3000/tutor/profileSetup",
         tutorDetails
       );
 
       console.log("Server Response:", response.data);
 
       // Navigate to the appropriate screen or handle success as needed
-      navigation.navigate("TutorTab", {userID: userId});
+      navigation.navigate("TutorTab", { userID: userId });
     } catch (error) {
       console.error("Error creating tutor profile:", error);
     }
@@ -121,9 +121,6 @@ export default function TutorProfileSetup({ route }) {
       console.warn("Error updating address:", error);
     }
   };
-
-
-
 
   useEffect(() => {
     requestLocationPermission();
@@ -338,18 +335,17 @@ export default function TutorProfileSetup({ route }) {
                   onRegionChangeComplete={(region) => {
                     setMapRegion(region);
                     updateAddress(region.latitude, region.longitude);
-                  
+
                     // Update tutorDetails with the new coordinates
                     setTutorDetails((prevDetails) => ({
                       ...prevDetails,
                       location: {
-                        type: 'Point',
+                        type: "Point",
                         coordinates: [region.longitude, region.latitude],
                       },
                     }));
-                  }}                  
+                  }}
                 >
-
                   <Marker
                     coordinate={{
                       latitude: mapRegion.latitude,

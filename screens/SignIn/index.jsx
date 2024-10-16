@@ -1,20 +1,27 @@
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import { GapView, MyButton, MyInput, MyText } from "../../components";
 import { Bulb, Group } from "../../assets/vectors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 import { Formik } from "formik";
 import { UserSignInSchema } from "../../constants/validations/schema";
 import axios from "axios";
+import { toggleTheme } from "../../redux/themeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { LightTheme, DarkTheme } from "../../theme/theme";
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // Add this line to define setError
-
+  const dispatch = useDispatch(); // Get the dispatch function from the Redux store
+  const theme = useSelector((state) => state.theme.theme);
   const navigation = useNavigation();
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
 
   return (
-    <View style={styles.main}>
+    <View
+      style={[styles.main, { backgroundColor: currentTheme.colors.background }]}
+    >
       <View style={styles.container}>
         <View style={styles.top}>
           <MyText text={"LocaLearn"} size={30} weight={"700"} />
@@ -30,7 +37,7 @@ export default function SignIn() {
           onSubmit={async (values, { resetForm }) => {
             try {
               const response = await axios.post(
-                "http://192.168.43.143:3000/api/login",
+                "http://10.57.7.170:3000/api/login",
                 values
               );
 
@@ -42,20 +49,19 @@ export default function SignIn() {
                 if (userType === "tutor") {
                   navigation.navigate("TutorTab", { userID: userID });
                 } else {
-                  // navigation.navigate("StudentTab", {userID: userID});
-                  // Fetch the Student instance using the userID
                   const studentResponse = await axios.get(
-                    `http://192.168.43.143:3000/student/getStudent?userID=${userID}`
+                    `http://10.57.7.170:3000/student/getStudent?userID=${userID}`
                   );
 
-        if (studentResponse.data.success) {
-
-          const studentID = studentResponse.data.student._id;
-          navigation.navigate("StudentTab", { userID: studentID });
-        } else {
-          setError(studentResponse.data.message || "Failed to fetch student data");
-        }
-
+                  if (studentResponse.data.success) {
+                    const studentID = studentResponse.data.student._id;
+                    navigation.navigate("StudentTab", { userID: studentID });
+                  } else {
+                    setError(
+                      studentResponse.data.message ||
+                        "Failed to fetch student data"
+                    );
+                  }
                 }
               } else {
                 setError(response.data.message || "Sign-in failed");
@@ -87,7 +93,6 @@ export default function SignIn() {
                   label={"Sign In"}
                   onPress={() => {
                     console.log(errors);
-                    // navigation.navigate("TutorTab");
                     handleSubmit();
                   }}
                 />
@@ -115,7 +120,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
-    backgroundColor: "#f2f4fc",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: "10%",
@@ -139,7 +143,3 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 });
-
-// app bg: #f2f4fc
-// primary color: #060635
-// secondary Color: #e2b623

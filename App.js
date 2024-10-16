@@ -1,9 +1,10 @@
-import { StyleSheet } from "react-native";
+import { Appearance, StyleSheet, useColorScheme } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -24,12 +25,15 @@ import TutorProfile from "./screens/user/[tutor]/TutorProfile";
 import TutorNotifications from "./screens/user/[tutor]/TutorNotifications";
 import TutorInbox from "./screens/user/[tutor]/TutorInbox";
 import TutorChat from "./screens/user/[tutor]/TutorChat";
+import { DarkTheme, LightTheme } from "./theme/theme";
+import { useState, useEffect } from "react";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 const RootStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const StudentInboxStack = createStackNavigator();
 const TutorInboxStack = createStackNavigator();
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Inter-ExtraBold": require("./assets/fonts/Inter-ExtraBold.ttf"),
@@ -45,32 +49,44 @@ export default function App() {
   }
   console.log("Fonts loaded:", fontsLoaded);
 
+  // $ npx nodemon server
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator
-        initialRouteName="SignIn"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <RootStack.Screen name="SignIn" component={SignIn} />
-        <RootStack.Screen name="SignUp" component={SignUp} />
-        <RootStack.Screen
-          name="StudentProfileSetup"
-          component={StudentProfileSetup}
-        />
-        <RootStack.Screen
-          name="TutorProfileSetup"
-          component={TutorProfileSetup}
-        />
-        <RootStack.Screen name="StudentTab" component={StudentTabNavigator} />
-        <RootStack.Screen name="TutorTab" component={TutorTabNavigator} />
-        <RootStack.Screen
-          name="ViewTutorProfileScreen"
-          component={ViewTutorProfileScreen}
-        />
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStack.Navigator
+          initialRouteName="SignIn"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <RootStack.Screen name="SignIn" component={SignIn} />
+          <RootStack.Screen name="SignUp" component={SignUp} />
+          <RootStack.Screen
+            name="StudentProfileSetup"
+            component={StudentProfileSetup}
+          />
+          <RootStack.Screen
+            name="TutorProfileSetup"
+            component={TutorProfileSetup}
+          />
+          <RootStack.Screen name="StudentTab" component={StudentTabNavigator} />
+          <RootStack.Screen name="TutorTab" component={TutorTabNavigator} />
+          <RootStack.Screen
+            name="ViewTutorProfileScreen"
+            component={ViewTutorProfileScreen}
+          />
+          <RootStack.Screen
+            name="StudentInboxStackNavigator"
+            component={StudentInboxStackNavigator}
+          />
+          <RootStack.Screen
+            name="TutorInboxStackNavigator"
+            component={TutorInboxStackNavigator}
+          />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 const commonTabOptions = {

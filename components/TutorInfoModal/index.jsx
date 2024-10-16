@@ -2,11 +2,21 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import MyText from "../MyText";
 import MyButton from "../MyButton";
+import { LightTheme, DarkTheme } from "../../theme/theme";
+import { useSelector } from "react-redux";
 
 const PersonInfoBox = ({ info, buttons }) => {
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
+
   return (
-    <View style={styles.modalContainer}>
-      <View style={styles.modalContent}>
+    <View style={[styles.modalContainer]}>
+      <View
+        style={[
+          styles.modalContent,
+          { backgroundColor: currentTheme.colors.background },
+        ]}
+      >
         <MyText weight={"600"} size={16}>
           {info ? info.name : "No location selected"}
         </MyText>
@@ -25,7 +35,7 @@ const PersonInfoBox = ({ info, buttons }) => {
           {buttons &&
             buttons.map((button) => (
               <View style={{ marginTop: 2 }} key={button.id}>
-              {/* <View style={{ marginTop: 2 }} key={`${button.label}-${index}`}> */}
+                {/* <View style={{ marginTop: 2 }} key={`${button.label}-${index}`}> */}
                 <MyButton
                   onPress={button.onPress}
                   backgroundColor={button?.backgroundColor}
@@ -47,7 +57,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    backgroundColor: "#f6f6f9",
     padding: 15,
     borderRadius: 10,
     elevation: 5,

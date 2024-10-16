@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
+import { useSelector } from "react-redux";
+import { LightTheme, DarkTheme } from "../../theme/theme";
 
 export default function MyText({
   text,
@@ -30,9 +32,11 @@ export default function MyText({
         return "Inter-Regular";
     }
   };
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
 
   const textStyle = {
-    color: textColor || "#060635",
+    color: textColor || currentTheme.colors.text,
     fontSize: size || 14,
     fontFamily: weight ? getFontFamily(weight) : "Inter-Regular",
   };

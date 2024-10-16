@@ -7,10 +7,12 @@ import {
   GapView,
   MyDropdown,
 } from "../../../components";
-import { Avatar, Form } from "../../../assets/vectors";
+import { Avatar, Form, WhiteAvatar } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { LightTheme, DarkTheme } from "../../../theme/theme";
 
 export default function TutorProfileSetup({ route }) {
   const tutor = route.params.tutor;
@@ -36,12 +38,13 @@ export default function TutorProfileSetup({ route }) {
     description: tutor.description,
     experience: tutor.experience,
   });
-
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
   return (
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: "#f2f4fc",
+        backgroundColor: currentTheme.colors.background,
         paddingVertical: 80,
         width: "100%",
         height: "100%",
@@ -56,7 +59,12 @@ export default function TutorProfileSetup({ route }) {
           gap: 5,
         }}
       >
-        <Avatar width={150} height={120} style={{ marginLeft: 20 }} />
+        {currentTheme.dark === true ? (
+          <WhiteAvatar width={150} height={120} style={{ marginLeft: 20 }} />
+        ) : (
+          <Avatar width={150} height={120} style={{ marginLeft: 20 }} />
+        )}
+
         <MyText
           text={"Teacher's Profile"}
           size={20}

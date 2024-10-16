@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, Switch } from "react-native";
 import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../../../redux/themeSlice";
+import { LightTheme, DarkTheme } from "../../../theme/theme";
 
 export default function StudentProfile({ route }) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const userID = route.params?.userID;
   console.log(userID);
 
   // const [studentData, setStudentData] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
 
   const [isEditMode, setIsEditMode] = useState({
     firstName: false,
@@ -19,26 +27,28 @@ export default function StudentProfile({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: 'Someone',
-    lastName: '',
-    age: '',
-    grade: '',
+    firstName: "Someone",
+    lastName: "",
+    age: "",
+    grade: "",
   });
 
   useEffect(() => {
     // Fetch student data when the component mounts
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(`http://192.168.43.143/student/getStudentEdit?userID=${userID}`);
+        const response = await fetch(
+          `http://10.57.7.170/student/getStudentEdit?userID=${userID}`
+        );
 
         const data = await response.json();
         console.log(data);
-    
+
         if (!response.ok) {
-          console.error('Error response:', response);
+          console.error("Error response:", response);
           // You might want to throw an error here
         }
-    
+
         // Update the values state with actual data from studentData
         setValues({
           firstName: data?.firstName || "",
@@ -47,10 +57,11 @@ export default function StudentProfile({ route }) {
           grade: data?.grade || "",
         });
       } catch (error) {
-        console.error('Error fetching student data:', error);
-        console.error('Error details:', error.message);      }
+        console.error("Error fetching student data:", error);
+        console.error("Error details:", error.message);
+      }
     };
-    
+
     fetchStudentData();
   }, [userID]);
 
@@ -65,7 +76,7 @@ export default function StudentProfile({ route }) {
     <View
       style={{
         flex: 1,
-        backgroundColor: "#f2f4fc",
+        backgroundColor: currentTheme.colors.background,
         paddingVertical: 90,
         width: "100%",
         height: "100%",
@@ -92,13 +103,16 @@ export default function StudentProfile({ route }) {
         <View style={{ width: "100%" }}>
           <MyText
             text={"First Name"}
-            style={{ paddingLeft: 5, paddingBottom: 5 }}
+            style={{
+              paddingLeft: 5,
+              paddingBottom: 5,
+            }}
           />
           <MyInput
             text={values.firstName}
             editable={isEditMode.firstName}
             inputStyle={{
-              color: isEditMode.firstName ? "black" : "grey",
+              color: isEditMode.firstName ? currentTheme.colors.text : "grey",
             }}
             rightIcon={{
               name: isEditMode.firstName ? "check" : "edit",
@@ -120,7 +134,7 @@ export default function StudentProfile({ route }) {
             text={values.lastName}
             editable={isEditMode.lastName}
             inputStyle={{
-              color: isEditMode.lastName ? "black" : "grey",
+              color: isEditMode.lastName ? currentTheme.colors.text : "grey",
             }}
             rightIcon={{
               name: isEditMode.lastName ? "check" : "edit",
@@ -146,7 +160,7 @@ export default function StudentProfile({ route }) {
               text={values.age}
               editable={isEditMode.age}
               inputStyle={{
-                color: isEditMode.age ? "black" : "grey",
+                color: isEditMode.age ? currentTheme.colors.text : "grey",
               }}
               rightIcon={{
                 name: isEditMode.age ? "check" : "edit",
@@ -168,7 +182,7 @@ export default function StudentProfile({ route }) {
               text={values.grade}
               editable={isEditMode.grade}
               inputStyle={{
-                color: isEditMode.grade ? "black" : "grey",
+                color: isEditMode.grade ? currentTheme.colors.text : "grey",
               }}
               rightIcon={{
                 name: isEditMode.grade ? "check" : "edit",
@@ -181,6 +195,24 @@ export default function StudentProfile({ route }) {
               onChange={(text) => handleInputChange("grade", text)}
             />
           </View>
+        </View>
+        <View
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <MyText
+            text={"Dark Mode"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+          <Switch
+            trackColor={{ false: "#767577", true: "#f2f2f2" }}
+            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            onValueChange={() => dispatch(toggleTheme(), toggleSwitch())}
+            value={isEnabled}
+          />
         </View>
         <GapView length={30} />
         <MyButton

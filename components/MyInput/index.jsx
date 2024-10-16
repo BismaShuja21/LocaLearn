@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { TextInput, View, StyleSheet, ViewStyle } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { LightTheme, DarkTheme } from "../../theme/theme";
+import { useSelector } from "react-redux";
 
 export default function MyInput({
   multiline,
@@ -20,14 +22,30 @@ export default function MyInput({
     ...styles.inputContainerStyle,
   };
 
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
+
   return (
-    <View style={[inputContainerStyle, style]}>
+    <View
+      style={[
+        inputContainerStyle,
+        {
+          backgroundColor: currentTheme.colors.background,
+          borderColor: currentTheme.colors.border,
+        },
+        style,
+      ]}
+    >
       <TextInput
         multiline={multiline}
         secureTextEntry={password ? (showPassword ? false : true) : false}
         placeholder={placeholder}
         placeholderTextColor={placeholderColor || "grey"}
-        style={[styles.inputStyle, { fontFamily: "Inter-Regular" }, inputStyle]}
+        style={[
+          styles.inputStyle,
+          { fontFamily: "Inter-Regular", color: currentTheme.colors.text },
+          inputStyle,
+        ]}
         value={text}
         onChangeText={onChange}
         editable={editable}
@@ -61,7 +79,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     elevation: 3,
-    borderColor: "#060635",
   },
   inputStyle: {
     flex: 1,

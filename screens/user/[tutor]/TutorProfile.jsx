@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import {
+  View,
+  Switch,
+  FlatList,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import {
   MyInput,
   MyButton,
@@ -13,10 +20,16 @@ import { ScrollView } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
+import { useDispatch, useSelector } from "react-redux";
+import { LightTheme, DarkTheme } from "../../../theme/theme";
+import { toggleTheme } from "../../../redux/themeSlice";
 
 export default function TutorProfileSetup({ route }) {
   const userID = route.params.userID;
   console.log(userID);
+  const dispatch = useDispatch();
+  const [filteredLocations, setFilteredLocations] = useState([]);
+  const [dummyLocations, setDummyLocations] = useState([]);
 
   const navigation = useNavigation();
   const [address, setAddress] = useState("");
@@ -38,6 +51,7 @@ export default function TutorProfileSetup({ route }) {
     description: false,
     experience: false,
     address: false,
+    area: false,
   });
 
   const [values, setValues] = useState({
@@ -49,41 +63,276 @@ export default function TutorProfileSetup({ route }) {
     subjects: ["Chemistry", "Biology"],
     description: "Hi i am a teacher",
     experience: "Bhaiii",
-    address: "NED University of Engineering & Technology, Karachi",
+    area: "Gulistan-e-Jauhar",
+    address: "",
   });
 
-
-
-
+  const theme = useSelector((state) => state.theme.theme);
+  const currentTheme = theme === "light" ? LightTheme : DarkTheme;
   const [tutor, setTutor] = useState(null);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [searchText, setSearchText] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const [filteredAreas, setFilteredAreas] = useState([]);
+  const [dummyAreas, setDummyAreas] = useState([
+    {
+      id: 1,
+      name: "Malir Cantt",
+    },
+    {
+      id: 2,
+      name: "NED University",
+    },
+    {
+      id: 3,
+      name: "Karachi University",
+    },
+    {
+      id: 4,
+      name: "Clifton",
+    },
+    {
+      id: 5,
+      name: "DHA Phase 8",
+    },
+    {
+      id: 6,
+      name: "Korangi",
+    },
+    {
+      id: 7,
+      name: "Gulshan-e-Jauhar Block 1",
+    },
+    {
+      id: 8,
+      name: "Gulshan-e-Jauhar Block 2",
+    },
+    {
+      id: 9,
+      name: "Gulshan-e-Jauhar Block 3",
+    },
+    {
+      id: 10,
+      name: "Gulshan-e-Jauhar Block 4",
+    },
+    {
+      id: 11,
+      name: "Gulshan-e-Jauhar Block 5",
+    },
+    {
+      id: 12,
+      name: "Gulshan-e-Jauhar Block 6",
+    },
+    {
+      id: 13,
+      name: "Gulshan-e-Jauhar Block 7",
+    },
+    {
+      id: 14,
+      name: "Gulshan-e-Jauhar Block 8",
+    },
+    {
+      id: 15,
+      name: "Shahrah-e-Faisal",
+    },
+
+    {
+      id: 17,
+      name: "Haidery",
+    },
+    {
+      id: 18,
+      name: "Saddar",
+    },
+    {
+      id: 19,
+      name: "Nazimabad",
+    },
+    {
+      id: 20,
+      name: "Surjani Town",
+    },
+    {
+      id: 21,
+      name: "Landhi",
+    },
+    {
+      id: 22,
+      name: "Kharadar",
+    },
+    {
+      id: 23,
+      name: "KPT",
+    },
+    {
+      id: 24,
+      name: "Jamshed Quarters",
+    },
+    {
+      id: 25,
+      name: "Malahar",
+    },
+    {
+      id: 26,
+      name: "Gulshan-e-Iqbal Block 1",
+    },
+    {
+      id: 27,
+      name: "Gulshan-e-Iqbal Block 2",
+    },
+    {
+      id: 28,
+      name: "Gulshan-e-Iqbal Block 3",
+    },
+    {
+      id: 29,
+      name: "Gulshan-e-Iqbal Block 4",
+    },
+    {
+      id: 30,
+      name: "Gulshan-e-Iqbal Block 5",
+    },
+    {
+      id: 31,
+      name: "Gulshan-e-Iqbal Block 6",
+    },
+    {
+      id: 32,
+      name: "Gulshan-e-Iqbal Block 7",
+    },
+    {
+      id: 33,
+      name: "Gulshan-e-Iqbal Block 8",
+    },
+    {
+      id: 34,
+      name: "Gulshan-e-Iqbal Block 9",
+    },
+    {
+      id: 35,
+      name: "Gulshan-e-Iqbal Block 10",
+    },
+    {
+      id: 36,
+      name: "Pakistan Chowk",
+    },
+    {
+      id: 37,
+      name: "Mazar-e-Quaid",
+    },
+    {
+      id: 38,
+      name: "Frere Hall",
+    },
+    {
+      id: 39,
+      name: "Sea View",
+    },
+    {
+      id: 40,
+      name: "Hawksbay",
+    },
+    {
+      id: 41,
+      name: "Mohatta Palace",
+    },
+    {
+      id: 42,
+      name: "Empress Market",
+    },
+    {
+      id: 43,
+      name: "Chowrangi",
+    },
+    {
+      id: 44,
+      name: "Jinnah International Airport",
+    },
+    {
+      id: 45,
+      name: "National Stadium",
+    },
+    {
+      id: 46,
+      name: "Lyari",
+    },
+    {
+      id: 47,
+      name: "Shah Faisal Colony",
+    },
+    {
+      id: 48,
+      name: "North Nazimabad",
+    },
+    {
+      id: 49,
+      name: "Gulshan-e-Hadeed",
+    },
+    {
+      id: 50,
+      name: "Kokrapar",
+    },
+    {
+      id: 51,
+      name: "Gulshan-e-Maymar",
+    },
+    // Add more famous areas as needed
+  ]);
 
   useEffect(() => {
-    // Fetch tutor data when the component mounts
     const fetchTutorData = async () => {
       try {
-        const response = await fetch(`http://192.168.43.143/tutor/getTutorEdit?userID=${userID}`);
+        const response = await fetch(
+          `http://10.57.7.170/tutor/getTutorEdit?userID=${userID}`
+        );
         const data = await response.json();
-        console.log(data);
-    
+
         if (!response.ok || !data.success) {
-          console.error('Error response:', response);
-          // Handle the error here, maybe show an error message
+          console.error("Error response:", response);
           return;
         }
-    
-        // Update the tutor state with the fetched tutor data
-        setTutor(data.tutor);
-        console.log(tutor);
+
+        const tutorData = data.tutor;
+
+        // Set form values with fetched data
+        setValues({
+          firstName: tutorData.firstName || "N/A",
+          lastName: tutorData.lastName || "N/A",
+          qualification: tutorData.qualification || [],
+          tutoringPreferences: tutorData.tutorPreference || [],
+          availability: tutorData.availability || [],
+          subjects: tutorData.subjects || [],
+          description: tutorData.description || "",
+          experience: tutorData.experience || "",
+          address: tutorData.location?.coordinates || "",
+        });
+
+        setTutor(tutorData);
       } catch (error) {
-        console.error('Error fetching tutor data:', error);
+        console.error("Error fetching tutor data:", error);
       }
     };
-    
+
     fetchTutorData();
   }, []);
+  const handleSearch = (text) => {
+    setSearchText(text);
+    if (text === "") {
+      setFilteredAreas([]); // Clear search results when input is empty
+    } else {
+      const filtered = dummyAreas.filter((area) =>
+        area.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredAreas(filtered);
+    }
+  };
 
-
-
+  const handleAreaSelect = (area) => {
+    setSelectedArea(area.name); // Set selected area to TextInput
+    setSearchText(area.name); // Update searchText with selected area
+    setFilteredAreas([]); // Hide search results
+  };
 
   const handleInputChange = (field, text) => {
     setValues((prevValues) => ({
@@ -162,14 +411,16 @@ export default function TutorProfileSetup({ route }) {
 
   return (
     <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: "#f2f4fc",
-        paddingVertical: 80,
-        width: "100%",
-        height: "100%",
-        paddingHorizontal: 20,
-      }}
+      style={[
+        {
+          flex: 1,
+          paddingVertical: 80,
+          width: "100%",
+          height: "100%",
+          paddingHorizontal: 20,
+        },
+        { backgroundColor: currentTheme.colors.background },
+      ]}
     >
       <View
         style={{
@@ -190,13 +441,16 @@ export default function TutorProfileSetup({ route }) {
         <View style={{ width: "100%" }}>
           <MyText
             text={"First Name"}
-            style={{ paddingLeft: 5, paddingBottom: 5 }}
+            style={{
+              paddingLeft: 5,
+              paddingBottom: 5,
+            }}
           />
           <MyInput
             text={values.firstName}
             editable={isEditMode.firstName}
             inputStyle={{
-              color: isEditMode.firstName ? "black" : "grey",
+              color: isEditMode.firstName ? currentTheme.colors.text : "grey",
             }}
             rightIcon={{
               name: isEditMode.firstName ? "check" : "edit",
@@ -216,7 +470,7 @@ export default function TutorProfileSetup({ route }) {
             text={values.lastName}
             editable={isEditMode.lastName}
             inputStyle={{
-              color: isEditMode.lastName ? "black" : "grey",
+              color: isEditMode.lastName ? currentTheme.colors.text : "grey",
             }}
             rightIcon={{
               name: isEditMode.lastName ? "check" : "edit",
@@ -242,7 +496,10 @@ export default function TutorProfileSetup({ route }) {
               }}
             >
               <MyDropdown
-                style={{ width: "90%" }}
+                style={{
+                  width: "90%",
+                  borderColor: currentTheme.colors.border,
+                }}
                 placeholder="Subjects--"
                 data={[
                   "Biology",
@@ -303,7 +560,10 @@ export default function TutorProfileSetup({ route }) {
               }}
             >
               <MyDropdown
-                style={{ width: "90%" }}
+                style={{
+                  width: "90%",
+                  borderColor: currentTheme.colors.border,
+                }}
                 placeholder="Qualification--"
                 data={["Masters", "Bachelors", "Undergraduate"]}
                 zIndex={9}
@@ -350,7 +610,10 @@ export default function TutorProfileSetup({ route }) {
               }}
             >
               <MyDropdown
-                style={{ width: "90%" }}
+                style={{
+                  width: "90%",
+                  borderColor: currentTheme.colors.border,
+                }}
                 placeholder="Preferences--"
                 data={["Student's Space", "Tutor's Space"]}
                 zIndex={8}
@@ -398,7 +661,10 @@ export default function TutorProfileSetup({ route }) {
               }}
             >
               <MyDropdown
-                style={{ width: "90%" }}
+                style={{
+                  width: "90%",
+                  borderColor: currentTheme.colors.border,
+                }}
                 placeholder="Days--"
                 data={[
                   "Monday",
@@ -491,6 +757,104 @@ export default function TutorProfileSetup({ route }) {
             onChange={(text) => handleInputChange("address", text)}
           />
         </View> */}
+        <View style={{ width: "100%" }}>
+          <MyText text={"Area"} style={{ paddingLeft: 5, paddingBottom: 5 }} />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {isEditMode.area ? (
+              // When in edit mode, show the TextInput
+              <TextInput
+                value={searchText} // Using searchText for the value
+                editable={isEditMode.area}
+                style={[
+                  styles.input,
+                  {
+                    flex: 1, // Take available space
+                    color: currentTheme.colors.text,
+                    backgroundColor: currentTheme.colors.background,
+                  },
+                ]}
+                placeholder="Search area..."
+                placeholderTextColor={currentTheme.colors.placeholder}
+                onChangeText={handleSearch}
+              />
+            ) : (
+              // When not in edit mode, show the MyInput
+              <MyInput
+                text={values.area} // Use updated area value
+                editable={false}
+                inputStyle={{
+                  color: "grey",
+                }}
+                rightIcon={{
+                  name: "edit", // Edit icon
+                  size: 20,
+                  color: "grey",
+                }}
+                onIconPress={() => handleEditPress("area")} // Toggle to edit mode
+              />
+            )}
+
+            {isEditMode.area && (
+              // Check icon for confirming selection
+              <TouchableOpacity
+                onPress={() => {
+                  // Check if searchText is not empty before confirming
+                  if (searchText) {
+                    // Update values.area with the selected area name
+                    setValues((prevValues) => ({
+                      ...prevValues,
+                      area: searchText, // Update area to selected value
+                    }));
+
+                    handleAreaSelect({ name: searchText }); // Set the selected area based on search text
+                  }
+                  handleEditPress("area"); // Toggle off edit mode
+                }}
+                style={{ marginLeft: 10 }} // Spacing between TextInput and icon
+              >
+                <MaterialIcons
+                  name="check"
+                  size={20}
+                  color={currentTheme.dark ? "grey" : "black"} // Ensures it evaluates to a valid string
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {isEditMode.area && filteredAreas.length > 0 && (
+            <FlatList
+              data={filteredAreas}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={[
+                    styles.searchItem,
+                    {
+                      borderColor: currentTheme.colors.border,
+                      backgroundColor: currentTheme.colors.background,
+                      width: "90%",
+                      color: currentTheme.colors.text,
+                      position: "relative",
+                    },
+                  ]}
+                  onPress={() => {
+                    // When an area is selected from the list
+                    setValues((prevValues) => ({
+                      ...prevValues,
+                      area: item.name, // Update area to the selected item's name
+                    }));
+                    handleEditPress("area"); // Toggle off edit mode
+                  }}
+                >
+                  <MyText style={{ color: currentTheme.colors.text }}>
+                    {item.name}
+                  </MyText>
+                </TouchableOpacity>
+              )}
+              style={styles.searchResults}
+            />
+          )}
+        </View>
 
         <View style={{ width: "100%" }}>
           <MyText
@@ -505,7 +869,7 @@ export default function TutorProfileSetup({ route }) {
                 text={values.address}
                 editable={isEditMode.address}
                 inputStyle={{
-                  color: "grey",
+                  color: currentTheme.colors.text,
                 }}
                 rightIcon={{
                   name: isEditMode.address ? "check" : "edit",
@@ -591,7 +955,7 @@ export default function TutorProfileSetup({ route }) {
             text={values.experience}
             editable={isEditMode.experience}
             inputStyle={{
-              color: isEditMode.experience ? "black" : "grey",
+              color: isEditMode.experience ? currentTheme.colors.text : "grey",
               alignItems: "flex-start",
             }}
             rightIcon={{
@@ -614,7 +978,7 @@ export default function TutorProfileSetup({ route }) {
             text={values.description}
             editable={isEditMode.description}
             inputStyle={{
-              color: isEditMode.description ? "black" : "grey",
+              color: isEditMode.description ? currentTheme.colors.text : "grey",
             }}
             rightIcon={{
               name: isEditMode.description ? "check" : "edit",
@@ -623,6 +987,24 @@ export default function TutorProfileSetup({ route }) {
             }}
             onIconPress={() => handleEditPress("description")}
             onChange={(text) => handleInputChange("description", text)}
+          />
+        </View>
+        <View
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <MyText
+            text={"Dark Mode"}
+            style={{ paddingLeft: 5, paddingBottom: 5 }}
+          />
+          <Switch
+            trackColor={{ false: "#767577", true: "#f2f2f2" }}
+            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            onValueChange={() => dispatch(toggleTheme(), toggleSwitch())}
+            value={isEnabled}
           />
         </View>
 
@@ -638,3 +1020,25 @@ export default function TutorProfileSetup({ route }) {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  input: {
+    height: 50,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 8,
+    borderRadius: 20,
+  },
+  searchItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+  },
+  searchResults: {
+    maxHeight: 150, // Limit the height for search results
+    marginTop: 5,
+  },
+});
