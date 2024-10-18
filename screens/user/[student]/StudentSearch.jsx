@@ -470,27 +470,29 @@ const MapWithMarkers = ({ route }) => {
           onChangeText={handleSearch}
         />
         {/* Display search results as a list */}
-        <FlatList
-          data={filteredLocations}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[
-                styles.searchItem,
-                {
-                  borderColor: currentTheme.colors.border,
-                  backgroundColor: currentTheme.colors.background,
-                },
-              ]}
-              onPress={() => handleSearchItemPress(item)}
-            >
-              <Text style={{ color: currentTheme.colors.text }}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          )}
-          style={styles.searchResults} // Style for FlatList
-        />
+        <View style={styles.searchResultsContainer}>
+          <FlatList
+            nestedScrollEnabled={true}
+            data={filteredLocations}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.searchItem,
+                  {
+                    borderColor: currentTheme.colors.border,
+                    backgroundColor: currentTheme.colors.background,
+                  },
+                ]}
+                onPress={() => handleSearchItemPress(item)}
+              >
+                <Text style={{ color: currentTheme.colors.text }}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
       </View>
 
       {/* Modal for displaying tutor information */}

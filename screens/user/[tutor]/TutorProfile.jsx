@@ -22,7 +22,7 @@ import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import { useDispatch, useSelector } from "react-redux";
 import { LightTheme, DarkTheme } from "../../../theme/theme";
-import { toggleTheme } from "../../../redux/themeSlice";
+import { setLightTheme, toggleTheme } from "../../../redux/themeSlice";
 
 export default function TutorProfileSetup({ route }) {
   const userID = route.params.userID;
@@ -55,16 +55,17 @@ export default function TutorProfileSetup({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: "Akhtar",
-    lastName: "Ahmed",
+    firstName: "Robert",
+    lastName: "Brown",
     qualification: ["Bachelors"],
     tutoringPreferences: ["Student's Space"],
-    availability: ["Monday"],
-    subjects: ["Chemistry", "Biology"],
-    description: "Hi i am a teacher",
-    experience: "Bhaiii",
-    area: "Gulistan-e-Jauhar",
-    address: "",
+    availability: ["Monday", "Tuesday"],
+    subjects: ["Chemistry", "Biology", "Mathematics"],
+    description:
+      "Hi, I'm Robert, an A-level graduate offering tutoring for students from grade 5 to A-levels in Karachi. I focus on personalized learning to help you succeed in all subjects.",
+    experience: "2 years",
+    area: "Gulistan-e-Jauhar Block 1",
+    address: "Gulistan-e-Jauhar Block 1, House # 101 ",
   });
 
   const theme = useSelector((state) => state.theme.theme);
@@ -102,35 +103,35 @@ export default function TutorProfileSetup({ route }) {
     },
     {
       id: 7,
-      name: "Gulshan-e-Jauhar Block 1",
+      name: "Gulistan-e-Jauhar Block 1",
     },
     {
       id: 8,
-      name: "Gulshan-e-Jauhar Block 2",
+      name: "Gulistan-e-Jauhar Block 2",
     },
     {
       id: 9,
-      name: "Gulshan-e-Jauhar Block 3",
+      name: "Gulistan-e-Jauhar Block 3",
     },
     {
       id: 10,
-      name: "Gulshan-e-Jauhar Block 4",
+      name: "Gulistan-e-Jauhar Block 4",
     },
     {
       id: 11,
-      name: "Gulshan-e-Jauhar Block 5",
+      name: "Gulistan-e-Jauhar Block 5",
     },
     {
       id: 12,
-      name: "Gulshan-e-Jauhar Block 6",
+      name: "Gulistan-e-Jauhar Block 6",
     },
     {
       id: 13,
-      name: "Gulshan-e-Jauhar Block 7",
+      name: "Gulistan-e-Jauhar Block 7",
     },
     {
       id: 14,
-      name: "Gulshan-e-Jauhar Block 8",
+      name: "Gulistan-e-Jauhar Block 8",
     },
     {
       id: 15,
@@ -795,7 +796,6 @@ export default function TutorProfileSetup({ route }) {
             )}
 
             {isEditMode.area && (
-              // Check icon for confirming selection
               <TouchableOpacity
                 onPress={() => {
                   // Check if searchText is not empty before confirming
@@ -825,6 +825,8 @@ export default function TutorProfileSetup({ route }) {
             <FlatList
               data={filteredAreas}
               keyExtractor={(item) => item.id.toString()}
+              style={[styles.searchResults, { maxHeight: 150 }]}
+              nestedScrollEnabled={true} // Enable nested scrolling for FlatList
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={[
@@ -851,7 +853,6 @@ export default function TutorProfileSetup({ route }) {
                   </MyText>
                 </TouchableOpacity>
               )}
-              style={styles.searchResults}
             />
           )}
         </View>
@@ -993,7 +994,9 @@ export default function TutorProfileSetup({ route }) {
           style={{
             width: "100%",
             flexDirection: "row",
-            justifyContent: "space-around",
+            alignItems: "center",
+            marginTop: 10,
+            justifyContent: "space-between",
           }}
         >
           <MyText
@@ -1013,6 +1016,7 @@ export default function TutorProfileSetup({ route }) {
           label={"Logout"}
           onPress={() => {
             navigation.navigate("SignIn");
+            dispatch(setLightTheme());
           }}
         />
       </View>

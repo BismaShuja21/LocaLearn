@@ -317,13 +317,13 @@ export default function TutorProfileSetup({ route }) {
                 />
                 <MyInput
                   value={address}
-                  placeholder={address}
+                  // placeholder={address}
                   onChange={(value) => {
                     setAddress(value);
                     console.log(value);
                   }}
                 />
-                <MapView
+                {/* <MapView
                   style={{ width: "100%", height: 200, marginTop: 10 }}
                   region={mapRegion}
                   // onRegionChangeComplete={(region) => {
@@ -353,7 +353,7 @@ export default function TutorProfileSetup({ route }) {
                     }}
                     title="Selected Location"
                   />
-                </MapView>
+                </MapView> */}
               </View>
 
               <GapView length={30} />

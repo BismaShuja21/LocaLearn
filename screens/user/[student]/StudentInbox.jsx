@@ -10,8 +10,8 @@ export default function StudentInbox() {
 
   const inboxData = [
     {
-      name: "Teacher",
-      subTitle: "Hey there! I am a science Teacher.",
+      name: "Robert Brown",
+      subTitle: "A-level graduate tutor ",
     },
   ];
 

@@ -128,6 +128,7 @@ const StudentTabNavigator = ({ route }) => {
           component={StudentNotifications}
           options={{
             tabBarLabel: "Notifications",
+
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="notifications" size={24} color="white" />
             ),

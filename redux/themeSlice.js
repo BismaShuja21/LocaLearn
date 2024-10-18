@@ -12,8 +12,11 @@ const themeSlice = createSlice({
     toggleTheme(state) {
       state.theme = state.theme === "light" ? "dark" : "light";
     },
+    setLightTheme: (state) => {
+      state.theme = "light"; // Action to explicitly set theme to light
+    },
   },
 });
 
-export const { toggleTheme } = themeSlice.actions;
+export const { toggleTheme, setLightTheme } = themeSlice.actions;
 export default themeSlice.reducer;

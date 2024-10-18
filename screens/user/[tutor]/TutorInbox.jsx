@@ -14,55 +14,11 @@ export default function TutorInbox({ route }) {
   const inboxData = [
     {
       id: 1,
-      name: "bisma shuja",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {
-        navigation.navigate("TutorChat");
-      },
-    },
-    {
-      id: 2,
       name: "Umme Hani",
-      subTitle: "Hey there! I am a science Teacher.",
+      subTitle: "8th Grade Student",
       onPress: () => {
         navigation.navigate("TutorChat");
       },
-    },
-    {
-      id: 3,
-      name: "Sana Maryam",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
-    },
-    {
-      id: 4,
-      name: "Erica Robin",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
-    },
-    {
-      id: 5,
-      name: "Natasha Romanoff",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
-    },
-    {
-      id: 6,
-      name: "Rachel Green",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
-    },
-    {
-      id: 7,
-      name: "Taylor Swift",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
-    },
-    {
-      id: 8,
-      name: "Monica geller",
-      subTitle: "Hey there! I am a science Teacher.",
-      onPress: () => {},
     },
   ];
 

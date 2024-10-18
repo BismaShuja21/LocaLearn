@@ -4,7 +4,7 @@ import { GapView, MyButton, MyInput, MyText } from "../../../components";
 import { Form } from "../../../assets/vectors";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "../../../redux/themeSlice";
+import { toggleTheme, setLightTheme } from "../../../redux/themeSlice";
 import { LightTheme, DarkTheme } from "../../../theme/theme";
 
 export default function StudentProfile({ route }) {
@@ -27,10 +27,10 @@ export default function StudentProfile({ route }) {
   });
 
   const [values, setValues] = useState({
-    firstName: "Someone",
-    lastName: "",
-    age: "",
-    grade: "",
+    firstName: "Umme",
+    lastName: "Hani",
+    age: "15",
+    grade: "8",
   });
 
   useEffect(() => {
@@ -200,7 +200,9 @@ export default function StudentProfile({ route }) {
           style={{
             width: "100%",
             flexDirection: "row",
-            justifyContent: "space-around",
+            alignItems: "center",
+            marginTop: 10,
+            justifyContent: "space-between",
           }}
         >
           <MyText
@@ -217,7 +219,10 @@ export default function StudentProfile({ route }) {
         <GapView length={30} />
         <MyButton
           label={"Logout"}
-          onPress={() => navigation.navigate("SignIn")}
+          onPress={() => {
+            navigation.navigate("SignIn");
+            dispatch(setLightTheme());
+          }}
         />
       </View>
     </View>

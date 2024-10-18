@@ -16,30 +16,6 @@ export default function StudentNotifications() {
       name: "Maha Tariq ",
       message: "Wants to connect with you",
     },
-    {
-      name: "Bilal Nasir",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Ashar Shahid",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Mahnoor Aslam",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Noor Ul ain",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Mahnoor Tariq",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Zayan Siddiqui",
-      message: "Wants to connect with you",
-    },
   ];
 
   const renderNotification = ({ item }) => (

@@ -10,35 +10,7 @@ export default function TutorNotifications() {
 
   const notificationList = [
     {
-      name: "Bisma Shuja",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Maha Tariq ",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Bilal Nasir",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Ashar Shahid",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Mahnoor Aslam",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Noor Ul ain",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Mahnoor Tariq",
-      message: "Wants to connect with you",
-    },
-    {
-      name: "Zayan Siddiqui",
+      name: "Umme Hani",
       message: "Wants to connect with you",
     },
   ];
