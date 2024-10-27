@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Tutor = require('../models/tutor');
-const Chat = require('../models/chat');
+const Tutor = require("../models/tutor");
+const Chat = require("../models/chat");
 
 // Assuming you have a route like this in your server
-router.get('/getTutor', async (req, res) => {
+router.get("/getTutor", async (req, res) => {
   try {
     const { userID } = req.query;
 
@@ -12,21 +12,19 @@ router.get('/getTutor', async (req, res) => {
     const tutor = await Tutor.findOne({ userid: userID });
 
     if (!tutor) {
-      return res.status(404).json({ error: 'Tutor not found' });
+      return res.status(404).json({ error: "Tutor not found" });
     }
 
     res.json(tutor);
   } catch (error) {
-    console.error('Error fetching tutor:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error fetching tutor:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
-
-
 // In your routes or controllers
 
-router.get('/getTutorEdit', async (req, res) => {
+router.get("/getTutorEdit", async (req, res) => {
   try {
     const userID = req.query.userID;
 
@@ -34,23 +32,20 @@ router.get('/getTutorEdit', async (req, res) => {
     const tutor = await Tutor.findOne({ userid: userID });
 
     if (!tutor) {
-      return res.json({ success: false, message: 'Tutor not found' });
+      return res.json({ success: false, message: "Tutor not found" });
     }
 
     res.json({ success: true, tutor });
   } catch (error) {
-    console.error('Error fetching tutor:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error fetching tutor:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-
-
-
-router.post('/profileSetup', async (req, res) => {
+router.post("/profileSetup", async (req, res) => {
   try {
     console.log(req.body);
-   
+
     // Create a new tutor document
     const newTutor = new Tutor({
       userid: req.body.userId,
@@ -62,32 +57,25 @@ router.post('/profileSetup', async (req, res) => {
       experience: req.body.experience,
       tutorPreference: req.body.tutoringPreferences,
       location: req.body.location,
-      });
+    });
 
     // Save the tutor document to the database
     await newTutor.save();
 
-    res.status(201).json({ message: 'Tutor profile created successfully' });
+    res.status(201).json({ message: "Tutor profile created successfully" });
   } catch (error) {
-    console.error('Error creating tutor profile:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating tutor profile:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-
-
-
-
-router.get('/tutors-nearby', async (req, res) => {
+router.get("/tutors-nearby", async (req, res) => {
   try {
     const { longitude, latitude } = req.query;
 
-
-
     // Convert coordinates to numbers
     const userLocation = {
-      type: 'Point',
+      type: "Point",
       coordinates: [parseFloat(longitude), parseFloat(latitude)],
     };
 
@@ -96,25 +84,22 @@ router.get('/tutors-nearby', async (req, res) => {
       {
         $geoNear: {
           near: userLocation,
-          distanceField: 'distance',
+          distanceField: "distance",
           maxDistance: 10000, // 5 km in meters
           spherical: true,
         },
       },
     ]);
 
-
     res.json(nearbyTutors);
   } catch (error) {
-    console.error('Error finding nearby tutors:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error finding nearby tutors:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-
 // Assuming you have a route like this in your server
-router.get('/tutor/getChats', async (req, res) => {
+router.get("/tutor/getChats", async (req, res) => {
   try {
     const { tutorID } = req.query;
 
@@ -123,11 +108,9 @@ router.get('/tutor/getChats', async (req, res) => {
 
     res.json(chats);
   } catch (error) {
-    console.error('Error fetching chats:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Error fetching chats:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
-
-
 
 module.exports = router;

@@ -28,7 +28,7 @@ export default function StudentProfileSetup({ route }) {
   const handleCreateStudentProfile = async () => {
     try {
       const response = await axios.post(
-        "http://10.57.16.248:3000/student/profileSetup",
+        "http://10.57.17.49:3000/student/profileSetup",
         studentDetails
       );
 

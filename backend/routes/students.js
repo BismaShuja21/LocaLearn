@@ -1,11 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Student = require('../models/student');
-const Chat = require('../models/chat');
+const Student = require("../models/student");
+const Chat = require("../models/chat");
 
-
-
-router.post('/profileSetup', async (req, res) => {
+router.post("/profileSetup", async (req, res) => {
   try {
     console.log(req.body);
     // Create a new tutor document
@@ -20,17 +18,14 @@ router.post('/profileSetup', async (req, res) => {
     // Save the tutor document to the database
     await newStudent.save();
 
-    res.status(201).json({ message: 'Student profile created successfully' });
+    res.status(201).json({ message: "Student profile created successfully" });
   } catch (error) {
-    console.error('Error creating Student profile:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating Student profile:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-
-
-router.get('/getChats', async (req, res) => {
+router.get("/getChats", async (req, res) => {
   try {
     const studentID = req.query.studentID;
 
@@ -39,15 +34,13 @@ router.get('/getChats', async (req, res) => {
 
     res.json(chats);
   } catch (error) {
-    console.error('Error fetching chats:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching chats:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
-
 // In your routes or controllers
-router.get('/getStudent', async (req, res) => {
+router.get("/getStudent", async (req, res) => {
   try {
     const userID = req.query.userID;
 
@@ -55,18 +48,17 @@ router.get('/getStudent', async (req, res) => {
     const student = await Student.findOne({ userid: userID });
 
     if (!student) {
-      return res.json({ success: false, message: 'Student not found' });
+      return res.json({ success: false, message: "Student not found" });
     }
 
     res.json({ success: true, student });
   } catch (error) {
-    console.error('Error fetching student:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error fetching student:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-
-router.get('/getStudentEdit', async (req, res) => {
+router.get("/getStudentEdit", async (req, res) => {
   try {
     const userID = req.query.userID;
 
@@ -74,19 +66,17 @@ router.get('/getStudentEdit', async (req, res) => {
     const student = await Student.findOne({ _id: userID });
 
     if (!student) {
-      return res.json({ success: false, message: 'Student not found' });
+      return res.json({ success: false, message: "Student not found" });
     }
 
     res.json({ success: true, student });
   } catch (error) {
-    console.error('Error fetching student:', error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.error("Error fetching student:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
 
-
-
-router.get('/fetchUserID/:studentID', async (req, res) => {
+router.get("/fetchUserID/:studentID", async (req, res) => {
   try {
     const { studentID } = req.params;
 
@@ -94,7 +84,7 @@ router.get('/fetchUserID/:studentID', async (req, res) => {
     const student = await Student.findOne({ _id: studentID });
 
     if (!student) {
-      return res.status(404).json({ error: 'Student not found' });
+      return res.status(404).json({ error: "Student not found" });
     }
 
     // Assuming the 'userid' field is the one you want to fetch
@@ -102,10 +92,9 @@ router.get('/fetchUserID/:studentID', async (req, res) => {
 
     res.json({ userID });
   } catch (error) {
-    console.error('Error fetching userID:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching userID:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 module.exports = router;

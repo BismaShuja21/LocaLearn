@@ -11,19 +11,19 @@ app.use(express.json());
 
 const io = socketIO(server, {
   cors: {
-    origin: "exp://10.57.16.248:8081",
+    origin: "exp://10.57.17.49:8081",
     methods: ["GET", "POST"],
   },
 });
 
 const corsOptions = {
   // origin: 'http://localhost:19006',
-  origin: "exp://10.57.16.248:8081",
+  origin: "exp://10.57.17.49:8081",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
 };
-// 10.57.16.248
+// 10.57.17.49
 app.use(cors(corsOptions));
 
 const dbURI =
