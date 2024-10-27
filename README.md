@@ -55,7 +55,7 @@ npm install
 
 2. Copy your IP address.
 3. Open the project in Visual Studio Code.
-4. Search for `10.57.16.248` in the code and replace it with your current IP address.
+4. Search for `10.57.17.49` in the code and replace it with your current IP address.
 
 ### 5. Running the Frontend
 
