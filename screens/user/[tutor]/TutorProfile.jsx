@@ -285,7 +285,7 @@ export default function TutorProfileSetup({ route }) {
     const fetchTutorData = async () => {
       try {
         const response = await fetch(
-          `http://10.57.7.170/tutor/getTutorEdit?userID=${userID}`
+          `http://10.57.17.49/tutor/getTutorEdit?userID=${userID}`
         );
         const data = await response.json();
 

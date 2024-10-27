@@ -213,7 +213,7 @@ export default function TutorChat() {
 //   // const fetchInitialMessages = async () => {
 //   //   try {
 //   //     const response = await fetch(
-//   //       `http://10.57.7.170:3000/initial-messages?chatID=${chatID}`
+//   //       `http://10.57.16.248:3000/initial-messages?chatID=${chatID}`
 //   //     );
 //   //     const data = await response.json();
 
@@ -237,7 +237,7 @@ export default function TutorChat() {
 //   //   }
 //   // };
 
-//   // const socket = io("http://10.57.7.170:3000", {
+//   // const socket = io("http://10.57.16.248:3000", {
 //   //   transports: ["websocket"],
 //   // });
 

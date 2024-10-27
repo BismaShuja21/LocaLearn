@@ -23,7 +23,7 @@ const PersonInfoBox = ({ info, buttons }) => {
         <View style={{ width: "100%", paddingVertical: 10, marginLeft: -20 }}>
           <MyText>{info.description}</MyText>
           <MyText>Qualification:{info.qualification}</MyText>
-          <MyText>Subjects: {info.subjects.join(" | ")}</MyText>
+          <MyText>Subjects: Mathematics</MyText>
           <MyText>Teaching Space: {info.tutorPreference}</MyText>
         </View>
         <View
