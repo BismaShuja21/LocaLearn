@@ -1,4 +1,3 @@
-
 # LocaLearn
 
 LocaLearn is a mobile application designed for connecting students and tutors. This README provides the setup instructions and prerequisites needed to get the app running in both development and production environments.
@@ -55,7 +54,7 @@ npm install
 
 2. Copy your IP address.
 3. Open the project in Visual Studio Code.
-4. Search for `10.57.16.248` in the code and replace it with your current IP address.
+4. Search for `10.57.156.30` in the code and replace it with your current IP address.
 
 ### 5. Running the Frontend
 
@@ -92,4 +91,3 @@ cd backend && npx nodemon server
 ```
 
 ---
-
