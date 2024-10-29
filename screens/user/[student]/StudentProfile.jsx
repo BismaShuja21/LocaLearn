@@ -38,7 +38,7 @@ export default function StudentProfile({ route }) {
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          `http://  10.57.156.30/student/getStudentEdit?userID=${userID}`
+          `http://10.57.17.49/student/getStudentEdit?userID=${userID}`
         );
 
         const data = await response.json();
@@ -216,6 +216,7 @@ export default function StudentProfile({ route }) {
             value={isEnabled}
           />
         </View>
+        <GapView length={30} />
         <MyButton
           label={"Logout"}
           onPress={() => {

@@ -29,7 +29,7 @@ export default function TutorInbox({ route }) {
 
   //       // Make an API request to get the tutor instance for the specified userID
   //       const response = await axios.get(
-  //         `http://10.57.16.248:3000/tutor/getTutor?userID=${userID}`
+  //         `http://10.57.7.170:3000/tutor/getTutor?userID=${userID}`
   //       );
   //       console.log("Response from server:", response.data);
 
@@ -52,7 +52,7 @@ export default function TutorInbox({ route }) {
   //       console.log("Fetching chats for userID:", tutorData._id);
 
   //       const response = await axios.get(
-  //         `http://10.57.16.248:3000/tutor/getChats?userID=${tutorData._id}`
+  //         `http://10.57.7.170:3000/tutor/getChats?userID=${tutorData._id}`
   //       );
   //       console.log("Response from server:", response.data);
 
