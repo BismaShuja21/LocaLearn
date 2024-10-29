@@ -223,7 +223,7 @@ export default function StudentChat({ route }) {
 
 //   // const fetchInitialMessages = async () => {
 //   //   try {
-//   //     const response = await fetch(`http://10.57.17.49:3000/initial-messages?chatID=${chatID}`);
+//   //     const response = await fetch(`http://  10.57.156.30:3000/initial-messages?chatID=${chatID}`);
 //   //     const data = await response.json();
 
 //   //     if (data.messages) {
@@ -246,7 +246,7 @@ export default function StudentChat({ route }) {
 //   //   }
 //   // };
 
-//   // const socket = io('http://10.57.17.49:3000', {
+//   // const socket = io('http://  10.57.156.30:3000', {
 //   //   transports: ['websocket'],
 //   // });
 

@@ -273,7 +273,7 @@ const MapWithMarkers = ({ route }) => {
   const fetchUserID = async () => {
     try {
       const response = await axios.get(
-        `http://10.57.17.49/student/fetchUserID/${studentID}`
+        `http://  10.57.156.30/student/fetchUserID/${studentID}`
       );
       const fetchedUserID = response.data.userID;
       setUserID(fetchedUserID);
@@ -359,7 +359,7 @@ const MapWithMarkers = ({ route }) => {
     try {
       const { latitude, longitude } = currentLocation;
       const response = await axios.get(
-        `http://10.57.17.49:3000/tutor/tutors-nearby`,
+        `http://  10.57.156.30:3000/tutor/tutors-nearby`,
         {
           params: {
             longitude: longitude,

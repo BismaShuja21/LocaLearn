@@ -37,7 +37,7 @@ export default function SignIn() {
           onSubmit={async (values, { resetForm }) => {
             try {
               const response = await axios.post(
-                "http://10.57.17.49:3000/api/login",
+                "http://  10.57.156.30:3000/api/login",
                 values
               );
 
@@ -50,7 +50,7 @@ export default function SignIn() {
                   navigation.navigate("TutorTab", { userID: userID });
                 } else {
                   const studentResponse = await axios.get(
-                    `http://10.57.17.49:3000/student/getStudent?userID=${userID}`
+                    `http://  10.57.156.30:3000/student/getStudent?userID=${userID}`
                   );
 
                   if (studentResponse.data.success) {

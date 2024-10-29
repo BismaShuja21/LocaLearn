@@ -51,7 +51,7 @@ export default function SignUp() {
 
               // Send the data to the server using Axios
               const response = await axios.post(
-                "http://10.57.17.49:3000/api/register",
+                "http://  10.57.156.30:3000/api/register",
                 userData
               );
 

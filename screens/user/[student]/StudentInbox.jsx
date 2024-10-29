@@ -21,7 +21,7 @@ export default function StudentInbox() {
   //       console.log("Fetching chats for userID:", userID);
 
   //       const response = await axios.get(
-  //         `http://10.57.17.49:3000/student/getChats?studentID=${userID}`
+  //         `http://  10.57.156.30:3000/student/getChats?studentID=${userID}`
   //       );
   //       console.log("Response from server:", response.data);
 
