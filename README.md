@@ -59,8 +59,7 @@
 ## ⚙️ Installation
 ```bash
 # Clone repository
-[git clone https://github.com/yourusername/localearn.git
-](https://github.com/BismaShuja21/LocaLearn.git)
+git clone https://github.com/BismaShuja21/LocaLearn.git
 # Install dependencies
 npm install
 
